@@ -4,6 +4,7 @@ import corsOptions from "./config/corsOptions.js";
 import { performSearch } from "./controllers/searchController.js";
 import { performData } from "./controllers/dataController.js";
 import { removeData } from "./controllers/removeController.js";
+import { searchOnFacebook } from "./controllers/facebookController.js";
 import fs from "fs";
 import path from "path";
 
@@ -94,6 +95,7 @@ app.get("/export/export_vda.csv", (req, res) => {
 });
 
 app.get("/search", performSearch);
+app.get("/facebook", searchOnFacebook);
 app.get("/data", performData);
 app.get("/remove", removeData);
 
