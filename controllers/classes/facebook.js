@@ -17,7 +17,7 @@ export default class Facebook{
       const browser = await puppeteer.launch({ headless: !this.debugMode });
       this.page = await browser.newPage();
       const page = this.page
-      const context = this.browser.defaultBrowserContext();
+      const context = browser.defaultBrowserContext();
       context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]);
       await page.goto('https://www.facebook.com/marketplace/category/cars', { waitUntil: 'networkidle2' });
       console.log(chalk.yellow("Authentication in progress..."))
@@ -32,6 +32,7 @@ export default class Facebook{
       await page.evaluate((val) => pass.value = val, this.password);
       await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
       await page.waitForNavigation({waitUntil: 'networkidle2'});
+      await browser.close()
       return {success: "Login a buon fine!"};
     }
 
