@@ -1,0 +1,592 @@
+[{
+   "comune": "Allein",
+   "pro_com_t": "007001",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Antey-Saint-André",
+   "pro_com_t": "007002",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Aosta",
+   "pro_com_t": "007003",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Arnad",
+   "pro_com_t": "007004",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Arvier",
+   "pro_com_t": "007005",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Avise",
+   "pro_com_t": "007006",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Ayas",
+   "pro_com_t": "007007",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Aymavilles",
+   "pro_com_t": "007008",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Bard",
+   "pro_com_t": "007009",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Bionaz",
+   "pro_com_t": "007010",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Brissogne",
+   "pro_com_t": "007011",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Brusson",
+   "pro_com_t": "007012",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Challand-Saint-Anselme",
+   "pro_com_t": "007013",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Challand-Saint-Victor",
+   "pro_com_t": "007014",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Chambave",
+   "pro_com_t": "007015",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Chamois",
+   "pro_com_t": "007016",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Champdepraz",
+   "pro_com_t": "007017",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Champorcher",
+   "pro_com_t": "007018",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Charvensod",
+   "pro_com_t": "007019",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Châtillon",
+   "pro_com_t": "007020",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Cogne",
+   "pro_com_t": "007021",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Courmayeur",
+   "pro_com_t": "007022",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Donnas",
+   "pro_com_t": "007023",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Doues",
+   "pro_com_t": "007024",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Emarèse",
+   "pro_com_t": "007025",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Etroubles",
+   "pro_com_t": "007026",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Fénis",
+   "pro_com_t": "007027",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Fontainemore",
+   "pro_com_t": "007028",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Gaby",
+   "pro_com_t": "007029",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Gignod",
+   "pro_com_t": "007030",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Gressan",
+   "pro_com_t": "007031",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Gressoney-La-Trinité",
+   "pro_com_t": "007032",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Gressoney-Saint-Jean",
+   "pro_com_t": "007033",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Hône",
+   "pro_com_t": "007034",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Introd",
+   "pro_com_t": "007035",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Issime",
+   "pro_com_t": "007036",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Issogne",
+   "pro_com_t": "007037",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Jovençan",
+   "pro_com_t": "007038",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "La Magdeleine",
+   "pro_com_t": "007039",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "La Salle",
+   "pro_com_t": "007040",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "La Thuile",
+   "pro_com_t": "007041",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Lillianes",
+   "pro_com_t": "007042",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Montjovet",
+   "pro_com_t": "007043",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Morgex",
+   "pro_com_t": "007044",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Nus",
+   "pro_com_t": "007045",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Ollomont",
+   "pro_com_t": "007046",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Oyace",
+   "pro_com_t": "007047",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Perloz",
+   "pro_com_t": "007048",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Pollein",
+   "pro_com_t": "007049",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Pontboset",
+   "pro_com_t": "007050",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Pontey",
+   "pro_com_t": "007051",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Pont-Saint-Martin",
+   "pro_com_t": "007052",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Pré-Saint-Didier",
+   "pro_com_t": "007053",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Quart",
+   "pro_com_t": "007054",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Rhêmes-Notre-Dame",
+   "pro_com_t": "007055",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Rhêmes-Saint-Georges",
+   "pro_com_t": "007056",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Roisan",
+   "pro_com_t": "007057",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Saint-Christophe",
+   "pro_com_t": "007058",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Saint-Denis",
+   "pro_com_t": "007059",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Saint-Marcel",
+   "pro_com_t": "007060",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Saint-Nicolas",
+   "pro_com_t": "007061",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Saint-Oyen",
+   "pro_com_t": "007062",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Saint-Pierre",
+   "pro_com_t": "007063",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Saint-Rhémy-en-Bosses",
+   "pro_com_t": "007064",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Saint-Vincent",
+   "pro_com_t": "007065",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Sarre",
+   "pro_com_t": "007066",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Torgnon",
+   "pro_com_t": "007067",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Valgrisenche",
+   "pro_com_t": "007068",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Valpelline",
+   "pro_com_t": "007069",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Valsavarenche",
+   "pro_com_t": "007070",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Valtournenche",
+   "pro_com_t": "007071",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Verrayes",
+   "pro_com_t": "007072",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Verrès",
+   "pro_com_t": "007073",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+},
+{
+   "comune": "Villeneuve",
+   "pro_com_t": "007074",
+   "den_prov": "Valle d'Aosta/Vallée d'Aoste",
+   "sigla": "AO",
+   "den_reg": "Valle d'Aosta/Vallée d'Aoste",
+   "cod_reg": "2"
+}]

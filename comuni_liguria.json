@@ -1,0 +1,1872 @@
+[{
+   "comune": "Airole",
+   "pro_com_t": "008001",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Apricale",
+   "pro_com_t": "008002",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Aquila d'Arroscia",
+   "pro_com_t": "008003",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Armo",
+   "pro_com_t": "008004",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Aurigo",
+   "pro_com_t": "008005",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Badalucco",
+   "pro_com_t": "008006",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Bajardo",
+   "pro_com_t": "008007",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Bordighera",
+   "pro_com_t": "008008",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Borghetto d'Arroscia",
+   "pro_com_t": "008009",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Borgomaro",
+   "pro_com_t": "008010",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Camporosso",
+   "pro_com_t": "008011",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Caravonica",
+   "pro_com_t": "008012",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Castellaro",
+   "pro_com_t": "008014",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Castel Vittorio",
+   "pro_com_t": "008015",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Ceriana",
+   "pro_com_t": "008016",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Cervo",
+   "pro_com_t": "008017",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Cesio",
+   "pro_com_t": "008018",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Chiusanico",
+   "pro_com_t": "008019",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Chiusavecchia",
+   "pro_com_t": "008020",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Cipressa",
+   "pro_com_t": "008021",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Civezza",
+   "pro_com_t": "008022",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Cosio d'Arroscia",
+   "pro_com_t": "008023",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Costarainera",
+   "pro_com_t": "008024",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Diano Arentino",
+   "pro_com_t": "008025",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Diano Castello",
+   "pro_com_t": "008026",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Diano Marina",
+   "pro_com_t": "008027",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Diano San Pietro",
+   "pro_com_t": "008028",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Dolceacqua",
+   "pro_com_t": "008029",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Dolcedo",
+   "pro_com_t": "008030",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Imperia",
+   "pro_com_t": "008031",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Isolabona",
+   "pro_com_t": "008032",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Lucinasco",
+   "pro_com_t": "008033",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Mendatica",
+   "pro_com_t": "008034",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Molini di Triora",
+   "pro_com_t": "008035",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Montegrosso Pian Latte",
+   "pro_com_t": "008037",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Olivetta San Michele",
+   "pro_com_t": "008038",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Ospedaletti",
+   "pro_com_t": "008039",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Perinaldo",
+   "pro_com_t": "008040",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Pietrabruna",
+   "pro_com_t": "008041",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Pieve di Teco",
+   "pro_com_t": "008042",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Pigna",
+   "pro_com_t": "008043",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Pompeiana",
+   "pro_com_t": "008044",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Pontedassio",
+   "pro_com_t": "008045",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Pornassio",
+   "pro_com_t": "008046",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Prelà",
+   "pro_com_t": "008047",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Ranzo",
+   "pro_com_t": "008048",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Rezzo",
+   "pro_com_t": "008049",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Riva Ligure",
+   "pro_com_t": "008050",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Rocchetta Nervina",
+   "pro_com_t": "008051",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "San Bartolomeo al Mare",
+   "pro_com_t": "008052",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "San Biagio della Cima",
+   "pro_com_t": "008053",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "San Lorenzo al Mare",
+   "pro_com_t": "008054",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Sanremo",
+   "pro_com_t": "008055",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Santo Stefano al Mare",
+   "pro_com_t": "008056",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Seborga",
+   "pro_com_t": "008057",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Soldano",
+   "pro_com_t": "008058",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Taggia",
+   "pro_com_t": "008059",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Terzorio",
+   "pro_com_t": "008060",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Triora",
+   "pro_com_t": "008061",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Vallebona",
+   "pro_com_t": "008062",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Vallecrosia",
+   "pro_com_t": "008063",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Vasia",
+   "pro_com_t": "008064",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Ventimiglia",
+   "pro_com_t": "008065",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Vessalico",
+   "pro_com_t": "008066",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Villa Faraldi",
+   "pro_com_t": "008067",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Montalto Carpasio",
+   "pro_com_t": "008068",
+   "den_prov": "Imperia",
+   "sigla": "IM",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Alassio",
+   "pro_com_t": "009001",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Albenga",
+   "pro_com_t": "009002",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Albissola Marina",
+   "pro_com_t": "009003",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Albisola Superiore",
+   "pro_com_t": "009004",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Altare",
+   "pro_com_t": "009005",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Andora",
+   "pro_com_t": "009006",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Arnasco",
+   "pro_com_t": "009007",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Balestrino",
+   "pro_com_t": "009008",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Bardineto",
+   "pro_com_t": "009009",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Bergeggi",
+   "pro_com_t": "009010",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Boissano",
+   "pro_com_t": "009011",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Borghetto Santo Spirito",
+   "pro_com_t": "009012",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Borgio Verezzi",
+   "pro_com_t": "009013",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Bormida",
+   "pro_com_t": "009014",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Cairo Montenotte",
+   "pro_com_t": "009015",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Calice Ligure",
+   "pro_com_t": "009016",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Calizzano",
+   "pro_com_t": "009017",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Carcare",
+   "pro_com_t": "009018",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Casanova Lerrone",
+   "pro_com_t": "009019",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Castelbianco",
+   "pro_com_t": "009020",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Castelvecchio di Rocca Barbena",
+   "pro_com_t": "009021",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Celle Ligure",
+   "pro_com_t": "009022",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Cengio",
+   "pro_com_t": "009023",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Ceriale",
+   "pro_com_t": "009024",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Cisano sul Neva",
+   "pro_com_t": "009025",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Cosseria",
+   "pro_com_t": "009026",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Dego",
+   "pro_com_t": "009027",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Erli",
+   "pro_com_t": "009028",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Finale Ligure",
+   "pro_com_t": "009029",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Garlenda",
+   "pro_com_t": "009030",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Giustenice",
+   "pro_com_t": "009031",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Giusvalla",
+   "pro_com_t": "009032",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Laigueglia",
+   "pro_com_t": "009033",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Loano",
+   "pro_com_t": "009034",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Magliolo",
+   "pro_com_t": "009035",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Mallare",
+   "pro_com_t": "009036",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Massimino",
+   "pro_com_t": "009037",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Millesimo",
+   "pro_com_t": "009038",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Mioglia",
+   "pro_com_t": "009039",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Murialdo",
+   "pro_com_t": "009040",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Nasino",
+   "pro_com_t": "009041",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Noli",
+   "pro_com_t": "009042",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Onzo",
+   "pro_com_t": "009043",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Orco Feglino",
+   "pro_com_t": "009044",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Ortovero",
+   "pro_com_t": "009045",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Osiglia",
+   "pro_com_t": "009046",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Pallare",
+   "pro_com_t": "009047",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Piana Crixia",
+   "pro_com_t": "009048",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Pietra Ligure",
+   "pro_com_t": "009049",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Plodio",
+   "pro_com_t": "009050",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Pontinvrea",
+   "pro_com_t": "009051",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Quiliano",
+   "pro_com_t": "009052",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Rialto",
+   "pro_com_t": "009053",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Roccavignale",
+   "pro_com_t": "009054",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Sassello",
+   "pro_com_t": "009055",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Savona",
+   "pro_com_t": "009056",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Spotorno",
+   "pro_com_t": "009057",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Stella",
+   "pro_com_t": "009058",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Stellanello",
+   "pro_com_t": "009059",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Testico",
+   "pro_com_t": "009060",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Toirano",
+   "pro_com_t": "009061",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Tovo San Giacomo",
+   "pro_com_t": "009062",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Urbe",
+   "pro_com_t": "009063",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Vado Ligure",
+   "pro_com_t": "009064",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Varazze",
+   "pro_com_t": "009065",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Vendone",
+   "pro_com_t": "009066",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Vezzi Portio",
+   "pro_com_t": "009067",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Villanova d'Albenga",
+   "pro_com_t": "009068",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Zuccarello",
+   "pro_com_t": "009069",
+   "den_prov": "Savona",
+   "sigla": "SV",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Arenzano",
+   "pro_com_t": "010001",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Avegno",
+   "pro_com_t": "010002",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Bargagli",
+   "pro_com_t": "010003",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Bogliasco",
+   "pro_com_t": "010004",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Borzonasca",
+   "pro_com_t": "010005",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Busalla",
+   "pro_com_t": "010006",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Camogli",
+   "pro_com_t": "010007",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Campo Ligure",
+   "pro_com_t": "010008",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Campomorone",
+   "pro_com_t": "010009",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Carasco",
+   "pro_com_t": "010010",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Casarza Ligure",
+   "pro_com_t": "010011",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Casella",
+   "pro_com_t": "010012",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Castiglione Chiavarese",
+   "pro_com_t": "010013",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Ceranesi",
+   "pro_com_t": "010014",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Chiavari",
+   "pro_com_t": "010015",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Cicagna",
+   "pro_com_t": "010016",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Cogoleto",
+   "pro_com_t": "010017",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Cogorno",
+   "pro_com_t": "010018",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Coreglia Ligure",
+   "pro_com_t": "010019",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Crocefieschi",
+   "pro_com_t": "010020",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Davagna",
+   "pro_com_t": "010021",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Fascia",
+   "pro_com_t": "010022",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Favale di Malvaro",
+   "pro_com_t": "010023",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Fontanigorda",
+   "pro_com_t": "010024",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Genova",
+   "pro_com_t": "010025",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Gorreto",
+   "pro_com_t": "010026",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Isola del Cantone",
+   "pro_com_t": "010027",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Lavagna",
+   "pro_com_t": "010028",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Leivi",
+   "pro_com_t": "010029",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Lorsica",
+   "pro_com_t": "010030",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Lumarzo",
+   "pro_com_t": "010031",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Masone",
+   "pro_com_t": "010032",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Mele",
+   "pro_com_t": "010033",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Mezzanego",
+   "pro_com_t": "010034",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Mignanego",
+   "pro_com_t": "010035",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Moconesi",
+   "pro_com_t": "010036",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Moneglia",
+   "pro_com_t": "010037",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Montebruno",
+   "pro_com_t": "010038",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Montoggio",
+   "pro_com_t": "010039",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Ne",
+   "pro_com_t": "010040",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Neirone",
+   "pro_com_t": "010041",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Orero",
+   "pro_com_t": "010042",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Pieve Ligure",
+   "pro_com_t": "010043",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Portofino",
+   "pro_com_t": "010044",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Propata",
+   "pro_com_t": "010045",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Rapallo",
+   "pro_com_t": "010046",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Recco",
+   "pro_com_t": "010047",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Rezzoaglio",
+   "pro_com_t": "010048",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Ronco Scrivia",
+   "pro_com_t": "010049",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Rondanina",
+   "pro_com_t": "010050",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Rossiglione",
+   "pro_com_t": "010051",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Rovegno",
+   "pro_com_t": "010052",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "San Colombano Certenoli",
+   "pro_com_t": "010053",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Santa Margherita Ligure",
+   "pro_com_t": "010054",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Sant'Olcese",
+   "pro_com_t": "010055",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Santo Stefano d'Aveto",
+   "pro_com_t": "010056",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Savignone",
+   "pro_com_t": "010057",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Serra Riccò",
+   "pro_com_t": "010058",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Sestri Levante",
+   "pro_com_t": "010059",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Sori",
+   "pro_com_t": "010060",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Tiglieto",
+   "pro_com_t": "010061",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Torriglia",
+   "pro_com_t": "010062",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Tribogna",
+   "pro_com_t": "010063",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Uscio",
+   "pro_com_t": "010064",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Valbrevenna",
+   "pro_com_t": "010065",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Vobbia",
+   "pro_com_t": "010066",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Zoagli",
+   "pro_com_t": "010067",
+   "den_prov": "Genova",
+   "sigla": "GE",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Ameglia",
+   "pro_com_t": "011001",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Arcola",
+   "pro_com_t": "011002",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Beverino",
+   "pro_com_t": "011003",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Bolano",
+   "pro_com_t": "011004",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Bonassola",
+   "pro_com_t": "011005",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Borghetto di Vara",
+   "pro_com_t": "011006",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Brugnato",
+   "pro_com_t": "011007",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Calice al Cornoviglio",
+   "pro_com_t": "011008",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Carro",
+   "pro_com_t": "011009",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Carrodano",
+   "pro_com_t": "011010",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Castelnuovo Magra",
+   "pro_com_t": "011011",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Deiva Marina",
+   "pro_com_t": "011012",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Follo",
+   "pro_com_t": "011013",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Framura",
+   "pro_com_t": "011014",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "La Spezia",
+   "pro_com_t": "011015",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Lerici",
+   "pro_com_t": "011016",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Levanto",
+   "pro_com_t": "011017",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Maissana",
+   "pro_com_t": "011018",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Monterosso al Mare",
+   "pro_com_t": "011019",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Luni",
+   "pro_com_t": "011020",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Pignone",
+   "pro_com_t": "011021",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Portovenere",
+   "pro_com_t": "011022",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Riccò del Golfo di Spezia",
+   "pro_com_t": "011023",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Riomaggiore",
+   "pro_com_t": "011024",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Rocchetta di Vara",
+   "pro_com_t": "011025",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Santo Stefano di Magra",
+   "pro_com_t": "011026",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Sarzana",
+   "pro_com_t": "011027",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Sesta Godano",
+   "pro_com_t": "011028",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Varese Ligure",
+   "pro_com_t": "011029",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Vernazza",
+   "pro_com_t": "011030",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Vezzano Ligure",
+   "pro_com_t": "011031",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+},
+{
+   "comune": "Zignago",
+   "pro_com_t": "011032",
+   "den_prov": "La Spezia",
+   "sigla": "SP",
+   "den_reg": "Liguria",
+   "cod_reg": "7"
+}]
