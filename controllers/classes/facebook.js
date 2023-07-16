@@ -36,8 +36,6 @@ export default class Facebook{
       await page.evaluate((val) => pass.value = val, this.password);
       await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
       await page.waitForNavigation({waitUntil: 'networkidle2'});
-      await this.browser.close();
-      return {ok:"tutto bin login completed",};
       await page.goto(`https://www.facebook.com/marketplace/${location}/cars`);
       console.log(`To ${location}!`);
       await page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]');
@@ -68,7 +66,6 @@ export default class Facebook{
             count--
         }
         const cars = await page.$x(card_div_path);
-        console.log("cars is : ",cars);
         const carData = []
         for (let car of cars) {
           // Prendiamo le informazioni dell'annuncio
@@ -97,7 +94,6 @@ export default class Facebook{
               } */
             }
             catch(err){
-               console.error("error on trycatch: ", err);
             }
         }
         await this.browser.close();
