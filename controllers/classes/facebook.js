@@ -38,11 +38,11 @@ export default class Facebook{
       await page.waitForNavigation({waitUntil: 'networkidle2'});
       console.log(chalk.bgGreen("Login Completed!"));
       await page.goto(`https://www.facebook.com/marketplace/${location}/cars`, { waitUntil: 'networkidle2' });
+      await browser.close();
+      return {log: "logged!", email: this.email, psw: this.password, div_path: location};
       console.log(`Searching on ${location}!`);
       await page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]');
       const card_div_path = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div/div[2]/div';
-      await browser.close();
-      return {log: "logged!", email: this.email, psw: this.password, div_path: card_div_path};
       console.log('Page downloaded');
 /*       var count = parseInt(this.scrollCount);
       while( count > 0){
