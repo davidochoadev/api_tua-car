@@ -33,13 +33,16 @@ export default class Facebook{
       await page.evaluate(() => document.querySelector('button[type="Submit"]')&&[...document.querySelectorAll('button[type="Submit"]')].at(-1).click());
       // fill in and submit the form
       await page.evaluate((val) => email.value = val, this.email);
-      await page.waitFor(1000);
+      await new Promise(r => setTimeout(r, 10000));
+      await page.screenshot({ path: 'email.png' });
       await page.evaluate((val) => pass.value = val, this.password);
-      await page.waitFor(1000);
+      await new Promise(r => setTimeout(r, 10000));
+      await page.screenshot({ path: 'password.png' });
       await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
-      await page.screenshot({ path: 'location_milan_111.png' });
+      await new Promise(r => setTimeout(r, 10000));
+      await page.screenshot({ path: 'login.png' });
       await page.waitForNavigation({waitUntil: 'networkidle2'});
-      await page.screenshot({ path: 'location_milan_222.png' });
+      await page.screenshot({ path: 'login_2.png' });
       console.log(chalk.bgGreen("Login Completed!"));
       await page.goto(`https://www.facebook.com/marketplace/${location}/cars/`, { waitUntil: 'networkidle2' });
       await page.screenshot({ path: 'location_milan_333.png' });
