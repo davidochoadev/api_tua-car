@@ -17,12 +17,12 @@ export default class Facebook{
 
    async search(location) {
       console.log(chalk.yellow("🔍 Starting Search on Facebook!"));
-      this.browser = await puppeteer.launch({ headless: !this.debugMode });
-      this.page = await this.browser.newPage();
+      const browser = await puppeteer.launch({ headless: !this.debugMode });
+      this.page = await browser.newPage();
       const page = this.page;
-/*       const client = await page.target().createCDPSession();
-      const context = this.browser.defaultBrowserContext();
-      context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]); */
+      const client = await page.target().createCDPSession();
+      const context = browser.defaultBrowserContext();
+      context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]);
       await page.goto('https://www.facebook.com/marketplace/category/cars', { waitUntil: 'networkidle2' });
       console.log(chalk.yellow("Authentication in progress..."))
       const cookieButton = await page.$x('/html/body/div[3]/div[2]/div/div/div/div/div[4]/button[1]')
@@ -67,7 +67,7 @@ export default class Facebook{
             count--
         } */
       const cars = await page.$x(card_div_path);
-      await this.browser.close();
+      await browser.close();
       return cars;
       const carData = []
       for (let car of cars) {

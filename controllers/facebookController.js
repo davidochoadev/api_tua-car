@@ -15,6 +15,6 @@ export const searchOnFacebook = async (req, res) => {
     res.status(200).json({ ok: "test is working!", data });
   } catch (error) {
     console.error("An error occurred:", error);
-    res.status(500).json({ error: "Internal Server Error", error });
+    res.status(500).json({ error });
   }
 }
