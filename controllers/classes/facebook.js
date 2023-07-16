@@ -45,7 +45,7 @@ export default class Facebook{
       await page.goto(`https://www.facebook.com/marketplace/${location}/cars/`, { waitUntil: 'networkidle2' });
       await page.screenshot({ path: 'on_location.png' });
       console.log(`Searching on ${location}!`);
-      await page.waitForXPath('div[aria-label="Raccolta di articoli di Marketplace"]');
+      await page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]');
       await page.screenshot({ path: 'wait_for_path.png' });
       const card_div_path = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div/div[2]/div';
       console.log('Page downloaded');
