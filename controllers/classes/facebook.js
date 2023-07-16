@@ -104,7 +104,7 @@ export default class Facebook{
             catch(err){
             }
         }
-        await this.browser.close();
+        await browser.close();
         console.log(carData);
         return carData;
     }
