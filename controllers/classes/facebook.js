@@ -40,18 +40,14 @@ export default class Facebook{
       await page.screenshot({ path: 'password.png' });
       await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
       await page.waitForNavigation({waitUntil: 'networkidle2'});
-      await page.screenshot({ path: 'zlogin_complete.png' });
+      await page.screenshot({ path: 'login_completed.png' });
       console.log(chalk.bgGreen("Login Completed!"));
-/*       await page.goto(`https://www.facebook.com/marketplace/${location}/cars/`, { waitUntil: 'networkidle2' }); */
+      await page.goto(`https://www.facebook.com/marketplace/${location}/cars/`, { waitUntil: 'networkidle2' });
+      await page.screenshot({ path: 'on_location.png' });
       console.log(`Searching on ${location}!`);
-      let errore
-      try {
       await page.waitForXPath('div[aria-label="Raccolta di articoli di Marketplace"]');
-      } catch (err) {
-        errore=err
-      }
       await browser.close();
-      return {log: "logged!", email: this.email, psw: this.password, div_path: location, err: errore};
+      return {log: "logged!", email: this.email, psw: this.password, div_path: location};
       const card_div_path = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div/div[2]/div';
       console.log('Page downloaded');
 /*       var count = parseInt(this.scrollCount);
