@@ -8,8 +8,8 @@ export const searchOnFacebook = async (req, res) => {
     const test = new Facebook(
       0,
       parseInt(scrollCount),
-      process.env.FACEBOOK_EMAIL,
-      process.env.FACEBOOK_PASSWORD
+      process.env.FACEBOOK_EMAIL2,
+      process.env.FACEBOOK_PASSWORD2
     );
     const data = await test.search(location);
     res.status(200).json({ ok: "test is working!", data });
