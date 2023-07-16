@@ -46,8 +46,7 @@ export default class Facebook{
       await page.screenshot({ path: 'on_location.png' });
       console.log(`Searching on ${location}!`);
       await page.waitForXPath('div[aria-label="Raccolta di articoli di Marketplace"]');
-      await browser.close();
-      return {log: "logged!", email: this.email, psw: this.password, div_path: location};
+      await page.screenshot({ path: 'wait_for_path.png' });
       const card_div_path = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div/div[2]/div';
       console.log('Page downloaded');
 /*       var count = parseInt(this.scrollCount);
@@ -75,6 +74,8 @@ export default class Facebook{
             count--
         } */
       const cars = await page.$x(card_div_path);
+      await browser.close();
+      return {log: "logged!", email: this.email, psw: this.password, div_path: card_div_path, cars: cars};
       const carData = []
       for (let car of cars) {
          // Prendiamo le informazioni dell'annuncio
