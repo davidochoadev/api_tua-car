@@ -41,7 +41,7 @@ export default class Facebook{
       console.log(`Searching on ${location}!`);
       let errore
       try {
-      await page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]');
+      await page.waitForXPath('div[aria-label="Raccolta di articoli di Marketplace"]');
       } catch (err) {
         errore=err
       }
