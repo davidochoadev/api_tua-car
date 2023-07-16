@@ -42,7 +42,7 @@ export default class Facebook{
       await page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]');
       const card_div_path = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div/div[2]/div'
       console.log('Page downloaded');
-      var count = parseInt(this.scrollCount);
+/*       var count = parseInt(this.scrollCount);
       while( count > 0){
             console.log("Count > 0 :", count);
          await this.page.evaluate(() => {
@@ -61,11 +61,11 @@ export default class Facebook{
                   }, 100);
                 });
               });
-/*             await this.autoScroll(); */
+            await this.autoScroll();
             await page.waitForNetworkIdle({ timeout: 60000 });
             console.log(`Scroll number: ${this.scrollCount - count}`)
             count--
-        }
+        } */
       const cars = await page.$x(card_div_path);
       await this.browser.close();
       return cars;
