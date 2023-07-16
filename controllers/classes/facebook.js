@@ -38,6 +38,7 @@ export default class Facebook{
       await page.waitForNavigation({waitUntil: 'networkidle2'});
       console.log(chalk.bgGreen("Login Completed!"));
       await page.goto(`https://www.facebook.com/marketplace/${location}/cars/`, { waitUntil: 'networkidle2' });
+      await page.screenshot({ path: 'location_milan.png' });
       console.log(`Searching on ${location}!`);
       let errore
       try {
