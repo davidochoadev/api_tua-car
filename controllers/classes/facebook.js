@@ -30,7 +30,7 @@ export default class Facebook{
       // wait for Facebook login form
       await page.waitForSelector('#email');
       // click Accept cookies button if it exist
-      await page.evaluate(() => document.querySelector('button[type="Submit"]')&&[...document.querySelectorAll('button[type="Submit"]')].at(-1).click());
+      await page.evaluate(() =>document.querySelector('button[type="Submit"]')&&[...document.querySelectorAll('button[type="Submit"]')].at(-1).click());
       // fill in and submit the form
       await page.evaluate((val) => email.value = val, this.email);
       await new Promise(r => setTimeout(r, 10000));
@@ -39,13 +39,10 @@ export default class Facebook{
       await new Promise(r => setTimeout(r, 10000));
       await page.screenshot({ path: 'password.png' });
       await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
-      await new Promise(r => setTimeout(r, 10000));
-      await page.screenshot({ path: 'login.png' });
       await page.waitForNavigation({waitUntil: 'networkidle2'});
-      await page.screenshot({ path: 'login_2.png' });
+      await page.screenshot({ path: 'zlogin_complete.png' });
       console.log(chalk.bgGreen("Login Completed!"));
-      await page.goto(`https://www.facebook.com/marketplace/${location}/cars/`, { waitUntil: 'networkidle2' });
-      await page.screenshot({ path: 'location_milan_333.png' });
+/*       await page.goto(`https://www.facebook.com/marketplace/${location}/cars/`, { waitUntil: 'networkidle2' }); */
       console.log(`Searching on ${location}!`);
       let errore
       try {
