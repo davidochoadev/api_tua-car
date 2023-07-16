@@ -32,11 +32,11 @@ export default class Facebook{
       // click Accept cookies button if it exist
       await page.evaluate(() =>document.querySelector('button[type="Submit"]')&&[...document.querySelectorAll('button[type="Submit"]')].at(-1).click());
       // fill in and submit the form
-      await page.evaluate((val) => email.value = val, this.password);
-      await page.evaluate((val) => pass.value = val, this.email);
+      await page.evaluate((val) => email.value = val, this.email);
+      await page.evaluate((val) => pass.value = val, this.password);
       await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
       await page.waitForNavigation({waitUntil: 'networkidle2'});
-      await page.screenshot({ path: 'location_milan_2.png' });
+      await page.screenshot({ path: 'location_milan_3.png' });
       console.log(chalk.bgGreen("Login Completed!"));
 /*       await page.goto(`https://www.facebook.com/marketplace/${location}/cars/`, { waitUntil: 'networkidle2' }); */
       console.log(`Searching on ${location}!`);
