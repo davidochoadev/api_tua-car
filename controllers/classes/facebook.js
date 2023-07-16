@@ -20,8 +20,8 @@ export default class Facebook{
       this.browser = await puppeteer.launch({ headless: !this.debugMode });
       this.page = await this.browser.newPage();
 /*       const client = await this.page.target().createCDPSession(); */
-      const context = this.browser.defaultBrowserContext();
-      context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]);
+/*       const context = this.browser.defaultBrowserContext();
+      context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]); */
       await this.page.goto('https://www.facebook.com/marketplace/category/cars', { waitUntil: 'networkidle2' });
       console.log(chalk.yellow("Authentication in progress..."))
       const cookieButton = await this.page.$x('/html/body/div[3]/div[2]/div/div/div/div/div[4]/button[1]')
