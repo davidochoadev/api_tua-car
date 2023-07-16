@@ -66,6 +66,8 @@ export default class Facebook{
             count--
         }
       const cars = await page.$x(card_div_path);
+      await this.browser.close();
+      return cars;
       const carData = []
       for (let car of cars) {
          // Prendiamo le informazioni dell'annuncio
