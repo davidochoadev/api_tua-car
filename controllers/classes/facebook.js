@@ -19,27 +19,28 @@ export default class Facebook{
       console.log(chalk.yellow("🔍 Starting Search on Facebook!"));
       this.browser = await puppeteer.launch({ headless: !this.debugMode });
       this.page = await this.browser.newPage();
-/*       const client = await this.page.target().createCDPSession(); */
-/*       const context = this.browser.defaultBrowserContext();
+      const page = this.page
+/*       const client = await page.target().createCDPSession();
+      const context = this.browser.defaultBrowserContext();
       context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]); */
-      await this.page.goto('https://www.facebook.com/marketplace/category/cars', { waitUntil: 'networkidle2' });
+      await page.goto('https://www.facebook.com/marketplace/category/cars', { waitUntil: 'networkidle2' });
       console.log(chalk.yellow("Authentication in progress..."))
-      const cookieButton = await this.page.$x('/html/body/div[3]/div[2]/div/div/div/div/div[4]/button[1]')
-      cookieButton[0]?.click();
+      const cookieButton = await page.$x('/html/body/div[3]/div[2]/div/div/div/div/div[4]/button[1]')
+      cookieButton[0]?.click()
       // wait for Facebook login form
-      await this.page.waitForSelector('#email');
+      await page.waitForSelector('#email');
       // click Accept cookies button if it exist
-      await this.page.evaluate(() =>document.querySelector('button[type="Submit"]')&&[...document.querySelectorAll('button[type="Submit"]')].at(-1).click());
+      await page.evaluate(() =>document.querySelector('button[type="Submit"]')&&[...document.querySelectorAll('button[type="Submit"]')].at(-1).click());
       // fill in and submit the form
-      await this.page.evaluate((val) => email.value = val, this.email);
-      await this.page.evaluate((val) => pass.value = val, this.password);
-      await this.page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
-      await this.page.waitForNavigation({waitUntil: 'networkidle2'});
-      await this.page.goto(`https://www.facebook.com/marketplace/${location}/cars`);
+      await page.evaluate((val) => email.value = val, this.email);
+      await page.evaluate((val) => pass.value = val, this.password);
+      await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
+      await page.waitForNavigation({waitUntil: 'networkidle2'});
+      await page.goto(`https://www.facebook.com/marketplace/${location}/cars`);
       console.log(`To ${location}!`);
-      await this.page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]');
+      await page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]');
       const card_div_path = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div/div[2]/div'
-      console.log('this.Page downloaded');
+      console.log('Page downloaded');
       var count = parseInt(this.scrollCount);
       while( count > 0){
             console.log("Count > 0 :", count);
@@ -66,7 +67,7 @@ export default class Facebook{
         }
         const cars = await page.$x(card_div_path);
         await this.browser.close();
-        return {ok:"tutto bin"};
+        return {ok:"tutto bin", cars};
         console.log("cars is : ",cars);
         const carData = []
         for (let car of cars) {
