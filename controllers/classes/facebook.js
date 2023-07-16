@@ -33,7 +33,9 @@ export default class Facebook{
       await page.evaluate(() => document.querySelector('button[type="Submit"]')&&[...document.querySelectorAll('button[type="Submit"]')].at(-1).click());
       // fill in and submit the form
       await page.evaluate((val) => email.value = val, this.email);
+      await page.waitFor(1000);
       await page.evaluate((val) => pass.value = val, this.password);
+      await page.waitFor(1000);
       await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
       await page.screenshot({ path: 'location_milan_111.png' });
       await page.waitForNavigation({waitUntil: 'networkidle2'});
