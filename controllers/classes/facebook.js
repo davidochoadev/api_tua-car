@@ -65,12 +65,12 @@ export default class Facebook{
             console.log(`Scroll number: ${this.scrollCount - count}`)
             count--
         }
-        const cars = await page.$x(card_div_path);
-        const carData = []
-        for (let car of cars) {
-          // Prendiamo le informazioni dell'annuncio
-          var currentCar = {}
-          try{
+      const cars = await page.$x(card_div_path);
+      const carData = []
+      for (let car of cars) {
+         // Prendiamo le informazioni dell'annuncio
+         var currentCar = {}
+         try{
               /* const urn = (await car?.$eval('a', el => el?.href)).split("/")[5];
               const available = await service.findUrnByUrn(urn); */
               /* !duplicates.includes(urn) */
@@ -79,7 +79,7 @@ export default class Facebook{
               // Grabba i dati necessari
               currentCar["urn"] = (await car?.$eval('a', el => el?.href)).split("/")[5];
               currentCar["url"] = await car?.$eval('a', el => el?.href);
-              const userData = await this.getContacts(currentCar.url);
+              /* const userData = await this.getContacts(currentCar.url); */
               currentCar["advertiser_name"] = userData.user_name
               currentCar["advertiser_phone"] = userData.user_id
               currentCar["price"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent.replaceAll("€",'').replaceAll(".", ""))).trimStart().replace(" ", "-")
