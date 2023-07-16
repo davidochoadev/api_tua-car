@@ -37,6 +37,8 @@ export default class Facebook{
       await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
       await page.waitForNavigation({waitUntil: 'networkidle2'});
       console.log(chalk.bgGreen("Login Completed!"));
+      await browser.close();
+      return {log: "logged!", email: this.email, psw: this.password};
       await page.goto(`https://www.facebook.com/marketplace/${location}/cars`, { waitUntil: 'networkidle2' });
       console.log(`Searching on ${location}!`);
       await page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]', { timeout: 60000 });
@@ -67,8 +69,6 @@ export default class Facebook{
             count--
         } */
       const cars = await page.$x(card_div_path);
-      await browser.close();
-      return cars;
       const carData = []
       for (let car of cars) {
          // Prendiamo le informazioni dell'annuncio
