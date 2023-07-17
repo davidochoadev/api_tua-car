@@ -49,7 +49,7 @@ export default class Facebook{
       await page.screenshot({ path: 'wait_for_path.png' });
       const card_div_path = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div/div[2]/div';
       console.log('Page downloaded');
-      var count = parseInt(this.scrollCount);
+/*       var count = parseInt(this.scrollCount);
       while( count > 0){
             console.log("Count > 0 :", count);
          await this.page.evaluate(() => {
@@ -72,8 +72,9 @@ export default class Facebook{
             await page.waitForNetworkIdle({ timeout: 60000 });
             console.log(`Scroll number: ${this.scrollCount - count}`)
             count--
-        }
+        } */
       const cars = await page.$x(card_div_path);
+      console.log("cars is : ",cars);
       const carData = []
       for (let car of cars) {
          // Prendiamo le informazioni dell'annuncio
@@ -88,8 +89,8 @@ export default class Facebook{
               currentCar["urn"] = (await car?.$eval('a', el => el?.href)).split("/")[5];
               currentCar["url"] = await car?.$eval('a', el => el?.href);
               /* const userData = await this.getContacts(currentCar.url); */
-              currentCar["advertiser_name"] = userData.user_name
-              currentCar["advertiser_phone"] = userData.user_id
+/*               currentCar["advertiser_name"] = userData.user_name
+              currentCar["advertiser_phone"] = userData.user_id */
               currentCar["price"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent.replaceAll("€",'').replaceAll(".", ""))).trimStart().replace(" ", "-")
               currentCar["register_year"] = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[1]?.textContent.slice(0,4))
               currentCar["subject"] = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[1]?.textContent.slice(4).replace(" ", ""))
@@ -102,6 +103,7 @@ export default class Facebook{
               } */
             }
             catch(err){
+              console.log("errore:  " ,err);
             }
         }
         await browser.close();
