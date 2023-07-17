@@ -3,8 +3,9 @@ import puppeteer from 'puppeteer'
 import { Cluster } from 'puppeteer-cluster'
 import JSON2CSVParser from 'json2csv/lib/JSON2CSVParser.js'
 import { region_index } from '../dataController.js'
+import { facebookApiService } from "../../Service/facebookApiService.js";
 import chalk from 'chalk';
-
+const service = new facebookApiService();
 
 export default class Facebook{
 
@@ -75,16 +76,15 @@ export default class Facebook{
             count--
         } */
       const cars = await page.$x(card_div_path);
-      console.log("cars is : ",cars);
       const carData = []
       for (let car of cars) {
          // Prendiamo le informazioni dell'annuncio
          var currentCar = {}
          try{
-              /* const urn = (await car?.$eval('a', el => el?.href)).split("/")[5];
-              const available = await service.findUrnByUrn(urn); */
+              const urn = (await car?.$eval('a', el => el?.href)).split("/")[5];
+              const available = await service.findUrnByUrn(urn);
               /* !duplicates.includes(urn) */
-              /* if (available === null) { */
+              if (available === null) {
               console.log(chalk.green("New Item Found!"));
               // Grabba i dati necessari
               currentCar["urn"] = (await car?.$eval('a', el => el?.href)).split("/")[5];
@@ -99,18 +99,18 @@ export default class Facebook{
               currentCar["geo_region"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[2]?.textContent)).trim().split(",")[1].trim()
               currentCar["mileage_scalar"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[3]?.textContent)).trim().replaceAll("km", "").replaceAll(".", "").trim()
               carData.push(currentCar);
-              /* } else {
+              } else {
                 console.log(chalk.bgRed("Already Present in the Database"));
-              } */
+              }
             }
             catch(err){
-              console.log("errore:  " ,err);
             }
         }
         await browser.close();
         try {
           await fsPromises.writeFile(`Temp/${tempFileName}`, '[]');
           await fsPromises.writeFile(`Temp/${tempFileName}`, JSON.stringify(carData));
+          console.log(chalk.green("✅ Correctly created ", tempFileName));
           return {success: `✅ Correctly created ${tempFileName}, search length is: ${carData.length}`}
         } catch (err) {
           return {error: 'Error on writing tempFileName :', err }

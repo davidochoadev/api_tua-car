@@ -1,0 +1,289 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Comune {
+  istat         Int       @id
+  comune        String?   @db.VarChar(255)
+  id_regione    Int       @db.SmallInt
+  sigla_prov    String
+  cap           String?   @db.Char(11)
+  prefisso      String?   @db.VarChar(7)
+  cod_fisco     String?   @db.VarChar(10)
+  superficie    Float?
+  num_residenti Int?
+  Regione       Regione   @relation(fields: [id_regione], references: [cod_reg])
+  Provincia     Provincia @relation(fields: [sigla_prov], references: [sigla])
+
+  @@index([id_regione], map: "Comune_id_regione_fkey")
+  @@index([sigla_prov], map: "Comune_sigla_prov_fkey")
+}
+
+model Provincia {
+  sigla      String   @id @unique @db.VarChar(2)
+  provincia  String?  @db.VarChar(255)
+  superficie Float?
+  residenti  Int?
+  num_comuni Int?
+  id_regione Int      @db.SmallInt
+  Comune     Comune[]
+  Regione    Regione  @relation(fields: [id_regione], references: [cod_reg])
+
+  @@index([id_regione], map: "Provincia_id_regione_fkey")
+}
+
+model Regione {
+  cod_reg       Int         @id @unique @db.SmallInt
+  den_reg       String?     @db.VarChar(50)
+  superficie    Float?
+  num_residenti Int?
+  num_comuni    Int?
+  num_provincie Int?
+  presidente    String?     @db.VarChar(45)
+  cod_istat     String?     @db.VarChar(2)
+  cod_fiscale   String?     @db.VarChar(11)
+  piva          String?     @db.VarChar(11)
+  pec           String?     @db.VarChar(100)
+  sito          String?     @db.VarChar(100)
+  sede          String?     @db.VarChar(255)
+  Comune        Comune[]
+  Provincia     Provincia[]
+}
+
+model cars_autoscout {
+  id               Int      @id @default(autoincrement())
+  urn              String   @db.VarChar(255)
+  subject          String   @db.Text
+  body             String   @db.Text
+  date_remote      DateTime @default(now()) @db.DateTime(0)
+  pollution        String?  @db.VarChar(128)
+  fuel             String?  @db.VarChar(128)
+  vehicle_status   String?  @db.VarChar(128)
+  price            Int      @default(0)
+  mileage_scalar   String   @db.VarChar(128)
+  doors            String?  @db.Text
+  register_date    String   @db.VarChar(128)
+  register_year    String   @db.VarChar(32)
+  geo_region       String   @db.VarChar(128)
+  geo_provincia    String   @db.VarChar(128)
+  geo_town         String   @db.VarChar(128)
+  url              String   @db.Text
+  advertiser_name  String   @db.VarChar(128)
+  advertiser_phone String?  @db.VarChar(128)
+}
+
+model cars_facebook {
+  id               Int      @id @default(autoincrement())
+  urn              String   @unique(map: "urn") @db.VarChar(255)
+  subject          String   @db.VarChar(255)
+  body             String?  @db.VarChar(255)
+  date_remote      DateTime @default(now()) @db.DateTime(0)
+  pollution        String?  @db.VarChar(255)
+  fuel             String?  @db.VarChar(255)
+  vehicle_status   String?  @db.VarChar(255)
+  price            Int
+  mileage_scalar   String   @db.VarChar(255)
+  doors            String?  @db.Text
+  register_date    String?  @db.VarChar(128)
+  register_year    String   @db.VarChar(255)
+  geo_region       String   @db.VarChar(255)
+  geo_provincia    String   @db.VarChar(255)
+  geo_town         String   @db.VarChar(255)
+  url              String   @db.Text
+  advertiser_name  String?  @db.VarChar(128)
+  advertiser_phone String?  @db.VarChar(128)
+}
+
+model cars_subito {
+  id               Int      @id @default(autoincrement())
+  urn              String   @db.VarChar(255)
+  subject          String   @db.Text
+  body             String   @db.Text
+  date_remote      DateTime @default(now()) @db.DateTime(0)
+  pollution        String?  @db.VarChar(128)
+  fuel             String?  @db.VarChar(128)
+  vehicle_status   String?  @db.VarChar(128)
+  price            Int      @default(0)
+  mileage_scalar   String   @db.VarChar(128)
+  doors            String?  @db.Text
+  register_date    String   @db.VarChar(128)
+  register_year    String   @db.VarChar(128)
+  geo_region       String   @db.VarChar(128)
+  geo_provincia    String   @db.VarChar(128)
+  geo_town         String   @db.VarChar(128)
+  url              String   @db.Text
+  advertiser_name  String   @db.VarChar(128)
+  advertiser_phone String?  @db.VarChar(128)
+}
+
+model italy_cap_generic {
+  cap    String @id @db.VarChar(255)
+  comune String @db.VarChar(45)
+}
+
+model italy_geo {
+  istat  BigInt  @id
+  comune String? @db.VarChar(255)
+  lng    String? @db.VarChar(255)
+  lat    String? @db.VarChar(255)
+}
+
+model italy_info {
+  istat        Int     @id
+  comune       String? @db.VarChar(255)
+  abitanti     String? @db.VarChar(255)
+  patrono_nome String? @db.VarChar(255)
+  patrono_data String? @db.VarChar(255)
+}
+
+model italy_metropolitane {
+  id            Int     @id
+  denominazione String? @db.VarChar(255)
+  capoluogo     String? @db.VarChar(255)
+  popolazione   Int?
+  superficie    Float?
+  densita       Float?
+  numero_comuni Int?
+}
+
+model italy_munic {
+  istat     BigInt  @id
+  comune    String? @db.VarChar(255)
+  regione   String? @db.VarChar(50)
+  provincia String? @db.VarChar(2)
+  cap       String? @db.Char(11)
+  indirizzo String? @db.VarChar(255)
+}
+
+model italy_removed {
+  istat     Int     @id
+  comune    String? @db.VarChar(255)
+  provincia String? @db.VarChar(10)
+}
+
+model italy_sardegna_2017 {
+  istat_old Int     @id
+  istat_new Int?
+  comune    String? @db.VarChar(255)
+}
+
+model scheduled_tasks {
+  task_id             Int      @id @default(autoincrement())
+  user_id             Int
+  schedule_active     Int
+  schedule_start      String   @db.VarChar(32)
+  schedule_repeat_h   Int
+  schedule_cron_style String   @db.VarChar(32)
+  schedule_cc         String   @db.Text
+  schedule_content    String   @db.Text
+  created_at          DateTime @db.DateTime(0)
+  last_run            DateTime @default(now()) @db.DateTime(0)
+  next_run            DateTime @db.DateTime(0)
+}
+
+model searches {
+  search_id        Int      @id @default(autoincrement())
+  user_id          Int
+  search_filename  String   @db.VarChar(128)
+  search_path      String   @db.VarChar(256)
+  search_options   String   @db.Text
+  search_results   String   @db.Text
+  search_date      DateTime @default(now()) @db.DateTime(0)
+  SpokiSchedActive Boolean
+}
+
+model searches_duplicates {
+  id              Int    @id @default(autoincrement())
+  user_id         Int
+  platform        String @db.VarChar(128)
+  duplicates_file String @db.VarChar(128)
+}
+
+model users {
+  id           Int     @id @default(autoincrement()) @db.UnsignedInt
+  email        String  @unique(map: "email") @db.VarChar(249)
+  password     String  @db.VarChar(255)
+  username     String? @db.VarChar(100)
+  status       Int     @default(0) @db.UnsignedTinyInt
+  verified     Int     @default(0) @db.UnsignedTinyInt
+  resettable   Int     @default(1) @db.UnsignedTinyInt
+  roles_mask   Int     @default(0) @db.UnsignedInt
+  registered   Int     @db.UnsignedInt
+  last_login   Int?    @db.UnsignedInt
+  force_logout Int     @default(0) @db.UnsignedMediumInt
+}
+
+model users_confirmations {
+  id       Int    @id @default(autoincrement()) @db.UnsignedInt
+  user_id  Int    @db.UnsignedInt
+  email    String @db.VarChar(249)
+  selector String @unique(map: "selector") @db.VarChar(16)
+  token    String @db.VarChar(255)
+  expires  Int    @db.UnsignedInt
+
+  @@index([email, expires], map: "email_expires")
+  @@index([user_id], map: "user_id")
+}
+
+model users_data {
+  id             Int     @id @default(autoincrement())
+  user_id        Int
+  name           String  @db.VarChar(128)
+  company        String  @db.VarChar(128)
+  vat_number     String  @db.VarChar(32)
+  ssn_number     String  @db.VarChar(32)
+  address        String  @db.VarChar(256)
+  zip            String  @db.VarChar(8)
+  city           String  @db.VarChar(128)
+  state          String  @db.VarChar(128)
+  region         String  @db.VarChar(128)
+  location       Int
+  phone          String  @db.VarChar(32)
+  user_config    String  @db.Text
+  spoki_api      String  @db.Text
+  IsSpokiEnabled Boolean
+  Secret         String  @db.Text
+  uuID           String  @db.Text
+}
+
+model users_remembered {
+  id       BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  user     Int    @db.UnsignedInt
+  selector String @db.VarChar(255)
+  token    String @db.VarChar(255)
+  expires  Int    @db.UnsignedInt
+
+  @@index([user], map: "user")
+}
+
+model users_resets {
+  id       BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  user     Int    @db.UnsignedInt
+  selector String @unique(map: "selector") @db.VarChar(20)
+  token    String @db.VarChar(255)
+  expires  Int    @db.UnsignedInt
+
+  @@index([user, expires], map: "user_expires")
+}
+
+model users_searches_config {
+  config_id   Int    @id @default(autoincrement())
+  user_id     Int
+  config_data String @db.Text
+  spoki_api   Int    @default(0)
+}
+
+model users_throttling {
+  bucket         String @id @db.VarChar(44)
+  tokens         Float  @db.Float
+  replenished_at Int    @db.UnsignedInt
+  expires_at     Int    @db.UnsignedInt
+
+  @@index([expires_at], map: "expires_at")
+}

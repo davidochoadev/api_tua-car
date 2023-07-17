@@ -10,6 +10,7 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "@prisma/client": "^5.0.0",
     "chalk": "^5.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -20,6 +21,7 @@
     "puppeteer-cluster": "^0.23.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "prisma": "^5.0.0"
   }
 }
