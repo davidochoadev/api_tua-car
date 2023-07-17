@@ -16,6 +16,7 @@ export default class Facebook{
    }
 
    async search(location) {
+      let tempFileName = `fb_${location}_result.json`;  
       console.log(chalk.yellow("🔍 Starting Search on Facebook!"));
       const browser = await puppeteer.launch({ headless: !this.debugMode });
       this.page = await browser.newPage();
@@ -88,9 +89,9 @@ export default class Facebook{
               // Grabba i dati necessari
               currentCar["urn"] = (await car?.$eval('a', el => el?.href)).split("/")[5];
               currentCar["url"] = await car?.$eval('a', el => el?.href);
-              const userData = await this.getContacts(currentCar.url, browser);
+/*               const userData = await this.getContacts(currentCar.url, browser);
               currentCar["advertiser_name"] = userData.user_name
-              currentCar["advertiser_phone"] = userData.user_id
+              currentCar["advertiser_phone"] = userData.user_id */
               currentCar["price"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent.replaceAll("€",'').replaceAll(".", ""))).trimStart().replace(" ", "-")
               currentCar["register_year"] = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[1]?.textContent.slice(0,4))
               currentCar["subject"] = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[1]?.textContent.slice(4).replace(" ", ""))
@@ -107,8 +108,13 @@ export default class Facebook{
             }
         }
         await browser.close();
-        console.log(carData);
-        return carData;
+        try {
+          await fsPromises.writeFile(`Temp/${tempFileName}`, '[]');
+          await fsPromises.writeFile(`Temp/${tempFileName}`, JSON.stringify(carData));
+          return {success: `✅ Correctly created ${tempFileName}, search length is: ${carData.length}`}
+        } catch (err) {
+          return {error: 'Error on writing tempFileName :', err }
+        }
     }
 
     autoScroll = async () => {
