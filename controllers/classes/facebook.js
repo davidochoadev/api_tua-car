@@ -88,9 +88,9 @@ export default class Facebook{
               // Grabba i dati necessari
               currentCar["urn"] = (await car?.$eval('a', el => el?.href)).split("/")[5];
               currentCar["url"] = await car?.$eval('a', el => el?.href);
-              /* const userData = await this.getContacts(currentCar.url); */
-/*               currentCar["advertiser_name"] = userData.user_name
-              currentCar["advertiser_phone"] = userData.user_id */
+              const userData = await this.getContacts(currentCar.url, browser);
+              currentCar["advertiser_name"] = userData.user_name
+              currentCar["advertiser_phone"] = userData.user_id
               currentCar["price"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent.replaceAll("€",'').replaceAll(".", ""))).trimStart().replace(" ", "-")
               currentCar["register_year"] = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[1]?.textContent.slice(0,4))
               currentCar["subject"] = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[1]?.textContent.slice(4).replace(" ", ""))
@@ -130,8 +130,8 @@ export default class Facebook{
       })
   }
 
-  getContacts = async (link) => {
-   const page = await this.browser.newPage()
+  getContacts = async (link, browser) => {
+   const page = await browser.newPage()
    await page.goto(link, { waitUntil: 'networkidle2' });
    try{
        const cookieButton = await page.$x('//*[@id="facebook"]/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[1]/div[2]/div/div[1]/div/span/span')
