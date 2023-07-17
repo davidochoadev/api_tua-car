@@ -34,19 +34,19 @@ export default class Facebook{
       // fill in and submit the form
       await page.evaluate((val) => email.value = val, this.email);
       await new Promise(r => setTimeout(r, 10000));
-      await page.screenshot({ path: 'email.png' });
+      await page.screenshot({ path: './Screen/email.png' });
       await page.evaluate((val) => pass.value = val, this.password);
       await new Promise(r => setTimeout(r, 10000));
-      await page.screenshot({ path: 'password.png' });
+      await page.screenshot({ path: './Screen/password.png' });
       await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
       await page.waitForNavigation({waitUntil: 'networkidle2'});
-      await page.screenshot({ path: 'login_completed.png' });
+      await page.screenshot({ path: './Screen/login_completed.png' });
       console.log(chalk.bgGreen("Login Completed!"));
       await page.goto(`https://www.facebook.com/marketplace/${location}/cars/`, { waitUntil: 'networkidle2' });
-      await page.screenshot({ path: 'on_location.png' });
+      await page.screenshot({ path: './Screen/on_location.png' });
       console.log(`Searching on ${location}!`);
       await page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]');
-      await page.screenshot({ path: 'wait_for_path.png' });
+      await page.screenshot({ path: './Screen/wait_for_path.png' });
       const card_div_path = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div/div[2]/div';
       console.log('Page downloaded');
 /*       var count = parseInt(this.scrollCount);
