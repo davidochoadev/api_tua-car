@@ -37,24 +37,26 @@ export const searchUserDataOnFacebook = async (req, res) => {
       location
     );
     const data = await test.clusterUserDataCollection(location);
-    var failures = 0;
-    var correct = 0;
-    for (let car of data) {
-      const geo_info = await comune.getComune(car.geo_town) || "";
-      
-      try {
-        await service.createFacebookCar(car.urn, car.subject, isNaN(car.price) ? 0 : car.price, car.mileage_scalar, car.register_year, car.geo_region, geo_info.provincia, car.geo_town, car.url, car.advertiser_name, car.advertiser_phone);
-        console.log(`Element ${car.subject} added to database`);
-        correct++
-      }
-      catch (err) {
-        console.log(chalk.bgRedBright("❌ Unable to add current item"), err);
-        failures++
-      }
-    }
-    res.status(200).json({ successful : `✅ Created new ${correct} announcement from facebook on the database`});
+    res.status(200).json({ successful : data });
   } catch (error) {
     console.error("An error occurred:", error);
     res.status(500).json({ error });
   }
 }
+
+/* 
+var failures = 0;
+var correct = 0;
+for (let car of data) {
+  const geo_info = await comune.getComune(car.geo_town) || "";
+  
+  try {
+    await service.createFacebookCar(car.urn, car.subject, isNaN(car.price) ? 0 : car.price, car.mileage_scalar, car.register_year, car.geo_region, geo_info.provincia, car.geo_town, car.url, car.advertiser_name, car.advertiser_phone);
+    console.log(`Element ${car.subject} added to database`);
+    correct++
+  }
+  catch (err) {
+    console.log(chalk.bgRedBright("❌ Unable to add current item"), err);
+    failures++
+  }
+} */

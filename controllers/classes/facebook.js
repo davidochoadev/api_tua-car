@@ -157,6 +157,7 @@ export default class Facebook{
   }
 
   async clusterUserDataCollection() {
+    let tempFileName = `fb_${this.location}_completed_result.json`;  
     const dataSearch = await this.getDatasFromTempResults(this.location);
     const browser = await puppeteer.launch({ headless: !this.debugMode });
     this.page = await browser.newPage();
@@ -195,7 +196,14 @@ export default class Facebook{
       car.advertiser_phone = user_id;
       }
     await browser.close();
-    return dataSearch;
+    try {
+      await fsPromises.writeFile(`Temp/${tempFileName}`, '[]');
+      await fsPromises.writeFile(`Temp/${tempFileName}`, JSON.stringify(carData));
+      console.log(chalk.green("✅ Correctly created ", tempFileName));
+      return {success: `✅ Correctly created ${tempFileName}, search length is: ${carData.length}`}
+    } catch (err) {
+      return {error: 'Error on writing tempFileName :', err }
+    }
   }
 
   async getDatasFromTempResults(location) {
@@ -208,6 +216,6 @@ export default class Facebook{
     }
   }
 
-  
+
 
 }
