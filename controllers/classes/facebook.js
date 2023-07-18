@@ -35,12 +35,14 @@ export default class Facebook{
       // click Accept cookies button if it exist
       await page.evaluate(() =>document.querySelector('button[type="Submit"]')&&[...document.querySelectorAll('button[type="Submit"]')].at(-1).click());
       // fill e-mail form value and wait 1s
+       console.log("Writing email");
       await page.evaluate((val) => email.value = val, this.email);
-      await new Promise(r => setTimeout(r, 10000));
+      await new Promise(r => setTimeout(r, 2000));
       /* await page.screenshot({ path: './Screens/email.png' }); */
       // fill password form value and wait 1s
+       console.log("Writing password");
       await page.evaluate((val) => pass.value = val, this.password);
-      await new Promise(r => setTimeout(r, 10000));
+      await new Promise(r => setTimeout(r, 2000));
       /* await page.screenshot({ path: './Screens/password.png' }); */
       //send filled form and process the login
       await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
@@ -157,11 +159,13 @@ export default class Facebook{
   }
 
   async clusterUserDataCollection() {
+    console.log(chalk.bgCyan("Starting UserData Collection from results!"));
     let tempFileName = `fb_${this.location}_completed_result.json`;  
     const dataSearch = await this.getDatasFromTempResults(this.location);
     const browser = await puppeteer.launch({ headless: !this.debugMode });
     this.page = await browser.newPage();
     const page = this.page;
+    const client = await page.target().createCDPSession();
     const context = browser.defaultBrowserContext();
     context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]);
     await page.goto('https://www.facebook.com/marketplace/category/cars', { waitUntil: 'networkidle2' });
@@ -170,33 +174,37 @@ export default class Facebook{
     await page.waitForSelector('#email');
     await page.evaluate(() =>document.querySelector('button[type="Submit"]')&&[...document.querySelectorAll('button[type="Submit"]')].at(-1).click());
     // fill e-mail form value and wait 1s
+    console.log("Writing email");
     await page.evaluate((val) => email.value = val, this.email);
-    await new Promise(r => setTimeout(r, 10000));
+    await new Promise(r => setTimeout(r, 2000));
     /* await page.screenshot({ path: './Screens/email.png' }); */
     // fill password form value and wait 1s
+    console.log("Writing password");
     await page.evaluate((val) => pass.value = val, this.password);
-    await new Promise(r => setTimeout(r, 10000));
+    await new Promise(r => setTimeout(r, 2000));
     /* await page.screenshot({ path: './Screens/password.png' }); */
     //send filled form and process the login
     await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
+    console.log(chalk.bgGreen("Login Success!"));
     await page.waitForNavigation({waitUntil: 'networkidle2'});
     for (let car of dataSearch) {
-      const page = await browser.newPage();
-      await page.goto(car.url, { waitUntil : 'networkidle2'});
-      try{
-        const cookieButton = await page.$x('//*[@id="facebook"]/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[1]/div[2]/div/div[1]/div/span/span')
-        cookieButton[0].click()
+      try {
+        await new Promise(r => setTimeout(r, 1000));
+        const userPage = await browser.newPage();
+        await this.extractUserData(userPage, car);
+      } catch (err) {
+        try {
+          await new Promise(r => setTimeout(r, 1000));
+          const userPage = await browser.newPage();
+          await this.extractUserData(userPage, car);
+        } catch (err) {
+          console.log("Failed to evaluate data:", err);
+        }
       }
-      catch(err){
-      }
-      const elHandler = await page.$x('/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div/div/div/div[2]/div/div[2]/div/div[1]/div[1]/div[7]/div/div[2]/div[1]/div/div/div/div/div[2]/div/div/div/div/span/span/div/div/a')
-      let user_name = await page.evaluate(el => el.textContent, elHandler[0]);
-      let user_id = (await page.evaluate(el => el.href, elHandler[0])).split("/")[5];
-      car.advertiser_name = user_name;
-      car.advertiser_phone = user_id;
-      }
+    }    
     await browser.close();
     try {
+      console.log(chalk.yellow("Starting creation of result complete json!"));
       await fsPromises.writeFile(`Temp/${tempFileName}`, '[]');
       await fsPromises.writeFile(`Temp/${tempFileName}`, JSON.stringify(dataSearch));
       console.log(chalk.green("✅ Correctly created ", tempFileName));
@@ -215,6 +223,32 @@ export default class Facebook{
       return [];
     }
   }
+
+  async extractUserData(userPage, car) {
+    console.log(chalk.bgGreen("Open New Browser Page to get User Data..."));
+    await userPage.goto(car.url, { waitUntil: 'networkidle2', timeout: 60000 });
+    try {
+      const userCookieButton = await userPage.$x('//*[@id="facebook"]/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[1]/div[2]/div/div[1]/div/span/span');
+      userCookieButton[0].click();
+    } catch (err) {
+    }
+    try {
+      const elHandler = await userPage.$x('/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div/div/div/div[2]/div/div[2]/div/div[1]/div[1]/div[7]/div/div[2]/div[1]/div/div/div/div/div[2]/div/div/div/div/span/span/div/div/a');
+      let user_name = await userPage.evaluate(el => el.textContent, elHandler[0]);
+      let user_id = (await userPage.evaluate(el => el.href, elHandler[0])).split("/")[5];
+      car.advertiser_name = user_name;
+      car.advertiser_phone = user_id;
+    } catch (err) {
+      console.log(chalk.bgRed("⚠️ User Not Available, Maybe the URL was removed!"));
+      car.advertiser_name = "Non Disponibile";
+      car.advertiser_phone = "Non Disponibile";
+    }
+    if (!userPage.isClosed()) {
+      console.log(chalk.bgYellow("Closing URL of Announcement..."));
+      await userPage.close();
+    }
+  }
+  
 
 
 
