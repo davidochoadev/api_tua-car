@@ -198,9 +198,9 @@ export default class Facebook{
     await browser.close();
     try {
       await fsPromises.writeFile(`Temp/${tempFileName}`, '[]');
-      await fsPromises.writeFile(`Temp/${tempFileName}`, JSON.stringify(carData));
+      await fsPromises.writeFile(`Temp/${tempFileName}`, JSON.stringify(dataSearch));
       console.log(chalk.green("✅ Correctly created ", tempFileName));
-      return {success: `✅ Correctly created ${tempFileName}, search length is: ${carData.length}`}
+      return {success: `✅ Correctly created ${tempFileName}, search length is: ${dataSearch.length}`}
     } catch (err) {
       return {error: 'Error on writing tempFileName :', err }
     }
