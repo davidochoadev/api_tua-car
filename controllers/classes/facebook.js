@@ -9,15 +9,16 @@ const service = new facebookApiService();
 
 export default class Facebook{
 
-   constructor(debugMode=0,scrollCount, email, password){
+   constructor(debugMode=0,scrollCount, email, password, location){
       this.debugMode = debugMode
       this.scrollCount = scrollCount
       this.email = email
       this.password = password
+      this.location = location
    }
 
-   async search(location) {
-      let tempFileName = `fb_${location}_result.json`;  
+   async search() {
+      let tempFileName = `fb_${this.location}_result.json`;  
       console.log(chalk.yellow("🔍 Starting Search on Facebook!"));
       const browser = await puppeteer.launch({ headless: !this.debugMode });
       this.page = await browser.newPage();
@@ -33,22 +34,25 @@ export default class Facebook{
       await page.waitForSelector('#email');
       // click Accept cookies button if it exist
       await page.evaluate(() =>document.querySelector('button[type="Submit"]')&&[...document.querySelectorAll('button[type="Submit"]')].at(-1).click());
-      // fill in and submit the form
+      // fill e-mail form value and wait 1s
       await page.evaluate((val) => email.value = val, this.email);
       await new Promise(r => setTimeout(r, 10000));
-      await page.screenshot({ path: './Screens/email.png' });
+      /* await page.screenshot({ path: './Screens/email.png' }); */
+      // fill password form value and wait 1s
       await page.evaluate((val) => pass.value = val, this.password);
       await new Promise(r => setTimeout(r, 10000));
-      await page.screenshot({ path: './Screens/password.png' });
+      /* await page.screenshot({ path: './Screens/password.png' }); */
+      //send filled form and process the login
       await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
       await page.waitForNavigation({waitUntil: 'networkidle2'});
-      await page.screenshot({ path: './Screens/login_completed.png' });
+      /* await page.screenshot({ path: './Screens/login_completed.png' }); */
       console.log(chalk.bgGreen("Login Completed!"));
-      await page.goto(`https://www.facebook.com/marketplace/${location}/cars/`, { waitUntil: 'networkidle2' });
-      await page.screenshot({ path: './Screens/on_location.png' });
-      console.log(`Searching on ${location}!`);
+      //Go to marketplace with custom location to find cars;
+      await page.goto(`https://www.facebook.com/marketplace/${this.location}/cars/`, { waitUntil: 'networkidle2' });
+      /* await page.screenshot({ path: './Screens/on_location.png' }); */
+      console.log(`Searching on ${this.location}!`);
       await page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]');
-      await page.screenshot({ path: './Screens/wait_for_path.png' });
+      /* await page.screenshot({ path: './Screens/wait_for_path.png' }); */
       const card_div_path = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div/div[2]/div';
       console.log('Page downloaded');
 /*       var count = parseInt(this.scrollCount);
@@ -136,20 +140,74 @@ export default class Facebook{
       })
   }
 
-  getContacts = async (link, browser) => {
-   const page = await browser.newPage()
-   await page.goto(link, { waitUntil: 'networkidle2' });
-   try{
-       const cookieButton = await page.$x('//*[@id="facebook"]/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[1]/div[2]/div/div[1]/div/span/span')
-       cookieButton[0].click()
-   }
-   catch(err){
-   }
-   const elHandler = await page.$x('/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div/div/div/div[2]/div/div[2]/div/div[1]/div[1]/div[7]/div/div[2]/div[1]/div/div/div/div/div[2]/div/div/div/div/span/span/div/div/a')
-   let user_name = await page.evaluate(el => el.textContent, elHandler[0]);
-   let user_id = (await page.evaluate(el => el.href, elHandler[0])).split("/")[5];
-   page.close()
-   return {user_id, user_name}
-}
+    getContacts = async (link, browser) => {
+    const page = await browser.newPage()
+    await page.goto(link, { waitUntil: 'networkidle2' });
+    try{
+        const cookieButton = await page.$x('//*[@id="facebook"]/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[1]/div[2]/div/div[1]/div/span/span')
+        cookieButton[0].click()
+    }
+    catch(err){
+    }
+    const elHandler = await page.$x('/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div/div/div/div[2]/div/div[2]/div/div[1]/div[1]/div[7]/div/div[2]/div[1]/div/div/div/div/div[2]/div/div/div/div/span/span/div/div/a')
+    let user_name = await page.evaluate(el => el.textContent, elHandler[0]);
+    let user_id = (await page.evaluate(el => el.href, elHandler[0])).split("/")[5];
+    page.close()
+    return {user_id, user_name}
+  }
+
+  async clusterUserDataCollection() {
+    const dataSearch = await this.getDatasFromTempResults(this.location);
+    const browser = await puppeteer.launch({ headless: !this.debugMode });
+    this.page = await browser.newPage();
+    const page = this.page;
+    const context = browser.defaultBrowserContext();
+    context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]);
+    await page.goto('https://www.facebook.com/marketplace/category/cars', { waitUntil: 'networkidle2' });
+    const cookieButton = await page.$x('/html/body/div[3]/div[2]/div/div/div/div/div[4]/button[1]')
+    cookieButton[0]?.click();
+    await page.waitForSelector('#email');
+    await page.evaluate(() =>document.querySelector('button[type="Submit"]')&&[...document.querySelectorAll('button[type="Submit"]')].at(-1).click());
+    // fill e-mail form value and wait 1s
+    await page.evaluate((val) => email.value = val, this.email);
+    await new Promise(r => setTimeout(r, 10000));
+    /* await page.screenshot({ path: './Screens/email.png' }); */
+    // fill password form value and wait 1s
+    await page.evaluate((val) => pass.value = val, this.password);
+    await new Promise(r => setTimeout(r, 10000));
+    /* await page.screenshot({ path: './Screens/password.png' }); */
+    //send filled form and process the login
+    await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
+    await page.waitForNavigation({waitUntil: 'networkidle2'});
+    for (let car of dataSearch) {
+      const page = await browser.newPage();
+      await page.goto(car.url, { waitUntil : 'networkidle2'});
+      try{
+        const cookieButton = await page.$x('//*[@id="facebook"]/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[1]/div[2]/div/div[1]/div/span/span')
+        cookieButton[0].click()
+      }
+      catch(err){
+      }
+      const elHandler = await page.$x('/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div/div/div/div[2]/div/div[2]/div/div[1]/div[1]/div[7]/div/div[2]/div[1]/div/div/div/div/div[2]/div/div/div/div/span/span/div/div/a')
+      let user_name = await page.evaluate(el => el.textContent, elHandler[0]);
+      let user_id = (await page.evaluate(el => el.href, elHandler[0])).split("/")[5];
+      car.advertiser_name = user_name;
+      car.advertiser_phone = user_id;
+      }
+    await browser.close();
+    return dataSearch;
+  }
+
+  async getDatasFromTempResults(location) {
+    try {
+      const res = await fsPromises.readFile(`Temp/fb_${location}_result.json`, { encoding: "utf-8"});
+      const parsedData = JSON.parse(res);
+      return parsedData;
+    } catch (err) {
+      return [];
+    }
+  }
+
+  
 
 }
