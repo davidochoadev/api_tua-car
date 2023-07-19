@@ -137,8 +137,8 @@ export default class Facebook{
     this.page = await browser.newPage();
     const page = this.page;
     await page.setExtraHTTPHeaders({
-      'X-Requested-With': 'XMLHttpRequest'
-    });
+    'X-Requested-With': 'XMLHttpRequest'
+  });
     const client = await page.target().createCDPSession();
     const context = browser.defaultBrowserContext();
     context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]);
@@ -226,7 +226,14 @@ export default class Facebook{
   async search() {
     let tempFileName = `fb_${this.location}_result.json`;  
     console.log(chalk.yellow("🔍 Starting Search on Facebook!"));
-    const browser = await puppeteer.launch({ headless: !this.debugMode });
+    const browser = await puppeteer.launch({ headless: 1,
+      args: [
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote",
+      ],
+     });
     this.page = await browser.newPage();
     const page = this.page;
     const client = await page.target().createCDPSession();
