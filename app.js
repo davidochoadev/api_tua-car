@@ -4,14 +4,14 @@ import corsOptions from "./config/corsOptions.js";
 import { performSearch } from "./controllers/searchController.js";
 import { performData } from "./controllers/dataController.js";
 import { removeData } from "./controllers/removeController.js";
-import { searchOnFacebook, searchUserDataOnFacebook } from "./controllers/facebookController.js";
 import fs from "fs";
 import path from "path";
+import leadsApiRouter from "./routes/api/leadsapi.js";
+import facebookApiRouter from "./routes/api/facebookapi.js";
 
 
 const app = express();
 app.use(express.json());
-
 app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
@@ -95,10 +95,14 @@ app.get("/export/export_vda.csv", (req, res) => {
 });
 
 app.get("/search", performSearch);
-app.get("/facebook", searchOnFacebook);
-app.get("/facebookData", searchUserDataOnFacebook);
 app.get("/data", performData);
 app.get("/remove", removeData);
+
+/* app.get("/facebook", searchOnFacebook);
+app.get("/facebookData", searchUserDataOnFacebook); */
+
+app.use("/api", leadsApiRouter);
+app.use("/facebook", facebookApiRouter);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {

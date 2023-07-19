@@ -21,7 +21,7 @@ export class facebookApiService {
       })
    }
 
-   createFacebookCar(urn, subject, price, mileage_scalar, register_year, geo_region, geo_info, geo_town, url, advertiser_name, advertiser_phone) {
+   createFacebookCar(urn, subject, price, mileage_scalar, register_year, geo_region, geo_info, geo_town, url) {
       let carPrice
       if (price === NaN || undefined || null) {
          carPrice = 0;
@@ -39,8 +39,16 @@ export class facebookApiService {
             geo_provincia: geo_info || "",
             geo_town: geo_town,
             url: url,
-            advertiser_name: advertiser_name,
-            advertiser_phone: advertiser_phone,
+         }
+      })
+   }
+
+   deleteExpiredCars(date) {
+      return this.prisma.cars_facebook.deleteMany({
+         where: {
+            date_remote: {
+               lte: date,
+            }
          }
       })
    }

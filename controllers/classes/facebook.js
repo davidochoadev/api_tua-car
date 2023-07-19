@@ -17,7 +17,7 @@ export default class Facebook{
       this.location = location
    }
 
-   async search() {
+/*    async search() {
       let tempFileName = `fb_${this.location}_result.json`;  
       console.log(chalk.yellow("🔍 Starting Search on Facebook!"));
       const browser = await puppeteer.launch({ headless: !this.debugMode });
@@ -38,49 +38,20 @@ export default class Facebook{
        console.log("Writing email");
       await page.evaluate((val) => email.value = val, this.email);
       await new Promise(r => setTimeout(r, 2000));
-      /* await page.screenshot({ path: './Screens/email.png' }); */
       // fill password form value and wait 1s
        console.log("Writing password");
       await page.evaluate((val) => pass.value = val, this.password);
       await new Promise(r => setTimeout(r, 2000));
-      /* await page.screenshot({ path: './Screens/password.png' }); */
       //send filled form and process the login
       await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
       await page.waitForNavigation({waitUntil: 'networkidle2'});
-      /* await page.screenshot({ path: './Screens/login_completed.png' }); */
       console.log(chalk.bgGreen("Login Completed!"));
       //Go to marketplace with custom location to find cars;
       await page.goto(`https://www.facebook.com/marketplace/${this.location}/cars/`, { waitUntil: 'networkidle2' });
-      /* await page.screenshot({ path: './Screens/on_location.png' }); */
       console.log(`Searching on ${this.location}!`);
       await page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]');
-      /* await page.screenshot({ path: './Screens/wait_for_path.png' }); */
       const card_div_path = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div/div[2]/div';
       console.log('Page downloaded');
-/*       var count = parseInt(this.scrollCount);
-      while( count > 0){
-            console.log("Count > 0 :", count);
-         await this.page.evaluate(() => {
-            return new Promise((resolve, reject) => {
-                  var totalHeight = 0;
-                  var distance = window.innerHeight;
-                  var timer = setInterval(() => {
-                    var scrollHeight = document.body.scrollHeight;
-                    window.scrollBy(0, distance);
-                    totalHeight += distance;
-            
-                    if (totalHeight >= scrollHeight) {
-                      clearInterval(timer);
-                      resolve();
-                    }
-                  }, 100);
-                });
-              });
-            await this.autoScroll();
-            await page.waitForNetworkIdle({ timeout: 60000 });
-            console.log(`Scroll number: ${this.scrollCount - count}`)
-            count--
-        } */
       const cars = await page.$x(card_div_path);
       const carData = []
       for (let car of cars) {
@@ -89,15 +60,14 @@ export default class Facebook{
          try{
               const urn = (await car?.$eval('a', el => el?.href)).split("/")[5];
               const available = await service.findUrnByUrn(urn);
-              /* !duplicates.includes(urn) */
               if (available === null) {
               console.log(chalk.green("New Item Found!"));
               // Grabba i dati necessari
               currentCar["urn"] = (await car?.$eval('a', el => el?.href)).split("/")[5];
               currentCar["url"] = await car?.$eval('a', el => el?.href);
-/*               const userData = await this.getContacts(currentCar.url, browser);
-              currentCar["advertiser_name"] = userData.user_name
-              currentCar["advertiser_phone"] = userData.user_id */
+              //const userData = await this.getContacts(currentCar.url, browser);
+              //currentCar["advertiser_name"] = userData.user_name
+              //currentCar["advertiser_phone"] = userData.user_id
               currentCar["price"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent.replaceAll("€",'').replaceAll(".", ""))).trimStart().replace(" ", "-")
               currentCar["register_year"] = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[1]?.textContent.slice(0,4))
               currentCar["subject"] = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[1]?.textContent.slice(4).replace(" ", ""))
@@ -121,7 +91,7 @@ export default class Facebook{
         } catch (err) {
           return {error: 'Error on writing tempFileName :', err }
         }
-    }
+    } */
 
     autoScroll = async () => {
       await this.page.evaluate(async () => {
@@ -207,7 +177,7 @@ export default class Facebook{
       console.log(chalk.yellow("Starting creation of result complete json!"));
       await fsPromises.writeFile(`Temp/${tempFileName}`, '[]');
       await fsPromises.writeFile(`Temp/${tempFileName}`, JSON.stringify(dataSearch));
-      console.log(chalk.green("✅ Correctly created ", tempFileName));
+      console.log(chalk.green(`✅ Correctly created ${tempFileName}, search length is: ${dataSearch.length}`));
       return {success: `✅ Correctly created ${tempFileName}, search length is: ${dataSearch.length}`}
     } catch (err) {
       return {error: 'Error on writing tempFileName :', err }
@@ -249,7 +219,120 @@ export default class Facebook{
     }
   }
   
+  async search() {
+    let tempFileName = `fb_${this.location}_result.json`;  
+    console.log(chalk.yellow("🔍 Starting Search on Facebook!"));
+    const browser = await puppeteer.launch({ headless: !this.debugMode });
+    this.page = await browser.newPage();
+    const page = this.page;
+    const client = await page.target().createCDPSession();
+    const context = browser.defaultBrowserContext();
+    await page.setViewport({ width: 800, height: 1000 });
+    context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]);
+    //Go to marketplace with custom location to find cars;
+    await page.goto(`https://www.facebook.com/marketplace/${this.location}/cars/`, { waitUntil: 'networkidle2' });
+    const cookieButton = await page.$x('/html/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[2]/div[1]/div')
+    cookieButton[0]?.click();
+    /* await page.screenshot({ path: './Screens/on_location.png' }); */
+    console.log(`Searching on ${this.location}!`);
+    await page.waitForSelector('div[aria-label="Collection of Marketplace items"]');
+    await page.screenshot({ path: './Screens/test_2.png' });
+    /* await page.screenshot({ path: './Screens/wait_for_path.png' }); */
+    const card_div_path = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div/div[2]/div';
+    console.log('Page downloaded');
+    const positionBtn = await page.$x('/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div[1]/div');
+/*     const elementHandle = positionBtn[0];
+    const elementText = await page.evaluate(el => el.textContent, elementHandle);
+    console.log(elementText); */
+    positionBtn[0]?.click();
+    await new Promise(r => setTimeout(r, 1000));
+    const range = await page.$x('/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/div[3]/div/div[1]/div[3]/div/div/label/div/div[1]/div/div');
+    range[0]?.click();
+    /* await page.keyboard.type('500', {delay: 500}); */
+    await page.keyboard.type('500', {delay: 500});
+    await new Promise(r => setTimeout(r, 1000));
+    await page.screenshot({ path: './Screens/test_5.png' });
+    const viewport = await page.viewport();
+    const centerX = viewport.width / 2;
+    const centerY = 820;
+    // Esegui un clic del mouse su 500km
+    await page.mouse.click(centerX, centerY);
+    const submitPositionBtn = await page.$x('/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/div[4]/div/div[2]/div/div/div/div/div');
+    submitPositionBtn[0]?.click();
+    await new Promise(r => setTimeout(r, 1000));
+    await page.screenshot({ path: './Screens/position.png' });
+    await page.waitForSelector('div[aria-label="Collection of Marketplace items"]');
+    const card_div_path2 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div/div[2]/div';
+    var count = 2/* parseInt(this.scrollCount) */;
+    while( count > 0){
+       await this.page.evaluate(() => {
+          return new Promise((resolve, reject) => {
+                var totalHeight = 0;
+                var distance = window.innerHeight;
+                var timer = setInterval(() => {
+                  var scrollHeight = document.body.scrollHeight;
+                  window.scrollBy(0, distance);
+                  totalHeight += distance;
+          
+                  if (totalHeight >= scrollHeight) {
+                    clearInterval(timer);
+                    resolve();
+                  }
+                }, 100);
+              });
+            });
+/*           await this.autoScroll(); */
+          await page.waitForNetworkIdle({ timeout: 60000 });
+          console.log(`Scroll number: ${this.scrollCount - count}`)
+          count--
+      }
+    const cars = await page.$x(card_div_path2);
+    console.log(cars);
+    const carData = []
+    for (let car of cars) {
+       // Prendiamo le informazioni dell'annuncio
+       var currentCar = {}
+       try{
+            const urn = (await car?.$eval('a', el => el?.href)).split("/")[5];
+            const available = await service.findUrnByUrn(urn);
+            /* !duplicates.includes(urn) */
+            if (available === null) {
+            console.log(chalk.green("New Item Found!"));
+            // Grabba i dati necessari
+            currentCar["urn"] = (await car?.$eval('a', el => el?.href)).split("/")[5];
+            currentCar["url"] = await car?.$eval('a', el => el?.href);
+            const price = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent);
+            const pattern = /\d+,\d+/;
+            const match = price.match(pattern);
+            currentCar["price"] = match[0].replaceAll("€",'').replaceAll(",", "");
+            /* currentCar["price"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent.replaceAll("€",'').replaceAll(",", ""))).trimStart().replace(" ", "-") */
+            currentCar["register_year"] = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[1]?.textContent.slice(0,4))
+            currentCar["subject"] = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[1]?.textContent.slice(4).replace(" ", ""))
+            currentCar["geo_town"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[2]?.textContent)).trim().split(",")[0].trim()
+            currentCar["geo_region"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[2]?.textContent)).trim().split(",")[1].trim()
+            currentCar["mileage_scalar"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[3]?.textContent)).trim().replaceAll("km", "").replaceAll(".", "").trim().replaceAll("K","").trim() * 1000;
+            carData.push(currentCar);
+            } else {
+              console.log(chalk.bgRed("Already Present in the Database"));
+            }
+          }
+          catch(err){
+          }
+      }
+      await browser.close();
+      try {
+        await fsPromises.writeFile(`Temp/${tempFileName}`, '[]');
+        await fsPromises.writeFile(`Temp/${tempFileName}`, JSON.stringify(carData));
+        console.log(chalk.green("✅ Correctly created ", tempFileName));
+        return {success: `✅ Correctly created ${tempFileName}, search length is: ${carData.length}`}
+      } catch (err) {
+        return {error: 'Error on writing tempFileName :', err }
+      }
+  }
 
 
 
 }
+
+
+// x1i10hfl xjbqb8w x6umtig x1b1mbwd xaqea5y xav7gou x1ypdohk xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r xexx8yu x4uap5 x18d9i69 xkhd6sd x16tdsg8 x1hl2dhg xggy1nq x1o1ewxj x3x9cwd x1e5q0jg x13rtm0m x87ps6o x1lku1pv x1a2a7pz x9f619 x3nfvp2 xdt5ytf xl56j7k x1n2onr6 xh8yej3
