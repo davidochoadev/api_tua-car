@@ -132,7 +132,13 @@ export default class Facebook{
     console.log(chalk.bgCyan("Starting UserData Collection from results!"));
     let tempFileName = `fb_${this.location}_completed_result.json`;  
     const dataSearch = await this.getDatasFromTempResults(this.location);
-    const browser = await puppeteer.launch({ headless: !this.debugMode });
+    const browser = await puppeteer.launch({ headless: !this.debugMode,
+      args: [
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote",
+      ], });
     this.page = await browser.newPage();
     const page = this.page;
     const client = await page.target().createCDPSession();
