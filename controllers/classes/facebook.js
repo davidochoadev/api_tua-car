@@ -132,15 +132,13 @@ export default class Facebook{
     console.log(chalk.bgCyan("Starting UserData Collection from results!"));
     let tempFileName = `fb_${this.location}_completed_result.json`;  
     const dataSearch = await this.getDatasFromTempResults(this.location);
-    const browser = await puppeteer.launch({ headless: !this.debugMode,
-      args: [
-        "--disable-setuid-sandbox",
-        "--no-sandbox",
-        "--single-process",
-        "--no-zygote",
-      ], });
+    const browser = await puppeteer.launch({ headless: !this.debugMode
+     });
     this.page = await browser.newPage();
     const page = this.page;
+    await page.setExtraHTTPHeaders({
+      'X-Requested-With': 'XMLHttpRequest'
+    });
     const client = await page.target().createCDPSession();
     const context = browser.defaultBrowserContext();
     context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]);
