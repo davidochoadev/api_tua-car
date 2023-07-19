@@ -231,6 +231,7 @@ export default class Facebook{
     context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]);
     //Go to marketplace with custom location to find cars;
     await page.goto(`https://www.facebook.com/marketplace/${this.location}/cars/`, { waitUntil: 'networkidle2' });
+    await page.screenshot({ path: './Screens/test_1.png' });
     const cookieButton = await page.$x('/html/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[2]/div[1]/div')
     cookieButton[0]?.click();
     /* await page.screenshot({ path: './Screens/on_location.png' }); */
