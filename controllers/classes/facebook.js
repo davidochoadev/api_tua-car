@@ -238,7 +238,7 @@ export default class Facebook{
     const page = this.page;
     const client = await page.target().createCDPSession();
     const context = browser.defaultBrowserContext();
-    await page.setViewport({ width: 800, height: 1000 });
+    await page.setViewport({ width: 1600, height: 1000 });
     context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]);
     //Go to marketplace with custom location to find cars;
     await this.login(page);
@@ -275,7 +275,7 @@ export default class Facebook{
     await new Promise(r => setTimeout(r, 1000));
     const card_div_path2 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div/div[2]/div';
     await page.screenshot({ path: './Screens/position_before_scroll.png' });
-    var count = 1/* parseInt(this.scrollCount) */;
+    var count = 0/* parseInt(this.scrollCount) */;
     while( count > 0){
 /*        await this.page.evaluate(() => {
           return new Promise((resolve, reject) => {
@@ -294,7 +294,7 @@ export default class Facebook{
               });
             }); */
           await this.autoScroll();
-          await page.waitForNetworkIdle({ timeout: 60000 });
+/*           await page.waitForNetworkIdle({ timeout: 60000 }); */
           console.log(`Scroll number: ${this.scrollCount - count}`)
           count--
       }
