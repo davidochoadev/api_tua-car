@@ -314,16 +314,15 @@ export default class Facebook{
             // Grabba i dati necessari
             currentCar["urn"] = (await car?.$eval('a', el => el?.href)).split("/")[5];
             currentCar["url"] = await car?.$eval('a', el => el?.href);
-            const price = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent);
-            const pattern = /\d+,\d+/;
-            const match = price.match(pattern);
-            currentCar["price"] = match[0].replaceAll("€",'').replaceAll(",", "");
-            /* currentCar["price"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent.replaceAll("€",'').replaceAll(",", ""))).trimStart().replace(" ", "-") */
+            //const userData = await this.getContacts(currentCar.url, browser);
+            //currentCar["advertiser_name"] = userData.user_name
+            //currentCar["advertiser_phone"] = userData.user_id
+            currentCar["price"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent.replaceAll("€",'').replaceAll(".", ""))).trimStart().replace(" ", "-")
             currentCar["register_year"] = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[1]?.textContent.slice(0,4))
             currentCar["subject"] = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[1]?.textContent.slice(4).replace(" ", ""))
             currentCar["geo_town"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[2]?.textContent)).trim().split(",")[0].trim()
             currentCar["geo_region"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[2]?.textContent)).trim().split(",")[1].trim()
-            currentCar["mileage_scalar"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[3]?.textContent)).trim().replaceAll("km", "").replaceAll(".", "").trim().replaceAll("K","").trim() * 1000;
+            currentCar["mileage_scalar"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[3]?.textContent)).trim().replaceAll("km", "").replaceAll(".", "").trim()
             carData.push(currentCar);
             } else {
               console.log(chalk.bgRed("Already Present in the Database"));
