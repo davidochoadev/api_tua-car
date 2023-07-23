@@ -275,7 +275,7 @@ export default class Facebook{
     await new Promise(r => setTimeout(r, 1000));
     const card_div_path2 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div/div[2]/div';
     await page.screenshot({ path: './Screens/position_before_scroll.png' });
-    var count = 10/* parseInt(this.scrollCount) */;
+    var count = 1/* parseInt(this.scrollCount) */;
     while( count > 0){
 /*        await this.page.evaluate(() => {
           return new Promise((resolve, reject) => {
