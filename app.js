@@ -8,6 +8,7 @@ import fs from "fs";
 import path from "path";
 import leadsApiRouter from "./routes/api/leadsapi.js";
 import facebookApiRouter from "./routes/api/facebookapi.js";
+import messengerApiRouter from "./routes/api/messengerApi.js";
 
 
 const app = express();
@@ -103,6 +104,7 @@ app.get("/facebookData", searchUserDataOnFacebook); */
 
 app.use("/api", leadsApiRouter);
 app.use("/facebook", facebookApiRouter);
+app.use("/messenger", messengerApiRouter);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {

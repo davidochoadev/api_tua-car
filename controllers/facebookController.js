@@ -29,7 +29,7 @@ export const searchUserDataOnFacebook = async (req, res) => {
 
 export const deleteOldRecords = async (req,res) => {
    try {
-    const date = new Date(new Date().getTime() - 90 * 24 * 60 * 60 * 1000 + 1)
+    const date = new Date(new Date().getTime())
     await service.deleteExpiredCars(date);
     console.log(chalk.bgGreen("🗑 Database was updated successfully, expired records removed"))
     res.status(200).json({ successful: "🗑 Database was updated successfully, expired records removed"});
@@ -70,7 +70,7 @@ export const saveOnDb = async (req, res) => {
     for (let car of parsedData) {
       const geo_info = await comune.getComune(car.geo_town) || "";
       try {
-        await service.createFacebookCar(car.urn, car.subject, isNaN(car.price) ? 0 : car.price, toString(car.mileage_scalar), car.register_year, car.geo_region, geo_info.provincia, car.geo_town, car.url);
+        await service.createFacebookCar(car.urn, car.subject, isNaN(car.price) ? 0 : car.price, car.mileage_scalar === null ? 0 : car.mileage_scalar.toString() , car.register_year, car.geo_region, geo_info.provincia, car.geo_town, car.url);
         console.log(`Element ${car.subject} added to database`);
         correct++
       }

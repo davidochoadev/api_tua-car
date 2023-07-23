@@ -241,43 +241,43 @@ export default class Facebook{
     await page.setViewport({ width: 800, height: 1000 });
     context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]);
     //Go to marketplace with custom location to find cars;
+    await this.login(page);
     await page.goto(`https://www.facebook.com/marketplace/${this.location}/cars/`, { waitUntil: 'networkidle2' });
-    await page.screenshot({ path: './Screens/test_1.png' });
-    const cookieButton = await page.$x('/html/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[2]/div[1]/div')
-    cookieButton[0]?.click();
+    await page.screenshot({ path: './Screens/first_page_after_login_marketplace.png' });
+/*     const cookieButton = await page.$x('/html/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[2]/div[1]/div')
+    cookieButton[0]?.click(); */
     /* await page.screenshot({ path: './Screens/on_location.png' }); */
     console.log(`Searching on ${this.location}!`);
-    await page.waitForSelector('div[aria-label="Collection of Marketplace items"]');
-    await page.screenshot({ path: './Screens/test_2.png' });
+    await page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]');
+    await page.screenshot({ path: './Screens/wait_for_selector.png' });
     /* await page.screenshot({ path: './Screens/wait_for_path.png' }); */
     const card_div_path = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div/div[2]/div';
     console.log('Page downloaded');
-    const positionBtn = await page.$x('/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div[1]/div');
+    //const positionBtn = await page.$x('/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div[1]/div');
 /*     const elementHandle = positionBtn[0];
     const elementText = await page.evaluate(el => el.textContent, elementHandle);
     console.log(elementText); */
-    positionBtn[0]?.click();
-    await new Promise(r => setTimeout(r, 1000));
-    const range = await page.$x('/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/div[3]/div/div[1]/div[3]/div/div/label/div/div[1]/div/div');
-    range[0]?.click();
+    //positionBtn[0]?.click();
+    //await new Promise(r => setTimeout(r, 1000));
+    //const range = await page.$x('/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/div[3]/div/div[1]/div[3]/div/div/label/div/div[1]/div/div');
+    //range[0]?.click();
     /* await page.keyboard.type('500', {delay: 500}); */
-    await page.keyboard.type('500', {delay: 500});
-    await new Promise(r => setTimeout(r, 1000));
-    await page.screenshot({ path: './Screens/test_5.png' });
-    const viewport = await page.viewport();
-    const centerX = viewport.width / 2;
-    const centerY = 820;
+    //await page.keyboard.type('500', {delay: 500});
+    //await new Promise(r => setTimeout(r, 1000));
+    //await page.screenshot({ path: './Screens/test_5.png' });
+    //const viewport = await page.viewport();
+    //const centerX = viewport.width / 2;
+    //const centerY = 820;
     // Esegui un clic del mouse su 500km
-    await page.mouse.click(centerX, centerY);
-    const submitPositionBtn = await page.$x('/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/div[4]/div/div[2]/div/div/div/div/div');
-    submitPositionBtn[0]?.click();
+    //await page.mouse.click(centerX, centerY);
+    //const submitPositionBtn = await page.$x('/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/div[4]/div/div[2]/div/div/div/div/div');
+    //submitPositionBtn[0]?.click();
     await new Promise(r => setTimeout(r, 1000));
-    await page.screenshot({ path: './Screens/position.png' });
-    await page.waitForSelector('div[aria-label="Collection of Marketplace items"]');
     const card_div_path2 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div/div[2]/div';
-    var count = 2/* parseInt(this.scrollCount) */;
+    await page.screenshot({ path: './Screens/position_before_scroll.png' });
+    var count = 10/* parseInt(this.scrollCount) */;
     while( count > 0){
-       await this.page.evaluate(() => {
+/*        await this.page.evaluate(() => {
           return new Promise((resolve, reject) => {
                 var totalHeight = 0;
                 var distance = window.innerHeight;
@@ -292,13 +292,14 @@ export default class Facebook{
                   }
                 }, 100);
               });
-            });
-/*           await this.autoScroll(); */
+            }); */
+          await this.autoScroll();
           await page.waitForNetworkIdle({ timeout: 60000 });
           console.log(`Scroll number: ${this.scrollCount - count}`)
           count--
       }
-    const cars = await page.$x(card_div_path2);
+    const cars = await page.$x(card_div_path);
+    await page.screenshot({ path: './Screens/position_after_scroll.png' });
     console.log(cars);
     const carData = []
     for (let car of cars) {
@@ -342,8 +343,38 @@ export default class Facebook{
       }
   }
 
+  async login(page) {
+    console.log(chalk.bgYellow("👤 Trying to login"));
+    await page.goto("https://www.facebook.com/login", { waitUntil: 'networkidle2' });
+    await page.screenshot({ path: `./Screens/first_login_page.png` });
+    console.log(chalk.yellow("Authentication in progress..."))
+    await new Promise(r => setTimeout(r, 500));
+    const cookieButton = await page.$x('/html/body/div[3]/div[2]/div/div/div/div/div[4]/button[2]')
+    cookieButton[0]?.click();
+    await page.waitForSelector('#email');
+    await new Promise(r => setTimeout(r, 500));
+    // fill e-mail form value and wait 1s
+    console.log("Writing email");
+    await page.evaluate((val) => email.value = val, this.email);
+    await new Promise(r => setTimeout(r, 2000));
+    await page.screenshot({ path: './Screens/type_of_email.png' });
+    // fill password form value and wait 1s
+    console.log("Writing password");
+    await page.evaluate((val) => pass.value = val, this.password);
+    await new Promise(r => setTimeout(r, 2000));
+    await page.screenshot({ path: './Screens/type_of_psw.png' });
+    await page.evaluate(selector => document.querySelector(selector).click(), 'input[value="Log In"],#loginbutton');
+    await page.waitForNavigation({waitUntil: 'networkidle2'});
+    await page.screenshot({ path: './Screens/login_complete_page.png' });
+    console.log(chalk.bgGreen("Login Completed!"));
 
-
+/*       if (!page.isClosed()) {
+       console.log(chalk.bgMagenta("❌ Closing URL of Login..."));
+       await page.close();
+       return { login : "Login Complete!"}
+    } */
+ }
+  
 }
 
 

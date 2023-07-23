@@ -8,54 +8,6 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model Comune {
-  istat         Int       @id
-  comune        String?   @db.VarChar(255)
-  id_regione    Int       @db.SmallInt
-  sigla_prov    String
-  cap           String?   @db.Char(11)
-  prefisso      String?   @db.VarChar(7)
-  cod_fisco     String?   @db.VarChar(10)
-  superficie    Float?
-  num_residenti Int?
-  Regione       Regione   @relation(fields: [id_regione], references: [cod_reg])
-  Provincia     Provincia @relation(fields: [sigla_prov], references: [sigla])
-
-  @@index([id_regione], map: "Comune_id_regione_fkey")
-  @@index([sigla_prov], map: "Comune_sigla_prov_fkey")
-}
-
-model Provincia {
-  sigla      String   @id @unique @db.VarChar(2)
-  provincia  String?  @db.VarChar(255)
-  superficie Float?
-  residenti  Int?
-  num_comuni Int?
-  id_regione Int      @db.SmallInt
-  Comune     Comune[]
-  Regione    Regione  @relation(fields: [id_regione], references: [cod_reg])
-
-  @@index([id_regione], map: "Provincia_id_regione_fkey")
-}
-
-model Regione {
-  cod_reg       Int         @id @unique @db.SmallInt
-  den_reg       String?     @db.VarChar(50)
-  superficie    Float?
-  num_residenti Int?
-  num_comuni    Int?
-  num_provincie Int?
-  presidente    String?     @db.VarChar(45)
-  cod_istat     String?     @db.VarChar(2)
-  cod_fiscale   String?     @db.VarChar(11)
-  piva          String?     @db.VarChar(11)
-  pec           String?     @db.VarChar(100)
-  sito          String?     @db.VarChar(100)
-  sede          String?     @db.VarChar(255)
-  Comune        Comune[]
-  Provincia     Provincia[]
-}
-
 model cars_autoscout {
   id               Int      @id @default(autoincrement())
   urn              String   @db.VarChar(255)
@@ -98,6 +50,7 @@ model cars_facebook {
   url              String   @db.Text
   advertiser_name  String?  @db.VarChar(128)
   advertiser_phone String?  @db.VarChar(128)
+  contacted        Boolean? @default(false)
 }
 
 model cars_subito {
@@ -286,4 +239,41 @@ model users_throttling {
   expires_at     Int    @db.UnsignedInt
 
   @@index([expires_at], map: "expires_at")
+}
+
+model italy_cities {
+  istat         Int     @id
+  comune        String? @db.VarChar(255)
+  regione       String? @db.VarChar(50)
+  provincia     String? @db.VarChar(2)
+  cap           String? @db.Char(11)
+  prefisso      String? @db.VarChar(7)
+  cod_fisco     String? @db.VarChar(10)
+  superficie    Float?
+  num_residenti Int?
+}
+
+model italy_provincies {
+  sigla      String  @id @db.VarChar(2)
+  provincia  String? @db.VarChar(255)
+  superficie Float?
+  residenti  Int?
+  num_comuni Int?
+  id_regione Int?    @db.SmallInt
+}
+
+model italy_regions {
+  id_regione    Int     @id @db.SmallInt
+  regione       String? @db.VarChar(50)
+  superficie    Float?
+  num_residenti Int?
+  num_comuni    Int?
+  num_provincie Int?
+  presidente    String? @db.VarChar(45)
+  cod_istat     String? @db.VarChar(2)
+  cod_fiscale   String? @db.VarChar(11)
+  piva          String? @db.VarChar(11)
+  pec           String? @db.VarChar(100)
+  sito          String? @db.VarChar(100)
+  sede          String? @db.VarChar(255)
 }
