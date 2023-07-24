@@ -21,13 +21,11 @@ export const regionList = async (req, res) => {
 
 
 export const provsByRegion = async (req, res) => {
-   console.log(req.body.regione);
-   console.log(req.query.regione);
-   if(!req.body.regione && !req.query.regione) {
+   if(!req.query.regione) {
       res.status(500).json({ error: "Nessuna regione inviata!"});
    }
    try {
-      const data = await comune.getProvsByRegion(req.query.regione ? req.query.regione : req.body.regione);
+      const data = await comune.getProvsByRegion(req.query.regione);
       const provinceArray = Promise.all(data.map(async item => {
          let denominazione = await comune.getDenominazioneBySigla(item.provincia);
          let provincia = {}
@@ -36,7 +34,18 @@ export const provsByRegion = async (req, res) => {
          return provincia;
       }))
       res.status(200).json({ provList: await provinceArray });
-    } catch (error) {
+    } catch (err) {
+      res.status(500).json({ error : "Errore nella formulazione della chiamata."});
+    }
+}
+
+export const comuneBySiglaProv = async (req, res) => {
+   console.log(req.query.sigla);
+   try {
+      const data = await comune.getComuniBySiglaProv(req.query.sigla);
+      const comuniArray = data.map(item => item.comune);
+      res.status(200).json({ comuni: comuniArray });
+   } catch (error) {
       console.error("An error occurred:", error);
       res.status(500).json({ error });
     }

@@ -30,6 +30,14 @@ export class locationApiService {
          }
       })
    }
+
+   getComuniBySiglaProv(sigla) {
+      return this.prisma.italy_munic.findMany({
+         where: {
+            provincia: sigla,
+         }
+      })
+   }
    
    getAllComuni() {
       return this.prisma.italy_munic.findMany({
