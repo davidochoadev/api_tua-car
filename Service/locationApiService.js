@@ -8,9 +8,6 @@ export class locationApiService {
    getAllRegions() {
       return this.prisma.italy_munic.groupBy({
       by: ['regione'],
-      _count: {
-         provincia: true,
-      },
       })
    }
 
