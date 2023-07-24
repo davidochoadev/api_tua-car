@@ -11,7 +11,8 @@ const comune = new locationApiService();
 export const regionList = async (req, res) => {
   try {
     const data = await comune.getAllRegions();
-    res.status(200).json({ regionList: data });
+    const regionsArray = data.map(item => item.regione);
+    res.status(200).json({ regionList: regionsArray });
   } catch (error) {
     console.error("An error occurred:", error);
     res.status(500).json({ error });
