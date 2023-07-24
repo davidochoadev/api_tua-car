@@ -2,11 +2,9 @@ import Messenger from "./classes/messenger.js";
 import fsPromises from 'fs/promises'
 import "dotenv/config";
 import { facebookApiService } from '../Service/facebookApiService.js'
-import { comuneApiService } from '../Service/comuneApiService.js';
 import chalk from "chalk";
 
 const service = new facebookApiService();
-const comune = new comuneApiService();
 
 export const sendMessages = async (req, res) => {
   try {
