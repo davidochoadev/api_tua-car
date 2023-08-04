@@ -265,7 +265,7 @@ export default class Facebook{
     const card_div_path4 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div[4]/div[2]/div';
     const card_div_path5 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div[6]/div[2]/div';
     await page.screenshot({ path: './Screens/position_before_scroll.png' });
-    var count = 2 /* parseInt(this.scrollCount) */
+    var count = 4 /* parseInt(this.scrollCount) */
     while( count > 0 ){
        await this.page.evaluate(() => {
           return new Promise((resolve, reject) => {
@@ -306,7 +306,7 @@ export default class Facebook{
             const available = await service.findUrnByUrn(urn);
             /* !duplicates.includes(urn) */
             if (available === null) {
-            console.log(chalk.green("New Item Found!"));
+            
             // Grabba i dati necessari
             currentCar["urn"] = (await car?.$eval('a', el => el?.href)).split("/")[5];
             currentCar["url"] = await car?.$eval('a', el => el?.href);
@@ -315,7 +315,7 @@ export default class Facebook{
             //currentCar["advertiser_phone"] = userData.user_id
             const price = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent))
             /* const price = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent.replaceAll("€",'').replaceAll(",", ""))).trimStart().replace(" ", "-"); */
-            console.log("price", price);
+            
             const pattern = /\€\d{1,3}(?:,\d{3})*(?:\.\d+)?/;
             // Cerchiamo una corrispondenza nel testo utilizzando il pattern regex
             const match = price.match(pattern);

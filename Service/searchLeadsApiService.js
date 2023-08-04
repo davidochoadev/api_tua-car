@@ -210,7 +210,7 @@ export class searchLeadsApiService {
     const updatePromises = [];
   
     for (const lead of leadsFromPlatforms) {
-      console.log("First For of")
+      console.log("First For of");
       const findLeadPromise = this.prisma.lead.findFirst({
         where: {
           urn: lead.urn,
