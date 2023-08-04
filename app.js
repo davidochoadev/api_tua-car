@@ -10,6 +10,7 @@ import leadsApiRouter from "./routes/api/leadsapi.js";
 import facebookApiRouter from "./routes/api/facebookapi.js";
 import messengerApiRouter from "./routes/api/messengerApi.js";
 import locationApiRouter from "./routes/api/locationApi.js";
+import searchLeadsApiRouter from "./routes/api/searchLeadsApi.js";
 
 
 const app = express();
@@ -17,7 +18,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
-    res.status(200).json({ welcome_message: "Server Express di Asta Click!" });
+    res.send("Server Express delle API per i leads di Tua Car");
 });
 
 app.get("/export/export_lombardia.csv", (req, res) => {
@@ -107,6 +108,8 @@ app.use("/api", leadsApiRouter);
 app.use("/facebook", facebookApiRouter);
 app.use("/messenger", messengerApiRouter);
 app.use("/location", locationApiRouter);
+
+app.use("/leads", searchLeadsApiRouter);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {

@@ -1,8 +1,7 @@
 // Qui sono disponibili i controller per le locazioni richiamati all'interno della route:
 // locationApi.js
-import fsPromises from "fs/promises";
+
 import "dotenv/config";
-// import { facebookApiService } from '../Service/facebookApiService.js'
 import { locationApiService } from "../Service/locationApiService.js";
 import chalk from "chalk";
 

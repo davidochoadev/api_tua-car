@@ -60,7 +60,7 @@ export const searchOnFacebook = async (req, res) => {
       location
     );
 
-    const data = await test.search(location);
+    const data = await test.searchWithoutLogin(location);
     res
       .status(200)
       .json({ success: "✅ Success Search on Facebook Marketplace!", data });
@@ -86,7 +86,7 @@ export const saveOnDb = async (req, res) => {
           car.urn,
           car.subject,
           isNaN(car.price) ? 0 : car.price,
-          car.mileage_scalar === null ? 0 : car.mileage_scalar.toString(),
+          car.mileage_scalar === null ? "0" : car.mileage_scalar.toString(),
           car.register_year,
           car.geo_region,
           geo_info.provincia,

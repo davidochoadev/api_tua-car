@@ -93,25 +93,6 @@ export default class Facebook{
         }
     } */
 
-    autoScroll = async () => {
-      await this.page.evaluate(async () => {
-          await new Promise((resolve, reject) => {
-              var totalHeight = 0
-              var distance = window.innerHeight
-              var timer = setInterval(() => {
-                  var scrollHeight = document.body.scrollHeight
-                  window.scrollBy(0, distance)
-                  totalHeight += distance
-  
-                  if(totalHeight => scrollHeight){
-                      clearInterval(timer)
-                      resolve()
-                  }
-              }, 100)
-          })
-      })
-  }
-
     getContacts = async (link, browser) => {
     const page = await browser.newPage()
     await page.goto(link, { waitUntil: 'networkidle2' });
@@ -223,7 +204,7 @@ export default class Facebook{
     }
   }
   
-  async search() {
+  async searchWithoutLogin() {
     let tempFileName = `fb_${this.location}_result.json`;  
     console.log(chalk.yellow("🔍 Starting Search on Facebook!"));
     const browser = await puppeteer.launch({ headless: 1,
@@ -238,46 +219,55 @@ export default class Facebook{
     const page = this.page;
     const client = await page.target().createCDPSession();
     const context = browser.defaultBrowserContext();
-    await page.setViewport({ width: 1600, height: 1000 });
+    await page.setViewport({ width: 800, height: 1000 });
     context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]);
     //Go to marketplace with custom location to find cars;
-    await this.login(page);
+    /* await this.login(page); */
     await page.goto(`https://www.facebook.com/marketplace/${this.location}/cars/`, { waitUntil: 'networkidle2' });
     await page.screenshot({ path: './Screens/first_page_after_login_marketplace.png' });
-/*     const cookieButton = await page.$x('/html/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[2]/div[1]/div')
-    cookieButton[0]?.click(); */
+    const cookieButton = await page.$x('/html/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[2]/div[1]/div');
+    cookieButton[0]?.click();
+/*     const elementHandle = cookieButton[0];
+    const elementText = await page.evaluate(el => el.textContent, elementHandle);
+    console.log(elementText);  */
     /* await page.screenshot({ path: './Screens/on_location.png' }); */
     console.log(`Searching on ${this.location}!`);
-    await page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]');
+    await new Promise(r => setTimeout(r, 1000));
+    /* await page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]'); */
+    await page.waitForSelector('div[aria-label="Collection of Marketplace items"]');
     await page.screenshot({ path: './Screens/wait_for_selector.png' });
+    
     /* await page.screenshot({ path: './Screens/wait_for_path.png' }); */
     const card_div_path = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div/div[2]/div';
     console.log('Page downloaded');
-    //const positionBtn = await page.$x('/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div[1]/div');
+    const positionBtn = await page.$x('/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div[1]/div');
 /*     const elementHandle = positionBtn[0];
     const elementText = await page.evaluate(el => el.textContent, elementHandle);
     console.log(elementText); */
-    //positionBtn[0]?.click();
-    //await new Promise(r => setTimeout(r, 1000));
-    //const range = await page.$x('/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/div[3]/div/div[1]/div[3]/div/div/label/div/div[1]/div/div');
-    //range[0]?.click();
+    positionBtn[0]?.click();
+    await new Promise(r => setTimeout(r, 1000));
+    const range = await page.$x('/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/div[3]/div/div[1]/div[3]/div/div/label/div/div[1]/div/div');
+    range[0]?.click();
     /* await page.keyboard.type('500', {delay: 500}); */
     //await page.keyboard.type('500', {delay: 500});
-    //await new Promise(r => setTimeout(r, 1000));
+    await new Promise(r => setTimeout(r, 1000));
     //await page.screenshot({ path: './Screens/test_5.png' });
-    //const viewport = await page.viewport();
-    //const centerX = viewport.width / 2;
-    //const centerY = 820;
+    const viewport = await page.viewport();
+    const centerX = viewport.width / 2;
+    const centerY = 820;
     // Esegui un clic del mouse su 500km
-    //await page.mouse.click(centerX, centerY);
-    //const submitPositionBtn = await page.$x('/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/div[4]/div/div[2]/div/div/div/div/div');
-    //submitPositionBtn[0]?.click();
+    await page.mouse.click(centerX, centerY);
+    const submitPositionBtn = await page.$x('/html/body/div[1]/div/div[1]/div/div[4]/div/div/div[1]/div/div[2]/div/div/div/div[4]/div/div[2]/div/div/div/div/div');
+    submitPositionBtn[0]?.click();
     await new Promise(r => setTimeout(r, 1000));
     const card_div_path2 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div/div[2]/div';
+    const card_div_path3 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div[2]/div[2]/div';
+    const card_div_path4 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div[4]/div[2]/div';
+    const card_div_path5 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div[6]/div[2]/div';
     await page.screenshot({ path: './Screens/position_before_scroll.png' });
     var count = 2 /* parseInt(this.scrollCount) */
-    while( count > 0){
-/*        await this.page.evaluate(() => {
+    while( count > 0 ){
+       await this.page.evaluate(() => {
           return new Promise((resolve, reject) => {
                 var totalHeight = 0;
                 var distance = window.innerHeight;
@@ -290,15 +280,21 @@ export default class Facebook{
                     clearInterval(timer);
                     resolve();
                   }
-                }, 100);
+                }, 5000);
               });
-            }); */
-          await this.autoScroll();
+            });
+            await page.screenshot({ path: `./Screens/position_after_scroll_${count}.png` });
+          /* await this.autoScroll(); */
 /*           await page.waitForNetworkIdle({ timeout: 60000 }); */
           console.log(`Scroll number: ${this.scrollCount - count}`)
           count--
       }
-    const cars = await page.$x(card_div_path);
+      await new Promise(r => setTimeout(r, 1000));
+    const cars1 = await page.$x(card_div_path2);
+    const cars2 = await page.$x(card_div_path3);
+    const cars3 = await page.$x(card_div_path4);
+    const cars4 = await page.$x(card_div_path5);
+    const cars = cars1.concat(cars2, cars3, cars4);
     await page.screenshot({ path: './Screens/position_after_scroll.png' });
     console.log(cars);
     const carData = []
@@ -317,12 +313,25 @@ export default class Facebook{
             //const userData = await this.getContacts(currentCar.url, browser);
             //currentCar["advertiser_name"] = userData.user_name
             //currentCar["advertiser_phone"] = userData.user_id
-            currentCar["price"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent.replaceAll("€",'').replaceAll(".", ""))).trimStart().replace(" ", "-")
+            const price = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent))
+            /* const price = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[0]?.textContent.replaceAll("€",'').replaceAll(",", ""))).trimStart().replace(" ", "-"); */
+            console.log("price", price);
+            const pattern = /\€\d{1,3}(?:,\d{3})*(?:\.\d+)?/;
+            // Cerchiamo una corrispondenza nel testo utilizzando il pattern regex
+            const match = price.match(pattern);
+            let checkedPrice
+            if (match) {
+              checkedPrice = match[0].replaceAll("€",'').replaceAll(",", "");
+            } else {
+              checkedPrice = null
+            }
+            currentCar["price"] = checkedPrice
             currentCar["register_year"] = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[1]?.textContent.slice(0,4))
             currentCar["subject"] = await car?.$eval('a', el => el?.children[0]?.children[1]?.children[1]?.textContent.slice(4).replace(" ", ""))
             currentCar["geo_town"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[2]?.textContent)).trim().split(",")[0].trim()
             currentCar["geo_region"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[2]?.textContent)).trim().split(",")[1].trim()
-            currentCar["mileage_scalar"] = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[3]?.textContent)).trim().replaceAll("km", "").replaceAll(".", "").trim()
+            const mile = (await car?.$eval('a', el => el?.children[0]?.children[1]?.children[3]?.textContent)).trim().replaceAll("km", "").replaceAll("K", "").trim() * 1000;
+            currentCar["mileage_scalar"] = mile;
             carData.push(currentCar);
             } else {
               console.log(chalk.bgRed("Already Present in the Database"));
@@ -341,6 +350,25 @@ export default class Facebook{
         return {error: 'Error on writing tempFileName :', err }
       }
   }
+
+  autoScroll = async () => {
+    await this.page.evaluate(async () => {
+        await new Promise((resolve, reject) => {
+            var totalHeight = 0
+            var distance = window.innerHeight
+            var timer = setInterval(() => {
+                var scrollHeight = document.body.scrollHeight
+                window.scrollBy(0, distance)
+                totalHeight += distance
+
+                if(totalHeight => scrollHeight){
+                    clearInterval(timer)
+                    resolve()
+                }
+            }, 100)
+        })
+    })
+}
 
   async login(page) {
     console.log(chalk.bgYellow("👤 Trying to login"));
@@ -377,4 +405,3 @@ export default class Facebook{
 }
 
 
-// x1i10hfl xjbqb8w x6umtig x1b1mbwd xaqea5y xav7gou x1ypdohk xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r xexx8yu x4uap5 x18d9i69 xkhd6sd x16tdsg8 x1hl2dhg xggy1nq x1o1ewxj x3x9cwd x1e5q0jg x13rtm0m x87ps6o x1lku1pv x1a2a7pz x9f619 x3nfvp2 xdt5ytf xl56j7k x1n2onr6 xh8yej3

@@ -277,3 +277,60 @@ model italy_regions {
   sito          String? @db.VarChar(100)
   sede          String? @db.VarChar(255)
 }
+
+model UserCRM {
+  id        Int      @id @default(autoincrement())
+  userMail  String   @unique
+  createdAt DateTime @default(now()) @db.DateTime(0)
+  searchs   Search[]
+}
+
+model Search {
+  id        Int             @id @default(autoincrement())
+  annoDa    Int?
+  annoA     Int?
+  kmDa      Int?
+  kmA       Int?
+  createdAt DateTime        @default(now()) @db.DateTime(0)
+  platform  String?
+  userMail  String
+  comuni    String          @db.Text
+  leads     LeadsOnSearch[]
+  user      UserCRM         @relation(fields: [userMail], references: [userMail])
+
+  @@index([userMail], map: "Search_userMail_fkey")
+}
+
+model Lead {
+  id               Int             @id @default(autoincrement())
+  urn              String          @db.VarChar(255) @unique
+  subject          String          @db.Text
+  body             String?         @db.Text
+  date_remote      DateTime        @default(now()) @db.DateTime(0)
+  pollution        String?         @db.VarChar(128)
+  fuel             String?         @db.VarChar(128)
+  vehicle_status   String?         @db.VarChar(128)
+  price            Int             @default(0)
+  mileage_scalar   Int             @default(0)
+  doors            String?         @db.Text
+  register_date    String?         @db.VarChar(128)
+  register_year    Int
+  geo_region       String          @db.VarChar(128)
+  geo_provincia    String          @db.VarChar(128)
+  geo_town         String          @db.VarChar(128)
+  url              String          @db.Text
+  advertiser_name  String?         @db.VarChar(128)
+  advertiser_phone String?         @db.VarChar(128)
+  platform         String?
+  searches         LeadsOnSearch[]
+}
+
+model LeadsOnSearch {
+  searchId Int
+  leadId   Int
+  lead     Lead   @relation(fields: [leadId], references: [id])
+  search   Search @relation(fields: [searchId], references: [id])
+
+  @@id([searchId, leadId])
+  @@index([leadId], map: "LeadsOnSearch_leadId_fkey")
+}

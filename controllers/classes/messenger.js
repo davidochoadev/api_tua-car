@@ -190,7 +190,7 @@ export default class Messenger{
       switch (timeOfDay) {
         case "mattina":
           arrayOfResponse = [
-            "Buongiorno! Mi scuso per la mia curiosità, ma è ancora disponibile?",
+            "Buongiorno! Volevo sapere se fossse ancora disponibile.",
             "Ciao, spero di non disturbarti troppo presto. Potresti confermarmi se l'annuncio è ancora valido?",
             "Buongiorno! Sarei interessato a saperne di più sull'annuncio che ha inserito.",
             "Salve, ho notato l'annuncio che ha inserito e volevo verificare se fosse ancora disponibile.",
