@@ -224,7 +224,7 @@ export default class Facebook{
     //Go to marketplace with custom location to find cars;
     /* await this.login(page); */
     await page.goto(`https://www.facebook.com/marketplace/${this.location}/cars?sortBy=creation_time_descend&DaysSinceListed=1`, { waitUntil: 'networkidle2' });
-    await page.screenshot({ path: './Screens/first_page_after_login_marketplace.png' });
+    await page.screenshot({ path: './Screens/first_screen.png' });
     const cookieButton = await page.$x('/html/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[2]/div[1]');
     cookieButton[0]?.click();
     const elementHandle = cookieButton[0];
@@ -235,7 +235,7 @@ export default class Facebook{
     await new Promise(r => setTimeout(r, 1000));
     /* await page.waitForSelector('div[aria-label="Raccolta di articoli di Marketplace"]'); */
     await page.waitForSelector('div[aria-label="Collection of Marketplace items"]');
-    await page.screenshot({ path: './Screens/wait_for_selector.png' });
+    await page.screenshot({ path: './Screens/after_cookie_btn.png' });
     
     /* await page.screenshot({ path: './Screens/wait_for_path.png' }); */
     const card_div_path = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[5]/div/div[2]/div';
@@ -264,8 +264,8 @@ export default class Facebook{
     const card_div_path3 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div[2]/div[2]/div';
     const card_div_path4 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div[4]/div[2]/div';
     const card_div_path5 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div[6]/div[2]/div';
-    await page.screenshot({ path: './Screens/position_before_scroll.png' });
-    var count = 2 /* parseInt(this.scrollCount) */
+    await page.screenshot({ path: './Screens/setting_500km_before_scroll.png' });
+    var count = 1 /* parseInt(this.scrollCount) */
     while( count > 0 ){
        await this.page.evaluate(() => {
           return new Promise((resolve, reject) => {
@@ -280,7 +280,7 @@ export default class Facebook{
                     clearInterval(timer);
                     resolve();
                   }
-                }, 5000);
+                }, 1000);
               });
             });
             await page.screenshot({ path: `./Screens/position_after_scroll_${count}.png` });
