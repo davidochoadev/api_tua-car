@@ -1,6 +1,6 @@
 import { Router } from "express";
 import express from "express";
-import { searchOnFacebook, deleteOldRecords, saveOnDb } from "../../controllers/facebookController.js";
+import { searchOnFacebook, deleteOldRecords, saveOnDb, loggedSearch } from "../../controllers/facebookController.js";
 
 const facebookApiRouter = express();
 facebookApiRouter.use(express.json());
@@ -11,6 +11,7 @@ facebookApiRouter.get("/", (req, res) => {
 
 facebookApiRouter.get("/delete", deleteOldRecords);
 facebookApiRouter.get("/search", searchOnFacebook);
+facebookApiRouter.get("/loggedSearch", loggedSearch);
 facebookApiRouter.get("/save", saveOnDb);
 
 export default facebookApiRouter ;

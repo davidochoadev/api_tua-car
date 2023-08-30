@@ -71,6 +71,28 @@ export const searchOnFacebook = async (req, res) => {
   }
 };
 
+export const loggedSearch = async (req, res) => {
+  try {
+    const location = req.query.location;
+    const scrollCount = req.query.scroll_count || 0;
+    const test = new Facebook(
+      0,
+      parseInt(scrollCount),
+      process.env.FACEBOOK_EMAIL2,
+      process.env.FACEBOOK_PASSWORD2,
+      location
+    );
+
+    const data = await test.searchWithLogin(location);
+    res
+      .status(200)
+      .json({ success: "✅ Success Search on Facebook Marketplace!", data });
+  } catch (error) {
+    console.error("An error occurred:", error);
+    res.status(500).json({ error: "❌ Error on Facebook Marketplace Search!" });
+  }
+};
+
 export const saveOnDb = async (req, res) => {
   try {
     const location = req.query.location;
