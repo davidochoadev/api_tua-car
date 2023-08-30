@@ -223,13 +223,13 @@ export default class Facebook{
     context.overridePermissions("https://www.facebook.com", ["geolocation", "notifications"]);
     //Go to marketplace with custom location to find cars;
     /* await this.login(page); */
-    await page.goto(`https://www.facebook.com/marketplace/${this.location}/cars/`, { waitUntil: 'networkidle2' });
+    await page.goto(`https://www.facebook.com/marketplace/${this.location}/cars?sortBy=creation_time_descend&DaysSinceListed=1`, { waitUntil: 'networkidle2' });
     await page.screenshot({ path: './Screens/first_page_after_login_marketplace.png' });
-    const cookieButton = await page.$x('/html/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[2]/div[1]/div');
+    const cookieButton = await page.$x('/html/body/div[2]/div[1]/div/div[2]/div/div/div/div[2]/div/div[2]/div[1]');
     cookieButton[0]?.click();
-/*     const elementHandle = cookieButton[0];
+    const elementHandle = cookieButton[0];
     const elementText = await page.evaluate(el => el.textContent, elementHandle);
-    console.log(elementText);  */
+    console.log(elementText); 
     /* await page.screenshot({ path: './Screens/on_location.png' }); */
     console.log(`Searching on ${this.location}!`);
     await new Promise(r => setTimeout(r, 1000));
@@ -265,7 +265,7 @@ export default class Facebook{
     const card_div_path4 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div[4]/div[2]/div';
     const card_div_path5 = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div/div[1]/div[1]/div[2]/div/div/div[6]/div[6]/div[2]/div';
     await page.screenshot({ path: './Screens/position_before_scroll.png' });
-    var count = 4 /* parseInt(this.scrollCount) */
+    var count = 2 /* parseInt(this.scrollCount) */
     while( count > 0 ){
        await this.page.evaluate(() => {
           return new Promise((resolve, reject) => {

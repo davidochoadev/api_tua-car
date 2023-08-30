@@ -8,6 +8,7 @@ import chalk from "chalk";
 const service = new facebookApiService();
 const comune = new locationApiService();
 
+
 export const searchUserDataOnFacebook = async (req, res) => {
   try {
     const location = req.query.location;

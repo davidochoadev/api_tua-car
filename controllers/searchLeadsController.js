@@ -65,6 +65,7 @@ export const createNewSearch = async (req, res) => {
   });
 }
 
+// FUNZIONE PER LA RICERCA DI VETTURE - MANUAL -
 export const searchOnDb = async (req, res) => {
    const { annoDa = "1980" } = req.query;
    const { annoA = new Date().getFullYear().toString() } = req.query;
@@ -72,36 +73,32 @@ export const searchOnDb = async (req, res) => {
    const { kmA = "500000"} = req.query;
    const { comuni } = req.body;
    const { platform } = req.query;
+   const platformMapping = {
+    'facebook': 'cars_facebook',
+    'autoscout': 'cars_autoscout',
+    'subito': 'cars_subito'
+  };
 
    if (!platform) {
     return res.status(400).json({
       error: "⚠️ Missing 'platform' parameter within the query parameters. It's not possible to perform the car search in the database without specifying the platform for the search.",
       platformOptions: ["facebook", "autoscout", "subito"]
     });
-   }
+   } else if (!(platform in platformMapping)) {
+    return res.status(400).json({
+      error: `⚠️ The specified platform '${platform}' is not supported. Supported platforms are: ${Object.keys(platformMapping).join(', ')}.`,
+      platformOptions: Object.keys(platformMapping)
+    });
+  }
 
-   let data;
+   if (!comuni) {
+    return res.status(400).json({
+      error: "⚠️ Missing 'comuni' inside the body. Without a list of comuni It's not possible to perform the car search in the database without specifying the comuni for the search.",
+    })
+  }
 
-   switch (platform) {
-     case 'facebook':
-       // Call the function to get data for Facebook platform
-       console.log("Calling fb");
-       data = await leads.getCarsFromFacebook(comuni, annoDa, annoA, kmDa, kmA);
-       break;
-     case 'autoscout':
-       // Call the function to get data for AutoScout platform
-       data = await leads.getCarsFromAutoScout(comuni, annoDa, annoA, kmDa, kmA);
-       break;
-     case 'subito':
-       // Call the function to get data for Subito platform
-       data = await leads.getCarsFromSubito(comuni, annoDa, annoA, kmDa, kmA);
-       break;
-     default:
-       return res.status(400).json({
-         error: `⚠️ The specified platform '${platform}' is not supported. Supported platforms are: facebook, autoscout, subito.`,
-         platformOptions: ["facebook", "autoscout", "subito"]
-       });
-   }
+  const platformOptions = platformMapping[platform];
+  const data = await leads.getCars(comuni, annoDa, annoA, kmDa, kmA, platformOptions);
 
    res.status(200).json({
       parametriRicerca: { annoDa, annoA, kmDa, kmA, comuni },
@@ -111,6 +108,58 @@ export const searchOnDb = async (req, res) => {
         data,
       },
    });
+};
+
+export const scheduledSearchOnDb = async (req, res) => {
+  const { annoDa = "1980" } = req.query;
+  const { annoA = new Date().getFullYear().toString() } = req.query;
+  const { kmDa = "0" } = req.query;
+  const { kmA = "500000"} = req.query;
+  const { comuni } = req.body;
+  const { platform } = req.query;
+  const { userMail } = req.body;
+  const { ore } = req.body;
+  const platformMapping = {
+    'facebook': 'cars_facebook',
+    'autoscout': 'cars_autoscout',
+    'subito': 'cars_subito'
+  };
+
+  if (!platform) {
+   return res.status(400).json({
+     error: "⚠️ Missing 'platform' parameter within the query parameters. It's not possible to perform the car search in the database without specifying the platform for the search.",
+     platformOptions: ["facebook", "autoscout", "subito"]
+   });
+  } else if (!(platform in platformMapping)) {
+    return res.status(400).json({
+      error: `⚠️ The specified platform '${platform}' is not supported. Supported platforms are: ${Object.keys(platformMapping).join(', ')}.`,
+      platformOptions: Object.keys(platformMapping)
+    });
+  }
+  
+  if (!comuni) {
+    return res.status(400).json({
+      error: "⚠️ Missing 'comuni' inside the body. Without a list of comuni It's not possible to perform the car search in the database without specifying the comuni for the search.",
+    });
+  }
+
+  if (!userMail) {
+    return res.status(400).json({
+      error: "⚠️ Missing 'userMail` inside the body. Without the email of the user it's not possible to perform the scheduled search in the database"
+    });
+  }
+
+  const platformOptions = platformMapping[platform];
+  const data = await leads.getRecentCars(comuni, annoDa, annoA, kmDa, kmA, userMail, platformOptions, parseInt(ore));
+
+  res.status(200).json({
+     parametriRicerca: { annoDa, annoA, kmDa, kmA, comuni },
+     res: {
+       platform: platform,
+       length: data.length,
+       data,
+     },
+  });
 };
 
 export const searchList = async ( req, res ) => {

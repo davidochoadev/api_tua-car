@@ -6,13 +6,11 @@ export class searchLeadsApiService {
     this.prisma = new PrismaClient();
   }
 
-  getCarsFromAutoScout(comuni, annoDa, annoA, kmDa, kmA) {
-    console.log("Get From AutoScout!", comuni, annoDa, annoA, kmDa, kmA)
+  getCars(comuni, annoDa, annoA, kmDa, kmA, platformOptions) {
     const kmDaValue = parseInt(kmDa, 10);
     const kmAValue = parseInt(kmA, 10);
 
-    return this.prisma.cars_autoscout
-      .findMany({
+    return this.prisma[platformOptions].findMany({
         where: {
           geo_town: { in: comuni },
           register_year: {
@@ -33,18 +31,24 @@ export class searchLeadsApiService {
       });
   }
 
-  getCarsFromSubito(comuni, annoDa, annoA, kmDa, kmA) {
-    console.log(kmDa, kmA);
+  getRecentCars(comuni, annoDa, annoA, kmDa, kmA,userMail,platformOptions, ore) {
     const kmDaValue = parseInt(kmDa, 10);
     const kmAValue = parseInt(kmA, 10);
+    if (ore < 1 || ore > 24) {
+      return Promise.reject("Opzione orario non valida");
+    }
 
-    return this.prisma.cars_subito
-      .findMany({
+    const now = new Date();
+    const startTime = new Date(now.getTime() - ore * 3600000); // Converti in millisecondi
+    return this.prisma[platformOptions].findMany({
         where: {
           geo_town: { in: comuni },
           register_year: {
             gte: annoDa,
             lte: annoA,
+          },
+          date_remote: {
+            gte: startTime,
           },
         },
         orderBy: {
@@ -59,34 +63,8 @@ export class searchLeadsApiService {
         });
       });
   }
-
-  getCarsFromFacebook(comuni, annoDa, annoA, kmDa, kmA) {
-    const kmDaValue = parseInt(kmDa, 10);
-    const kmAValue = parseInt(kmA, 10);
-
-    return this.prisma.cars_facebook
-      .findMany({
-        where: {
-          geo_town: { in: comuni },
-          register_year: {
-            gte: annoDa,
-            lte: annoA,
-          },
-        },
-        orderBy: {
-          date_remote: "desc",
-        },
-      })
-      .then((cars) => {
-        // Filtriamo ulteriormente i veicoli in base al campo "mileage_scalar"
-        return cars.filter((car) => {
-          const mileageScalar = parseInt(car.mileage_scalar, 10);
-          return mileageScalar >= kmDaValue && mileageScalar <= kmAValue;
-        });
-      });
-  }
-
-  async createSearch(userMail, annoDa, annoA, kmDa, kmA, comuni, platform) {
+// USED ON OLDER PRISMA.SCHEMA
+/*   async createSearch(userMail, annoDa, annoA, kmDa, kmA, comuni, platform) {
     try {
       const findUserOnLeads = await this.prisma.users.findUnique({
         where: {
@@ -332,5 +310,5 @@ export class searchLeadsApiService {
       totalPages: totalPages,
       leadsList: searchList,
     };
-  }
+  } */
 }
