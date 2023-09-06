@@ -11,6 +11,7 @@ searchLeadsApiRouter.get("/", (req, res) => {
 
 searchLeadsApiRouter.post("/search", searchOnDb);
 searchLeadsApiRouter.post("/scheduledSearch", scheduledSearchOnDb);
+searchLeadsApiRouter.get("/list", searchList);
 /* searchLeadsApiRouter.post("/newSearch", createNewSearch);
 searchLeadsApiRouter.get("/list", searchList);
 searchLeadsApiRouter.get("/listLeads", leadsList); */

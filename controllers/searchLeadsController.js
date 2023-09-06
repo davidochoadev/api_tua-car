@@ -163,15 +163,33 @@ export const scheduledSearchOnDb = async (req, res) => {
 };
 
 export const searchList = async ( req, res ) => {
-  const { userMail } = req.header;
+  const { usermail } = req.headers;
   const { pageNum = "1" } = req.query;
   const { pageSize = "10"} = req.query;
 
-  const list = await leads.getSearchList(userMail, parseInt(pageNum), parseInt(pageSize));
+  if (!usermail) {
+    return res.status(400).json({
+      error: "⚠️ Missing 'userMail' parameter within the header parameters. It's not possible to perform the search list in the database without specifying the userMail for the search."
+    });
+  }
+  
+  const userId = await leads.getUserId(usermail);
+  if (!userId) {
+    return res.status(400).json({
+      error: "La mail dell'utente non esiste nel database di leads.tua-car.it e non è possibile ricavare l'id ed ottenere le liste"
+    })
+  }
+
+  const list = await leads.getSearchList(userId.id, parseInt(pageNum), parseInt(pageSize));
   return res.status(200).json({
-    currentPage : pageNum,
+/*     currentPage : pageNum, */
+/*     totalPages : list.totalPages,
+    list : list.searchList, */
+    userId: userId.id,
+    currentPage : parseInt(pageNum),
     totalPages : list.totalPages,
-    list : list.searchList,
+    list: list.searchList,
+
   });
 }
 

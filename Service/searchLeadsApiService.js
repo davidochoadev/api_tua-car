@@ -69,6 +69,36 @@ export class searchLeadsApiService {
         });
       });
   }
+
+  getUserId(userMail){
+    return this.prisma.users.findFirst({
+      where: {
+        email: userMail
+      }
+    })
+  };
+
+  async getSearchList(userId, pageNum, pageSize){
+    const skip = (pageNum - 1) * pageSize; 
+    const totalCount = await this.prisma.searches.count({
+      where: { user_id : userId },
+    });
+
+    const searchList = await this.prisma.searches.findMany({
+      where: {user_id : userId},
+      orderBy: {
+        search_date: "desc",
+      },
+      skip: skip,
+      take: pageSize,
+    });
+
+    const totalPages = Math.ceil(totalCount / pageSize);
+    return {
+      totalPages: totalPages,
+      searchList: searchList,
+    };
+  }
 // USED ON OLDER PRISMA.SCHEMA
 /*   async createSearch(userMail, annoDa, annoA, kmDa, kmA, comuni, platform) {
     try {
