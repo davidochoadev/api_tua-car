@@ -9,6 +9,7 @@ export class searchLeadsApiService {
   getCars(comuni, annoDa, annoA, kmDa, kmA, platformOptions) {
     const kmDaValue = parseInt(kmDa, 10);
     const kmAValue = parseInt(kmA, 10);
+    const startTime = new Date(now.getTime() - 24 * 3600000); 
 
     return this.prisma[platformOptions].findMany({
         where: {
@@ -16,6 +17,9 @@ export class searchLeadsApiService {
           register_year: {
             gte: annoDa,
             lte: annoA,
+          },
+          date_remote: {
+            gte: startTime,
           },
         },
         orderBy: {
