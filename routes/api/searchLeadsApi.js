@@ -1,6 +1,6 @@
 import { Router } from "express";
 import express from "express";
-import { searchOnDb, createNewSearch, searchList, getLeadsbyLeadsIds, scheduledSearchOnDb } from "../../controllers/searchLeadsController.js";
+import { searchOnDb, createNewSearch, searchList, getLeadsbyLeadsIds, scheduledSearchOnDb, manualSearch } from "../../controllers/searchLeadsController.js";
 
 const searchLeadsApiRouter = express();
 searchLeadsApiRouter.use(express.json());
@@ -13,6 +13,7 @@ searchLeadsApiRouter.post("/search", searchOnDb);
 searchLeadsApiRouter.post("/scheduledSearch", scheduledSearchOnDb);
 searchLeadsApiRouter.get("/list", searchList);
 searchLeadsApiRouter.post("/byLeadsIds", getLeadsbyLeadsIds);
+searchLeadsApiRouter.post("/manualSearch", manualSearch);
 /* searchLeadsApiRouter.post("/newSearch", createNewSearch);
 searchLeadsApiRouter.get("/list", searchList);
 searchLeadsApiRouter.get("/listLeads", leadsList); */

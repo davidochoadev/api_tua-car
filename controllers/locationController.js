@@ -67,7 +67,10 @@ export const comuniByUserMail = async (req, res) => {
     const user = await comune.getUserId(userMail);
     const data = await comune.getUserComuni(user.id);
     const comuniParsed = JSON.parse(data.user_config);
+    const provincia = await comune.getProvByComuni(comuniParsed);
+    console.log("PRovincia: ", provincia)
     res.status(200).json({
+      provincia: provincia,
       comuni: comuniParsed
     });
   } catch (error) {

@@ -247,4 +247,116 @@ export const getLeadsbyLeadsIds = async (req,res) => {
       result: result.leadsList,
     },
  });
+
+
+}
+
+export const manualSearch = async (req,res) => {
+  const { userMail } = req.body;
+  const { search_content } = req.body;
+  const userInformations = await leads.getUserInformations(userMail);
+
+  if (!userMail) {
+    return res.status(400).json({
+      error: "Errore, non hai inserito una userMail valida all'interno del body",
+    });
+  }
+
+  if (!search_content || typeof search_content !== "object") {
+    return res.status(400).json({
+      error: "Errore, search_content deve essere un oggetto valido",
+    });
+  }
+
+  const allowedObjects = ['platform-01', 'platform-02', 'platform-03'];
+  const contentKeys = Object.keys(search_content);
+
+  if (contentKeys.length > 3 || !contentKeys.every(platform => allowedObjects.includes(platform))) {
+    return res.status(400).json({
+      error: "Errore, la struttura di search_content non è valida",
+      allowedObjects: ['platform-01', 'platform-02', 'platform-03']
+    });
+  };
+
+  const allowedChildrenKeys = [
+    "platform",
+    "yearFrom",
+    "yearTo",
+    "mileageFrom",
+    "mileageTo",
+    "geoRegion",
+    "geoProvince",
+    "geoTowns"
+  ];
+
+  const defaultChildValues = {
+    yearFrom: "1980",
+    yearTo: "2023",
+    mileageFrom: "0",
+    mileageTo: "500000",
+    geoRegion: "",
+    geoProvince: "",
+  };
+
+  for (const platform of contentKeys) {
+    let child = search_content[platform];
+
+    if (!child.hasOwnProperty("platform")) {
+      return res.status(400).json({
+        error: `Errore, la chiave 'platform' è obbligatoria in ${platform}`,
+      });
+    }  
+  
+    // Sovrascrivi i valori di default solo per le chiavi presenti nei "children"
+    child = { ...defaultChildValues, ...child };
+  
+    if (!child.hasOwnProperty("geoTowns") || !isObjectWithKeys(child, allowedChildrenKeys)) {
+      return res.status(400).json({
+        error: `Errore, la struttura di ${platform} non è valida`,
+        allowedKeys: allowedChildrenKeys,
+        requiredFields: ["geoTowns"],
+      });
+    }
+  }
+  
+  // Funzione per verificare se un oggetto contiene le chiavi specificate
+  function isObjectWithKeys(obj, keys) {
+    return keys.every((key) => obj.hasOwnProperty(key));
+  }
+  const payload = {
+    "email" : userMail,
+    "name": userInformations.name,
+    "user_id": userInformations.user_id,
+    "setSpokiActive": userInformations.spoki_active ? 1 : 0,
+    "schedule_active": 1,
+    "schedule_start": "",
+    "schedule_repeat_h": "",
+    "schedule_cc": "",
+    "schedule_content": search_content,
+    "created_at": "",
+    "last_run": "",
+    "next_run": ""
+  }
+
+  try {
+    const response = await fetch('https://leads.tua-car.it/searching', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    res.status(200).json({
+/*       email: userMail,
+      name: userInformations.name,
+      user_id: userInformations.user_id,
+      spokiActive: userInformations.spoki_active,*/
+/*       payload: payload,  */
+      results: data
+    })
+  } catch (error) {
+    console.error("Errore durante la chiamata POST:", error);
+    res.status(500).json({ error: "Errore durante la richiesta POST" });
+  }
 }

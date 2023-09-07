@@ -130,6 +130,24 @@ export class searchLeadsApiService {
       leadsList: leads,
     }
   }
+
+  async getUserInformations(userMail){
+    const user_id = await this.prisma.users.findFirst({
+      where: {
+        email: userMail
+      }
+    });
+    const userInformations = await this.prisma.users_data.findFirst({
+      where: {
+        user_id: user_id.id
+      }
+    });
+    return {
+      user_id: user_id.id,
+      name: userInformations.name,
+      spoki_active: userInformations.spoki_api ? true : false,
+    }
+  }
 // USED ON OLDER PRISMA.SCHEMA
 /*   async createSearch(userMail, annoDa, annoA, kmDa, kmA, comuni, platform) {
     try {
