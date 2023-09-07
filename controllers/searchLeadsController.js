@@ -206,3 +206,45 @@ export const leadsList = async (req,res) => {
     list: list.leadsList,
   })
 }
+
+export const getLeadsbyLeadsIds = async (req,res) => {
+  const { leadsIds } = req.body;
+  const { platform } = req.query;
+  const { pageNum = "1" } = req.query;
+  const { pageSize = "10"} = req.query;
+  const platformMapping = {
+    'facebook': 'cars_facebook',
+    'autoscout': 'cars_autoscout',
+    'subito': 'cars_subito'
+  };
+
+  if (!platform) {
+    return res.status(400).json({
+      error: "⚠️ Missing 'platform' parameter within the query parameters. It's not possible to perform the car search in the database without specifying the platform for the search.",
+      platformOptions: ["facebook", "autoscout", "subito"]
+    });
+   } else if (!(platform in platformMapping)) {
+     return res.status(400).json({
+       error: `⚠️ The specified platform '${platform}' is not supported. Supported platforms are: ${Object.keys(platformMapping).join(', ')}.`,
+       platformOptions: Object.keys(platformMapping)
+     });
+   }
+
+   if (!leadsIds) {
+    return res.status(400).json({
+      error: "⚠️ Missing 'leadsIds' inside the body. Without a list of leads It's not possible to perform the car search in the database without specifying the comuni for the search.",
+    });
+  }
+
+  const platformOptions = platformMapping[platform];
+  const result = await leads.getLeadsByIds(JSON.parse(leadsIds),platformOptions, parseInt(pageNum), parseInt(pageSize));
+  res.status(200).json({
+    parametriRicerca: { platform, pageNum, pageSize },
+    res: {
+      platform: platform,
+      totalResults: result.totalCount,
+      totalPages: result.totalPages,
+      result: result.leadsList,
+    },
+ });
+}

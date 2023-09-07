@@ -99,6 +99,37 @@ export class searchLeadsApiService {
       searchList: searchList,
     };
   }
+
+  async getLeadsByIds(leadsIds, platform, pageNum, pageSize) {
+    const skip = (pageNum - 1) * pageSize;
+    const totalCount = await this.prisma[platform].count({
+      where: { 
+        id: {
+          in: leadsIds,
+        },
+      },
+    });
+
+    const leads = await this.prisma[platform].findMany({
+      where: {
+        id: {
+          in: leadsIds,
+        },
+      },
+      orderBy: {
+        date_remote: "desc",
+      },
+      skip: skip,
+      take: pageSize,
+    });
+
+    const totalPages = Math.ceil(totalCount / pageSize );
+    return {
+      totalCount: totalCount,
+      totalPages: totalPages,
+      leadsList: leads,
+    }
+  }
 // USED ON OLDER PRISMA.SCHEMA
 /*   async createSearch(userMail, annoDa, annoA, kmDa, kmA, comuni, platform) {
     try {
