@@ -54,4 +54,20 @@ export class locationApiService {
          }
       });
    }
+
+   getUserId(userMail){
+      return this.prisma.users.findUnique({
+         where: {
+            email: userMail,
+         }
+      })
+   }
+
+   getUserComuni(user_id) {
+      return this.prisma.users_data.findFirst({
+         where: {
+            user_id
+         }
+      })
+   }
 }

@@ -59,3 +59,19 @@ export const provByProv = async (req, res) => {
       res.status(500).json({ error });
     }
 }
+
+export const comuniByUserMail = async (req, res) => {
+  const { userMail } = req.query;
+  console.log(userMail);
+  try {
+    const user = await comune.getUserId(userMail);
+    const data = await comune.getUserComuni(user.id);
+    const comuniParsed = JSON.parse(data.user_config);
+    res.status(200).json({
+      comuni: comuniParsed
+    });
+  } catch (error) {
+    console.error("An error occurred:", error);
+    res.status(500).json({ error });
+  }
+}
