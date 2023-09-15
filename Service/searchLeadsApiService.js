@@ -148,7 +148,7 @@ export class searchLeadsApiService {
       spoki_active: userInformations.spoki_api ? true : false,
     }
   }
-// USED ON OLDER PRISMA.SCHEMA
+// USED ON OLDER PRISMA.SCHEMA DEPRECATED FUNCTIONS
 /*   async createSearch(userMail, annoDa, annoA, kmDa, kmA, comuni, platform) {
     try {
       const findUserOnLeads = await this.prisma.users.findUnique({

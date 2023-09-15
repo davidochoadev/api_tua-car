@@ -1,0 +1,66 @@
+import { PrismaClient } from "@prisma/client";
+import { parse } from "dotenv";
+
+export class userApiService {
+  constructor() {
+    this.prisma = new PrismaClient();
+  }
+
+  async getUser(userMail) {
+     // Validazione dei dati in ingresso
+     if (!userMail || typeof userMail !== 'string') {
+       return {error: 'Indirizzo email non valido'};
+     }
+ 
+     const userData = await this.prisma.users.findFirst({
+       where: {
+         email: userMail,
+       },
+       select: {
+         id: true,
+         email: true,
+         username: true,
+         status: true,
+         verified: true,
+         resettable: true,
+         roles_mask: true,
+         registered: true,
+         last_login: true,
+       },
+     });
+ 
+     if (!userData) {
+       return { error :'Utente non trovato' };
+     }
+ 
+     const userInfo = await this.prisma.users_data.findFirst({
+       where: {
+         user_id: userData.id,
+       },
+     });
+ 
+     return {
+       user: userData,
+       userInformations: userInfo,
+     };
+ }
+ 
+
+  async getUserInformations(userMail){
+    const user_id = await this.prisma.users.findFirst({
+      where: {
+        email: userMail
+      }
+    });
+    const userInformations = await this.prisma.users_data.findFirst({
+      where: {
+        user_id: user_id.id
+      }
+    });
+    return {
+      user_id: user_id.id,
+      name: userInformations.name,
+      spoki_active: userInformations.spoki_api ? true : false,
+    }
+  }
+}

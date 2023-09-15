@@ -11,6 +11,7 @@ import facebookApiRouter from "./routes/api/facebookapi.js";
 import messengerApiRouter from "./routes/api/messengerApi.js";
 import locationApiRouter from "./routes/api/locationApi.js";
 import searchLeadsApiRouter from "./routes/api/searchLeadsApi.js";
+import userApirouter from "./routes/api/userApi.js";
 
 
 const app = express();
@@ -32,6 +33,7 @@ app.use("/api", leadsApiRouter);
 app.use("/facebook", facebookApiRouter);
 app.use("/messenger", messengerApiRouter);
 app.use("/location", locationApiRouter);
+app.use("/user", userApirouter);
 
 app.use("/leads", searchLeadsApiRouter);
 

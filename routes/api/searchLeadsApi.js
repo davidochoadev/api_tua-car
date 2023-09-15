@@ -1,6 +1,5 @@
-import { Router } from "express";
 import express from "express";
-import { searchOnDb, createNewSearch, searchList, getLeadsbyLeadsIds, scheduledSearchOnDb, manualSearch } from "../../controllers/searchLeadsController.js";
+import { searchOnDb, searchList, getLeadsbyLeadsIds, scheduledSearchOnDb, manualSearch } from "../../controllers/searchLeadsController.js";
 
 const searchLeadsApiRouter = express();
 searchLeadsApiRouter.use(express.json());
