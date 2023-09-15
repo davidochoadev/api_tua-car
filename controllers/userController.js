@@ -49,3 +49,27 @@ export const userOnDb = async (req,res) => {
       })
    }
 }
+
+export const userHasScheduledTask = async (req,res) => {
+   const { userMail } = req.query;
+   
+   if (!userMail) {
+      res.status(400).json({
+         error: "⚠️ Missing 'userMail' parameter",
+      })
+   };
+
+   try {
+      const {id} = await user.getUserId(userMail);
+      
+      const result = await user.userScheduledTask(id);
+
+      res.status(200).json({
+         result
+      })
+   } catch (err) {
+      res.status(400).json({
+         error: "Utente non trovato o non valido!",
+      })
+   }
+}

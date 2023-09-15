@@ -45,6 +45,25 @@ export class userApiService {
      };
  }
  
+ async getUserId(userMail) {
+   return this.prisma.users.findFirst({
+      where: {
+        email: userMail
+      },
+      select: {
+         id: true,
+      },
+    });
+ }
+
+ async userScheduledTask(userId) {
+   return await this.prisma.scheduled_tasks.findFirst({
+      where: {
+         user_id: userId,
+         schedule_active: 1,
+      },
+   })
+ }
 
   async getUserInformations(userMail){
     const user_id = await this.prisma.users.findFirst({
