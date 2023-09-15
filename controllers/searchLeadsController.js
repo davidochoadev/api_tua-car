@@ -4,6 +4,7 @@
 import "dotenv/config";
 import { searchLeadsApiService } from "../Service/searchLeadsApiService.js";
 import chalk from "chalk";
+import fetch from "node-fetch";
 
 const leads = new searchLeadsApiService();
 
