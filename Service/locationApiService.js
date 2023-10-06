@@ -23,6 +23,18 @@ export class locationApiService {
       })
    }
 
+   async getProvByComuni(comuni) {
+      return await this.prisma.italy_munic.groupBy({
+          by: ['provincia'],
+          where: {
+              comune: {
+                  in: comuni
+              }
+          }
+      });
+  }
+  
+
    getDenominazioneBySigla(sigla) {
       return this.prisma.italy_provincies.findFirst({
          where: {
