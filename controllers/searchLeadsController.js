@@ -74,6 +74,7 @@ export const searchOnDb = async (req, res) => {
    const { kmA = "500000"} = req.query;
    const { comuni } = req.body;
    const { platform } = req.query;
+   
    const platformMapping = {
     'facebook': 'cars_facebook',
     'autoscout': 'cars_autoscout',

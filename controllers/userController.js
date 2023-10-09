@@ -73,3 +73,30 @@ export const userHasScheduledTask = async (req,res) => {
       })
    }
 }
+
+export const userSpokiData = async (req,res) => {
+   const { userMail } = req.query;
+   if(!userMail){
+      res.status(400).json({
+         error: "⚠️ Missing 'userMail' parameter within the query parameters. It's not possible to perform the search in the database without specifying the usermail of the user.",
+      })
+   }
+
+   try {
+      const data = await user.getUserSpoki(userMail);
+      res.status(200).json({
+         user_data: {
+            user_id_on_user_data_entity: data.userInformations.id,
+            user_search_configuration: data.userInformations.user_config,
+            user_spoki_api: data.userInformations.spoki_api,
+            user_spoki_enabled: data.userInformations.IsSpokiEnabled,
+            user_secret: data.userInformations.Secret,
+            user_uuID: data.userInformations.uuID
+         }
+      });
+   }catch(err) {
+      res.status(400).json({
+         error: "Utente non trovato o non valido!",
+      })
+   }
+}
