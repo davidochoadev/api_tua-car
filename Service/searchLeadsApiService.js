@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { parse } from "dotenv";
+import fs from "fs";
 
 export class searchLeadsApiService {
   constructor() {
@@ -96,6 +96,9 @@ export class searchLeadsApiService {
     ]);
 
     const totalPages = Math.ceil(totalCount / pageSize);
+    fs.appendFileSync('debug.log', `searchList: ${JSON.stringify(searchList)}\n`);
+    fs.appendFileSync('debug.log', `totalCount: ${totalCount}\n`);
+    fs.appendFileSync('debug.log', `totalPages: ${totalPages}\n`);
     return {
       totalPages: totalPages,
       searchList: searchList,
