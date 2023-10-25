@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import mysql from mysql
+import mysql from "mysql";
 import fs from "fs";
 
 export class searchLeadsApiService {
