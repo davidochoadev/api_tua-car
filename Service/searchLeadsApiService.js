@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import mysql from mysql
 import fs from "fs";
 
 export class searchLeadsApiService {
@@ -80,25 +81,52 @@ export class searchLeadsApiService {
 
   async getSearchList(userId, pageNum, pageSize){
     const skip = (pageNum - 1) * pageSize; 
+    const connection = mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PSW,
+      database: process.env.DB_NAME,
+    });
 
-    const [searchList, totalCount] = await Promise.all([
-      this.prisma.searches.findMany({
-        where: { user_id: userId },
-        orderBy: {
-          search_date: "desc",
-        },
-        skip,
-        take: pageSize,
-      }),
-      this.prisma.searches.count({
-        where: { user_id: userId },
-      }),
-    ]);
+    const queryPromise = new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM searches 
+        WHERE user_id = ? 
+        ORDER BY search_date DESC
+        LIMIT ? OFFSET ?`,
+        [userId, pageSize, skip],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results);
+          }
+          connection.end();
+        }
+      );
+    });
+
+    const countPromise = new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT COUNT(*) as count FROM searches 
+        WHERE user_id = ?`,
+        [userId],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results[0].count);
+          }
+        }
+      );
+    });
+
+    const [searchList, totalCount] = await Promise.all([queryPromise, countPromise]);
 
     const totalPages = Math.ceil(totalCount / pageSize);
-    fs.appendFileSync('debug.log', `searchList: ${JSON.stringify(searchList)}\n`);
+/*     fs.appendFileSync('debug.log', `searchList: ${JSON.stringify(searchList)}\n`);
     fs.appendFileSync('debug.log', `totalCount: ${totalCount}\n`);
-    fs.appendFileSync('debug.log', `totalPages: ${totalPages}\n`);
+    fs.appendFileSync('debug.log', `totalPages: ${totalPages}\n`); */
     return {
       totalPages: totalPages,
       searchList: searchList,
