@@ -362,3 +362,28 @@ export const manualSearch = async (req,res) => {
     res.status(500).json({ error: "Errore durante la richiesta POST" });
   }
 }
+
+export const getLastResult = async (req,res) => {
+  const { email } = req.query;
+
+  if (!email) {
+    return res.status(400).json({
+      error: "⚠️ Missing 'userMail' parameter within the header parameters. It's not possible to perform the search list in the database without specifying the userMail for the search."
+    });
+  }
+
+  const userId = await leads.getUserId(email);
+
+  if (!userId) {
+    return res.status(400).json({
+      error: "La mail dell'utente non esiste nel database di leads.tua-car.it e non è possibile ricavare l'id ed ottenere le liste"
+    })
+  }
+
+  const result = await leads.getLastSearchOfTheUser(userId.id);
+  const reslist = JSON.parse(result.results[0].results);
+  const response = await leads.getLeads(reslist);
+
+
+  return res.status(200).json(response)
+}

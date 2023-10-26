@@ -133,6 +133,74 @@ export class searchLeadsApiService {
     };
   }
 
+  async getLastSearchOfTheUser(userId){
+    const connection = mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PSW,
+      database: process.env.DB_NAME,
+    });
+
+    const queryPromise = new Promise((resolve, reject) => {
+      //get last search of the user
+      connection.query(
+        `SELECT * FROM searches 
+        WHERE user_id = ? 
+        ORDER BY search_date DESC
+        LIMIT 1`,
+        [userId],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results);
+          }
+          connection.end();
+        }
+      );
+    });
+
+    return { results : await queryPromise };
+
+  }
+
+  async getLeads(leads) {
+    const results = await this.prisma.$transaction([
+      this.prisma.cars_subito.findMany({
+        where: {
+          id: {
+            in: leads,
+          },
+        },
+        orderBy: {
+          date_remote: "desc",
+        },
+      }),
+      this.prisma.cars_autoscout.findMany({
+        where: {
+          id: {
+            in: leads,
+          },
+        },
+        orderBy: {
+          date_remote: "desc",
+        },
+      }),
+      this.prisma.cars_facebook.findMany({
+        where: {
+          id: {
+            in: leads,
+          },
+        },
+        orderBy: {
+          date_remote: "desc",
+        },
+      }),
+    ]);
+
+    return results.flat();
+  }
+
   async getLeadsByIds(leadsIds, platform, pageNum, pageSize) {
     const skip = (pageNum - 1) * pageSize;
     const totalCount = await this.prisma[platform].count({
@@ -163,6 +231,7 @@ export class searchLeadsApiService {
       leadsList: leads,
     }
   }
+
 
   async getUserInformations(userMail){
     const user_id = await this.prisma.users.findFirst({

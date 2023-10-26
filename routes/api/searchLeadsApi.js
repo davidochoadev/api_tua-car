@@ -1,5 +1,5 @@
 import express from "express";
-import { searchOnDb, searchList, getLeadsbyLeadsIds, scheduledSearchOnDb, manualSearch } from "../../controllers/searchLeadsController.js";
+import { searchOnDb, searchList, getLeadsbyLeadsIds, scheduledSearchOnDb, manualSearch, getLastResult } from "../../controllers/searchLeadsController.js";
 
 const searchLeadsApiRouter = express();
 searchLeadsApiRouter.use(express.json());
@@ -12,6 +12,7 @@ searchLeadsApiRouter.post("/search", searchOnDb);
 searchLeadsApiRouter.post("/scheduledSearch", scheduledSearchOnDb);
 searchLeadsApiRouter.get("/list", searchList);
 searchLeadsApiRouter.post("/byLeadsIds", getLeadsbyLeadsIds);
+searchLeadsApiRouter.get("/lastResult", getLastResult);
 searchLeadsApiRouter.post("/manualSearch", manualSearch);
 /* searchLeadsApiRouter.post("/newSearch", createNewSearch);
 searchLeadsApiRouter.get("/list", searchList);
