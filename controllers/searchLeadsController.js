@@ -200,18 +200,37 @@ export const searchList = async (req, res) => {
   }
 }
 
-export const leadsList = async (req,res) => {
-  const { userMail } = req.header;
-  const { searchId } = req.query;
-  const { pageNum = "1" } = req.query;
-  const { pageSize = "10"} = req.query;
-  const list = await leads.getLeadsList(userMail, parseInt(searchId),parseInt(pageNum),parseInt(pageSize));
 
-  return res.status(200).json({
-    currentPage : pageNum,
-    totalPages : list.totalPages,
-    list: list.leadsList,
-  })
+export const searchBySearchId = async (req, res) => {
+  try {
+    const { searchId } = req.query;
+
+    if (!searchId) {
+      return res.status(400).json({
+        error: "⚠️ Manca il parametro 'searchId' nei parametri della query. Non è possibile eseguire la ricerca senza specificare l'ID della ricerca."
+      });
+    }
+
+    const result = await leads.getBySearchId(parseInt(searchId, 10));
+
+    if (!result || result.resultSearchId.length === 0) {
+      return res.status(404).json({
+        error: `Nessun risultato trovato per searchId: ${searchId}`
+      });
+    }
+
+    const reslist = JSON.parse(result.resultSearchId[0].results);
+    const response = await leads.getLeads(reslist);
+
+    return res.status(200).json({
+      results: response
+    });
+  } catch (error) {
+    console.error("Errore durante la ricerca dei leads:", error);
+    return res.status(500).json({
+      error: "Si è verificato un errore interno durante l'elaborazione della richiesta."
+    });
+  }
 }
 
 // RICERCA LEADS PER ID

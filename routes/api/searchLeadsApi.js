@@ -6,6 +6,7 @@ import {
   scheduledSearchOnDb,
   manualSearch,
   getLastResult,
+  searchBySearchId,
 } from "../../controllers/searchLeadsController.js";
 
 const searchLeadsApiRouter = express();
@@ -17,6 +18,7 @@ searchLeadsApiRouter.get("/", (req, res) => {
 
 searchLeadsApiRouter.post("/search", searchOnDb);
 searchLeadsApiRouter.post("/scheduledSearch", scheduledSearchOnDb);
+// LISTA DELLE RICERCHE EFFETTUATE DA UN UTENTE
 searchLeadsApiRouter.get("/list", searchList);
 // RICERCA LEADS PER ID
 searchLeadsApiRouter.post("/byLeadsIds", getLeadsbyLeadsIds);
@@ -24,6 +26,8 @@ searchLeadsApiRouter.post("/byLeadsIds", getLeadsbyLeadsIds);
 searchLeadsApiRouter.get("/lastResult", getLastResult);
 // CREA UNA RICERCA MANUALE
 searchLeadsApiRouter.post("/manualSearch", manualSearch);
+
+searchLeadsApiRouter.get("/searchBySearchId", searchBySearchId);
 /* searchLeadsApiRouter.post("/newSearch", createNewSearch);
 searchLeadsApiRouter.get("/list", searchList);
 searchLeadsApiRouter.get("/listLeads", leadsList); */

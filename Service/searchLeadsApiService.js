@@ -164,6 +164,35 @@ export class searchLeadsApiService {
 
   }
 
+  async getBySearchId(searchId) {
+    const connection = mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PSW,
+      database: process.env.DB_NAME,
+    });
+
+    const queryPromise = new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM searches WHERE search_id = ?`,
+        [searchId], // Converte searchId in intero
+        (error, results) => {
+          if (error) {
+            reject(error);
+          } else if (results.length === 0) {
+            reject(new Error(`Nessun risultato trovato per search_id: ${searchId}`));
+          } else {
+            resolve(results);
+          }
+          connection.end();
+        }
+      );
+    });
+
+    const resultSearchId = await queryPromise;
+    return { resultSearchId };
+  }
+
   async getLeads(leads) {
     const results = await this.prisma.$transaction([
       this.prisma.cars_subito.findMany({
