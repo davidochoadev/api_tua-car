@@ -26,7 +26,7 @@ searchLeadsApiRouter.post("/byLeadsIds", getLeadsbyLeadsIds);
 searchLeadsApiRouter.get("/lastResult", getLastResult);
 // CREA UNA RICERCA MANUALE
 searchLeadsApiRouter.post("/manualSearch", manualSearch);
-
+// LISTA DI LEADS PER ID DI RICERCA
 searchLeadsApiRouter.get("/searchBySearchId", searchBySearchId);
 /* searchLeadsApiRouter.post("/newSearch", createNewSearch);
 searchLeadsApiRouter.get("/list", searchList);
