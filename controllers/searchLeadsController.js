@@ -8,6 +8,7 @@ import fetch from "node-fetch";
 
 const leads = new searchLeadsApiService();
 
+// FUNZIONE PER LA RICERCA DI VETTURE - DATABASE -
 async function searchOnDbFunc(annoDa, annoA, kmDa, kmA, comuni, platform) {
   if (!platform) {
     return res.status(400).json({
@@ -42,6 +43,7 @@ async function searchOnDbFunc(annoDa, annoA, kmDa, kmA, comuni, platform) {
    return data;
 }
 
+// FUNZIONE PER LA CREAZIONE DI UNA NUOVA RICERCA
 export const createNewSearch = async (req, res) => {
   const { annoDa = "1980" } = req.query;
   const { annoA = new Date().getFullYear().toString() } = req.query;
@@ -112,6 +114,7 @@ export const searchOnDb = async (req, res) => {
    });
 };
 
+// FUNZIONE PER LA RICERCA DI VETTURE - SCHEDULED -
 export const scheduledSearchOnDb = async (req, res) => {
   const { annoDa = "1980" } = req.query;
   const { annoA = new Date().getFullYear().toString() } = req.query;
@@ -164,35 +167,37 @@ export const scheduledSearchOnDb = async (req, res) => {
   });
 };
 
-export const searchList = async ( req, res ) => {
-  const { usermail } = req.headers;
-  const { pageNum = "1" } = req.query;
-  const { pageSize = "10"} = req.query;
+// RICERCA LE LISTE DI RICERCA
+export const searchList = async (req, res) => {
+  try {
+    const { userMail, pageNum = "1", pageSize = "10" } = req.query;
 
-  if (!usermail) {
-    return res.status(400).json({
-      error: "⚠️ Missing 'userMail' parameter within the header parameters. It's not possible to perform the search list in the database without specifying the userMail for the search."
+    if (!userMail) {
+      return res.status(400).json({
+        error: "⚠️ Manca il parametro 'userMail' nei parametri della query. Non è possibile eseguire la ricerca nel database senza specificare l'userMail per la ricerca."
+      });
+    }
+
+    const userId = await leads.getUserId(userMail);
+    if (!userId) {
+      return res.status(404).json({
+        error: "La mail dell'utente non esiste nel database di leads.tua-car.it e non è possibile ricavare l'id ed ottenere le liste"
+      });
+    }
+
+    const list = await leads.getSearchList(userId.id, parseInt(pageNum, 10), parseInt(pageSize, 10));
+    return res.status(200).json({
+      userId: userId.id,
+      currentPage: parseInt(pageNum, 10),
+      totalPages: list.totalPages,
+      list: list.searchList,
+    });
+  } catch (error) {
+    console.error("Errore durante la ricerca delle liste:", error);
+    return res.status(500).json({
+      error: "Si è verificato un errore interno durante l'elaborazione della richiesta."
     });
   }
-  
-  const userId = await leads.getUserId(usermail);
-  if (!userId) {
-    return res.status(400).json({
-      error: "La mail dell'utente non esiste nel database di leads.tua-car.it e non è possibile ricavare l'id ed ottenere le liste"
-    })
-  }
-
-  const list = await leads.getSearchList(userId.id, parseInt(pageNum), parseInt(pageSize));
-  return res.status(200).json({
-/*     currentPage : pageNum, */
-/*     totalPages : list.totalPages,
-    list : list.searchList, */
-    userId: userId.id,
-    currentPage : parseInt(pageNum),
-    totalPages : list.totalPages,
-    list: list.searchList,
-
-  });
 }
 
 export const leadsList = async (req,res) => {
@@ -209,6 +214,7 @@ export const leadsList = async (req,res) => {
   })
 }
 
+// RICERCA LEADS PER ID
 export const getLeadsbyLeadsIds = async (req,res) => {
   const { leadsIds } = req.body;
   const { platform } = req.query;
@@ -253,6 +259,7 @@ export const getLeadsbyLeadsIds = async (req,res) => {
 
 }
 
+// CREA UNA RICERCA MANUALE
 export const manualSearch = async (req,res) => {
   const { userMail } = req.body;
   const { search_content } = req.body;
@@ -363,6 +370,7 @@ export const manualSearch = async (req,res) => {
   }
 }
 
+// RECUPERA L'ULTIMO RISULTATO DI RICERCA DI UN UTENTE SPECIFICO
 export const getLastResult = async (req,res) => {
   const { email } = req.query;
 
@@ -383,7 +391,6 @@ export const getLastResult = async (req,res) => {
   const result = await leads.getLastSearchOfTheUser(userId.id);
   const reslist = JSON.parse(result.results[0].results);
   const response = await leads.getLeads(reslist);
-
 
   return res.status(200).json(response)
 }
