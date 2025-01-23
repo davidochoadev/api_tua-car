@@ -232,33 +232,55 @@ export class searchLeadsApiService {
 
   async getLeadsByIds(leadsIds, platform, pageNum, pageSize) {
     const skip = (pageNum - 1) * pageSize;
-    const totalCount = await this.prisma[platform].count({
-      where: { 
-        id: {
-          in: leadsIds,
-        },
-      },
+    const connection = mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PSW,
+      database: process.env.DB_NAME,
     });
 
-    const leads = await this.prisma[platform].findMany({
-      where: {
-        id: {
-          in: leadsIds,
-        },
-      },
-      orderBy: {
-        date_remote: "desc",
-      },
-      skip: skip,
-      take: pageSize,
+    // Query per il conteggio totale
+    const countPromise = new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT COUNT(*) as count FROM ${platform} WHERE id IN (?)`,
+        [leadsIds],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results[0].count);
+          }
+        }
+      );
     });
 
-    const totalPages = Math.ceil(totalCount / pageSize );
+    // Query per ottenere i leads con paginazione
+    const leadsPromise = new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM ${platform} 
+         WHERE id IN (?) 
+         ORDER BY date_remote DESC 
+         LIMIT ? OFFSET ?`,
+        [leadsIds, pageSize, skip],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results);
+          }
+          connection.end();
+        }
+      );
+    });
+
+    const [totalCount, leads] = await Promise.all([countPromise, leadsPromise]);
+    const totalPages = Math.ceil(totalCount / pageSize);
+
     return {
       totalCount: totalCount,
       totalPages: totalPages,
       leadsList: leads,
-    }
+    };
   }
 
 
@@ -485,7 +507,7 @@ export class searchLeadsApiService {
   async getSearchList(userMail, pageNum, pageSize) {
     const skip = (pageNum - 1) * pageSize; 
     const totalCount = await this.prisma.search.count({
-      where: { userMail },
+      where: userMail,
     });
 
     const searchList = await this.prisma.search.findMany({
