@@ -240,6 +240,7 @@ export const getLeadsbyLeadsIds = async (req,res) => {
   const { platform } = req.query;
   const { pageNum = "1" } = req.query;
   const { pageSize = "10"} = req.query;
+  
   const platformMapping = {
     'facebook': 'cars_facebook',
     'autoscout': 'cars_autoscout',

@@ -31,6 +31,28 @@ model cars_autoscout {
   advertiser_phone String?  @db.VarChar(128)
 }
 
+model moto_motoit {
+  id               Int      @id @default(autoincrement())
+  urn              String   @db.VarChar(255)
+  subject          String   @db.Text
+  body             String   @db.Text
+  date_remote      DateTime @default(dbgenerated("'0000-00-00 00:00:00'")) @db.DateTime(0)
+  pollution        String?  @db.VarChar(128)
+  fuel             String?  @db.VarChar(128)
+  vehicle_status   String?  @db.VarChar(128)
+  price            Int      @default(0)
+  mileage_scalar   String   @db.VarChar(128)
+  doors            String?  @db.Text
+  register_date    String   @db.VarChar(128)
+  register_year    String   @db.VarChar(32)
+  geo_region       String   @db.VarChar(128)
+  geo_provincia    String   @db.VarChar(128)
+  geo_town         String   @db.VarChar(128)
+  url              String   @db.Text
+  advertiser_name  String   @db.VarChar(128)
+  advertiser_phone String?  @db.VarChar(128)
+}
+
 model cars_facebook {
   id               Int      @id @default(autoincrement())
   urn              String   @unique(map: "urn") @db.VarChar(255)
