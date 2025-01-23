@@ -234,13 +234,13 @@ export const searchBySearchId = async (req, res) => {
   }
 }
 
-// RICERCA TANTI LEADS PER ID
+// * RICERCA TANTI LEADS PER ID
 export const getLeadsbyLeadsIds = async (req,res) => {
   const { leadsIds } = req.body;
   const { platform } = req.query;
   const { pageNum = "1" } = req.query;
   const { pageSize = "10"} = req.query;
-  
+
   const platformMapping = {
     'facebook': 'cars_facebook',
     'autoscout': 'cars_autoscout',
@@ -299,13 +299,13 @@ export const manualSearch = async (req,res) => {
     });
   }
 
-  const allowedObjects = ['platform-01', 'platform-02', 'platform-03'];
+  const allowedObjects = ['platform-01', 'platform-02', 'platform-03', 'platform-04'];
   const contentKeys = Object.keys(search_content);
 
   if (contentKeys.length > 3 || !contentKeys.every(platform => allowedObjects.includes(platform))) {
     return res.status(400).json({
       error: "Errore, la struttura di search_content non è valida",
-      allowedObjects: ['platform-01', 'platform-02', 'platform-03']
+      allowedObjects: ['platform-01', 'platform-02', 'platform-03', 'platform-04']
     });
   };
 

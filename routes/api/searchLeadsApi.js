@@ -22,7 +22,7 @@ searchLeadsApiRouter.post("/scheduledSearch", scheduledSearchOnDb);
 // * LISTA DELLE RICERCHE EFFETTUATE DA UN UTENTE
 searchLeadsApiRouter.get("/list", searchList);
 
-// RICERCA LEADS PER ID
+// * RICERCA LEADS PER ID
 searchLeadsApiRouter.post("/byLeadsIds", getLeadsbyLeadsIds);
 
 // * RECUPERA L'ULTIMO RISULTATO DI RICERCA DI UN UTENTE SPECIFICO
