@@ -3,28 +3,26 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import mysql from "mysql2";
 import fs from "fs/promises";
+import dotenv from "dotenv";
 import { ReadableStream } from 'web-streams-polyfill';
 
 global.ReadableStream = ReadableStream;
+dotenv.config();
 
 // Aggiungere una costante per il delay e il numero di pagine
 const SCRAPING_DELAY = 1000;
 const MAX_PAGES = 20;
 const DELETE_AFTER_DAYS = 90;
 
-console.log(chalk.blue('Configurazione Database:'));
-console.log('Host:', process.env.DB_HOST);
-console.log('User:', process.env.DB_USER);
-console.log('Database:', process.env.DB_NAME);
-console.log('Password is set:', !!process.env.DB_PSW);
+
 
 export default async function scraperMoto() {
   console.log(chalk.bgGreen(" 🏁 Starting Scraper per Moto.it/moto-usate 🏁 "));
   const connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PSW,
-    database: process.env.DB_NAME,
+    host: "141.95.54.84",
+    user: "luigi_tuacar", 
+    password: "Tuacar.2023",
+    database: "tuacarDb",
   });
 
   let lastUrn;
