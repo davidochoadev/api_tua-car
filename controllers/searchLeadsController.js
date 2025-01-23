@@ -13,14 +13,14 @@ async function searchOnDbFunc(annoDa, annoA, kmDa, kmA, comuni, platform) {
   if (!platform) {
     return res.status(400).json({
       error: "⚠️ Missing 'platform' parameter within the query parameters. It's not possible to perform the car search in the database without specifying the platform for the search.",
-      platformOptions: ["facebook", "autoscout", "subito"]
+      platformOptions: ["facebook", "autoscout", "subito","moto.it"]
     });
    }
   
    let data;
 
    switch (platform) {
-     case 'facebook':
+     case 'moto.it':
        // Call the function to get data for Facebook platform
        console.log("Calling fb", comuni, annoDa, annoA, kmDa, kmA);
        data = await leads.getCarsFromFacebook(comuni, annoDa, annoA, kmDa, kmA);
@@ -80,13 +80,14 @@ export const searchOnDb = async (req, res) => {
    const platformMapping = {
     'facebook': 'cars_facebook',
     'autoscout': 'cars_autoscout',
-    'subito': 'cars_subito'
+    'subito': 'cars_subito',
+    'moto.it': 'moto_motoit'
   };
 
    if (!platform) {
     return res.status(400).json({
       error: "⚠️ Missing 'platform' parameter within the query parameters. It's not possible to perform the car search in the database without specifying the platform for the search.",
-      platformOptions: ["facebook", "autoscout", "subito"]
+      platformOptions: ["facebook", "autoscout", "subito","moto.it"]
     });
    } else if (!(platform in platformMapping)) {
     return res.status(400).json({
@@ -167,7 +168,7 @@ export const scheduledSearchOnDb = async (req, res) => {
   });
 };
 
-// RICERCA LE LISTE DI RICERCA
+// * RICERCA LE LISTE DI RICERCA
 export const searchList = async (req, res) => {
   try {
     const { userMail, pageNum = "1", pageSize = "10" } = req.query;
@@ -200,7 +201,7 @@ export const searchList = async (req, res) => {
   }
 }
 
-
+// * RICERCA LISTA DI LEADS PER ID DI RICERCA
 export const searchBySearchId = async (req, res) => {
   try {
     const { searchId } = req.query;
@@ -233,7 +234,7 @@ export const searchBySearchId = async (req, res) => {
   }
 }
 
-// RICERCA LEADS PER ID
+// RICERCA TANTI LEADS PER ID
 export const getLeadsbyLeadsIds = async (req,res) => {
   const { leadsIds } = req.body;
   const { platform } = req.query;
@@ -242,13 +243,14 @@ export const getLeadsbyLeadsIds = async (req,res) => {
   const platformMapping = {
     'facebook': 'cars_facebook',
     'autoscout': 'cars_autoscout',
-    'subito': 'cars_subito'
+    'subito': 'cars_subito',
+    'moto-it': 'moto_motoit'
   };
 
   if (!platform) {
     return res.status(400).json({
       error: "⚠️ Missing 'platform' parameter within the query parameters. It's not possible to perform the car search in the database without specifying the platform for the search.",
-      platformOptions: ["facebook", "autoscout", "subito"]
+      platformOptions: ["facebook", "autoscout", "subito","moto-it"]
     });
    } else if (!(platform in platformMapping)) {
      return res.status(400).json({
@@ -389,7 +391,7 @@ export const manualSearch = async (req,res) => {
   }
 }
 
-// RECUPERA L'ULTIMO RISULTATO DI RICERCA DI UN UTENTE SPECIFICO
+// * RECUPERA L'ULTIMO RISULTATO DI RICERCA DI UN UTENTE SPECIFICO
 export const getLastResult = async (req,res) => {
   const { email } = req.query;
 
