@@ -100,134 +100,135 @@ export default async function scraperMoto() {
       const { data } = await axiosInstance.get(url);
       const $ = cheerio.load(data);
       const listItems = $("ul.ad-list.list > li");
+      let stopScraping = false;
 
-      const annunciPage = await Promise.all(
-        Array.from(listItems).map(async (item) => {
-          const titleElement = $(item).find(
-            "div.app-ad-list-item > div.app-top > div.app-infos > h2.app-titles > a.app-linked-title"
-          );
-          const href = titleElement.attr("href");
-          if (!href || !titleElement.text().trim()) {
-            return null;
-          }
-          const currentUrn = href.split("/").pop();
-          if (currentUrn === lastUrn) {
-            throw new Error("STOP_SCRAPING");
-          }
-          const link = "https://www.moto.it" + href;
-          const geo_town =
-            $(item)
-              .find("ul.app-specs > li:nth-child(1)")
-              .text()
-              .trim()
-              .replace(/\s*\([^)]*\)/g, "") || "Avezzano";
-          try {
-            const { data: detailData } = await axiosInstance.get(link);
-            const $detail = cheerio.load(detailData);
+      const annunciPage = [];
+      for (const item of listItems) {
+        const titleElement = $(item).find(
+          "div.app-ad-list-item > div.app-top > div.app-infos > h2.app-titles > a.app-linked-title"
+        );
+        const href = titleElement.attr("href");
+        if (!href || !titleElement.text().trim()) {
+          continue;
+        }
+        const currentUrn = href.split("/").pop();
 
-            return {
-              urn: href.split("/").pop(),
-              subject: titleElement.text().trim().replace(/\s+/g, " "),
-              body: "",
-              pollution:
-                $detail(
-                  "table.datagrid > tbody > tr:has(th:contains('Norma antinquinamento')) > td"
-                )
-                  .text()
-                  .trim() || null,
-              fuel:
-                $detail(
-                  "table.datagrid > tbody > tr:last-child > td:nth-child(2)"
-                )
-                  .text()
-                  .trim() === "Si"
-                  ? "Elettrica"
-                  : "Benzina",
-              vehicle_status: "Usato",
-              price:
-                parseInt(
-                  $detail(
-                    "aside.ucrecap > ul > li:nth-child(1) > div > span.value"
-                  )
-                    .text()
-                    .trim()
-                    .replace(/\./g, "")
-                ) || 1,
-              mileage_scalar:
-                $detail(
-                  "aside.ucrecap > ul > li:nth-child(3) > div > span.value"
-                )
-                  .text()
-                  .trim()
-                  .replace(/\./g, "") || "1",
-              doors: null,
-              register_date:
-                "01/" +
-                ($detail(
-                  "aside.ucrecap > ul > li:nth-child(2) > div > span.value"
-                )
-                  .text()
-                  .trim() || "1900"),
-              register_year:
-                $detail(
-                  "aside.ucrecap > ul > li:nth-child(2) > div > span.value"
-                )
-                  .text()
-                  .trim() || "1900",
-              geo_region:
-                $detail("aside.ucrecap > ul > li:nth-child(4) > div > span.key")
-                  .text()
-                  .trim() || "Abbruzzo",
-              geo_provincia:
-                $detail(
-                  "aside.ucrecap > ul > li:nth-child(4) > div > span.value"
-                )
-                  .text()
-                  .trim() || "L'Aquila",
-              geo_town: geo_town,
-              url: link,
-              advertiser_name:
-                $detail("div.app-row > strong:contains('Referente:')")
-                  .parent()
-                  .text()
-                  .trim()
-                  .replace("Referente:", "")
-                  .trim() || "Moto.it",
-              advertiser_phone: await getPhone(
-                $detail("div.uccalluser").attr("data-handler")
-              ),
-            };
-          } catch (error) {
-            console.error(
-              chalk.yellow(
-                `Warning: Impossibile recuperare i dettagli per ${link}: ${error.message}`
+        // Se troviamo lastUrn, ci fermiamo SENZA processare questo elemento
+        if (currentUrn === lastUrn) {
+          stopScraping = true;
+          break;
+        }
+
+        const link = "https://www.moto.it" + href;
+        const geo_town =
+          $(item)
+            .find("ul.app-specs > li:nth-child(1)")
+            .text()
+            .trim()
+            .replace(/\s*\([^)]*\)/g, "") || "Avezzano";
+
+        try {
+          const { data: detailData } = await axiosInstance.get(link);
+          const $detail = cheerio.load(detailData);
+
+          const annuncio = {
+            urn: currentUrn,
+            subject: titleElement.text().trim().replace(/\s+/g, " "),
+            body: "",
+            pollution:
+              $detail(
+                "table.datagrid > tbody > tr:has(th:contains('Norma antinquinamento')) > td"
               )
-            );
-            return null;
-          }
-        })
-      );
+                .text()
+                .trim() || null,
+            fuel:
+              $detail(
+                "table.datagrid > tbody > tr:last-child > td:nth-child(2)"
+              )
+                .text()
+                .trim() === "Si"
+                ? "Elettrica"
+                : "Benzina",
+            vehicle_status: "Usato",
+            price:
+              parseInt(
+                $detail(
+                  "aside.ucrecap > ul > li:nth-child(1) > div > span.value"
+                )
+                  .text()
+                  .trim()
+                  .replace(/\./g, "")
+              ) || 1,
+            mileage_scalar:
+              $detail("aside.ucrecap > ul > li:nth-child(3) > div > span.value")
+                .text()
+                .trim()
+                .replace(/\./g, "") || "1",
+            doors: null,
+            register_date:
+              "01/" +
+              ($detail(
+                "aside.ucrecap > ul > li:nth-child(2) > div > span.value"
+              )
+                .text()
+                .trim() || "1900"),
+            register_year:
+              $detail("aside.ucrecap > ul > li:nth-child(2) > div > span.value")
+                .text()
+                .trim() || "1900",
+            geo_region:
+              $detail("aside.ucrecap > ul > li:nth-child(4) > div > span.key")
+                .text()
+                .trim() || "Abbruzzo",
+            geo_provincia:
+              $detail("aside.ucrecap > ul > li:nth-child(4) > div > span.value")
+                .text()
+                .trim() || "L'Aquila",
+            geo_town: geo_town,
+            url: link,
+            advertiser_name:
+              $detail("div.app-row > strong:contains('Referente:')")
+                .parent()
+                .text()
+                .trim()
+                .replace("Referente:", "")
+                .trim() || "Moto.it",
+            advertiser_phone: await getPhone(
+              $detail("div.uccalluser").attr("data-handler")
+            ),
+          };
 
-      annunci.push(...annunciPage.filter(Boolean));
+          annunciPage.push(annuncio);
+        } catch (error) {
+          console.error(
+            chalk.yellow(
+              `Warning: Impossibile recuperare i dettagli per ${link}: ${error.message}`
+            )
+          );
+        }
+      }
 
-      // Migliorare il delay con una funzione dedicata
-      await new Promise((resolve) =>
-        setTimeout(resolve, SCRAPING_DELAY * (1 + Math.random()))
-      );
-    } catch (error) {
-      if (error.message === "STOP_SCRAPING") {
+      annunci.push(...annunciPage);
+
+      if (stopScraping) {
         console.log(
           chalk.red(" ⛔ Stop scraping dopo aver raggiunto l'ultimo URN.")
         );
         break;
       }
+
+      // Delay tra le pagine
+      await new Promise((resolve) =>
+        setTimeout(resolve, SCRAPING_DELAY * (1 + Math.random()))
+      );
+    } catch (error) {
       console.error(
         chalk.red(
           `Errore durante il fetch della pagina ${page}:`,
           error.message
         )
       );
-      continue; // Continuiamo con la prossima pagina in caso di errore
+      continue;
     }
   }
 

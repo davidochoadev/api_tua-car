@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "urn": "9510813",
+    "subject": "Buell Lightning XB 12S",
+    "body": "",
+    "pollution": "Non specificata",
+    "fuel": "Benzina",
+    "vehicle_status": "Usato",
+    "price": 4000,
+    "mileage_scalar": "60000",
+    "doors": null,
+    "register_date": "01/2008",
+    "register_year": "2008",
+    "geo_region": "Lazio",
+    "geo_provincia": "Roma",
+    "geo_town": "Roma",
+    "url": "https://www.moto.it/moto-usate/buell/lightning-xb-12s/lightning-xb-12s/9510813",
+    "advertiser_name": "rob",
+    "advertiser_phone": "3343067701"
+  }
+]

@@ -281,7 +281,7 @@ export const getLeadsbyLeadsIds = async (req,res) => {
 
 }
 
-// CREA UNA RICERCA MANUALE
+// * CREA UNA RICERCA MANUALE
 export const manualSearch = async (req,res) => {
   const { userMail } = req.body;
   const { search_content } = req.body;
