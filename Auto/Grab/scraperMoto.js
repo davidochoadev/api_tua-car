@@ -14,6 +14,12 @@ const SCRAPING_DELAY = 1000;
 const MAX_PAGES = 20;
 const DELETE_AFTER_DAYS = 90;
 
+console.log(chalk.blue('Configurazione Database:'));
+console.log('Host:', process.env.DB_HOST);
+console.log('User:', process.env.DB_USER);
+console.log('Database:', process.env.DB_NAME);
+console.log('Password is set:', !!process.env.DB_PSW);
+
 export default async function scraperMoto() {
   console.log(chalk.bgGreen(" 🏁 Starting Scraper per Moto.it/moto-usate 🏁 "));
   const connection = await mysql.createConnection({
