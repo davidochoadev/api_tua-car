@@ -81,7 +81,7 @@ export const searchOnDb = async (req, res) => {
     'facebook': 'cars_facebook',
     'autoscout': 'cars_autoscout',
     'subito': 'cars_subito',
-    'moto.it': 'moto_motoit'
+    'moto-it': 'moto_motoit'
   };
 
    if (!platform) {
@@ -128,13 +128,14 @@ export const scheduledSearchOnDb = async (req, res) => {
   const platformMapping = {
     'facebook': 'cars_facebook',
     'autoscout': 'cars_autoscout',
-    'subito': 'cars_subito'
+    'subito': 'cars_subito',
+    'moto-it': 'moto_motoit'
   };
 
   if (!platform) {
    return res.status(400).json({
      error: "⚠️ Missing 'platform' parameter within the query parameters. It's not possible to perform the car search in the database without specifying the platform for the search.",
-     platformOptions: ["facebook", "autoscout", "subito"]
+     platformOptions: ["facebook", "autoscout", "subito", "moto-it"]
    });
   } else if (!(platform in platformMapping)) {
     return res.status(400).json({

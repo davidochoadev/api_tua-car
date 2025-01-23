@@ -17,6 +17,7 @@ searchLeadsApiRouter.get("/", (req, res) => {
 });
 
 searchLeadsApiRouter.post("/search", searchOnDb);
+
 searchLeadsApiRouter.post("/scheduledSearch", scheduledSearchOnDb);
 
 // * LISTA DELLE RICERCHE EFFETTUATE DA UN UTENTE
@@ -28,11 +29,12 @@ searchLeadsApiRouter.post("/byLeadsIds", getLeadsbyLeadsIds);
 // * RECUPERA L'ULTIMO RISULTATO DI RICERCA DI UN UTENTE SPECIFICO
 searchLeadsApiRouter.get("/lastResult", getLastResult);
 
-// CREA UNA RICERCA MANUALE
+// * CREA UNA RICERCA MANUALE
 searchLeadsApiRouter.post("/manualSearch", manualSearch);
 
-// *LISTA DI LEADS PER ID DI RICERCA
+// * LISTA DI LEADS PER ID DI RICERCA
 searchLeadsApiRouter.get("/searchBySearchId", searchBySearchId);
+
 /* searchLeadsApiRouter.post("/newSearch", createNewSearch);
 searchLeadsApiRouter.get("/list", searchList);
 searchLeadsApiRouter.get("/listLeads", leadsList); */
