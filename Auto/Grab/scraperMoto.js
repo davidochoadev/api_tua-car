@@ -3,11 +3,9 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import mysql from "mysql2";
 import fs from "fs/promises";
-import dotenv from "dotenv";
 import { ReadableStream } from 'web-streams-polyfill';
 
 global.ReadableStream = ReadableStream;
-dotenv.config();
 
 // Aggiungere una costante per il delay e il numero di pagine
 const SCRAPING_DELAY = 1000;
