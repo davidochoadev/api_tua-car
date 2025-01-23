@@ -301,7 +301,7 @@ export default async function scraperMoto() {
 
   // Salviamo gli annunci in un file JSON
   try {
-    await fs.writeFile("annunci-moto.json", JSON.stringify(annunci, null, 2));
+    await fs.writeFile("log/annunci-moto_moto_it.json", JSON.stringify(annunci, null, 2));
     console.log(chalk.green(" ✅ File JSON creato con successo! "));
   } catch (error) {
     console.error(chalk.red("Errore durante il salvataggio del file:", error));
