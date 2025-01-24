@@ -15,7 +15,7 @@ const MAX_PAGES = 10;
 const DELETE_AFTER_DAYS = 90;
 
 export default async function scraperMoto() {
-  console.log(chalk.bgGreen(" 🏁 Starting Scraper per Moto su Subito.it 🏁 "));
+  console.log(chalk.bgGreen(" 🏁 Starting Scraper per Veicoli Commerciali su Subito.it 🏁 "));
    const connection = await mysql.createConnection({
       host: "141.95.54.84",
       user: "luigi_tuacar", 
@@ -34,7 +34,7 @@ export default async function scraperMoto() {
       .slice(0, 19)
       .replace("T", " ");
 
-      const deleteQuery = `DELETE FROM caravan_camper_subito WHERE date_remote < ?`;
+      const deleteQuery = `DELETE FROM commerciali_subito WHERE date_remote < ?`;
       const [results] = await connection
       .promise()
       .query(deleteQuery, [formattedDate]);
@@ -249,7 +249,7 @@ export default async function scraperMoto() {
       for (const annuncio of [...annunci].reverse()) {
         await new Promise((resolve, reject) => {
           connection.query(
-            `INSERT INTO caravan_camper_subito (
+            `INSERT INTO veicoli_commerciali_subito (
                   urn, subject, body, date_remote, pollution, fuel, vehicle_status, 
                   price, mileage_scalar, doors, register_date, register_year,
                   geo_region, geo_provincia, geo_town, url, advertiser_name, advertiser_phone
@@ -307,7 +307,7 @@ export default async function scraperMoto() {
   // * Salviamo gli annunci in un file JSON
   try {
     await fs.writeFile(
-      "log/annunci-caravan_camper_subito.json",
+      "log/annunci-veicoli_commerciali_subito.json",
       JSON.stringify(annunci, null, 2)
     );
     console.log(chalk.green(" ✅ File JSON creato con successo! "));
