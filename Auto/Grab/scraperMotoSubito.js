@@ -11,7 +11,7 @@ dotenv.config();
 
 // Aggiungere una costante per il delay e il numero di pagine
 const SCRAPING_DELAY = 1000;
-const MAX_PAGES = 1;
+const MAX_PAGES = 10;
 const DELETE_AFTER_DAYS = 90;
 
 export default async function scraperMoto() {
@@ -23,7 +23,7 @@ export default async function scraperMoto() {
     database: "tuacarDb",
   });
 
-  // * Elimina i record vecchi (90 giorni)
+  // * 1. Elimina i record vecchi (90 giorni)
   try {
     const deleteIntervalDate = new Date();
     deleteIntervalDate.setDate(
@@ -47,7 +47,7 @@ export default async function scraperMoto() {
     );
   }
 
-  // * Funzione per ottenere il numero di telefono
+  // * 2. Funzione per ottenere il numero di telefono
   async function getPhone(urn_fetch) {
     try {
       const urn = `${urn_fetch}`;
@@ -86,6 +86,7 @@ export default async function scraperMoto() {
     },
   });
 
+  // * 3. GRAB ELEMENTI PER N PAGINE
   for (let page = 1; page <= MAX_PAGES; page++) {
     let url = "";
     if (page === 1) {
@@ -157,14 +158,14 @@ export default async function scraperMoto() {
             .text()
             .trim() || "01/1900";
         const register_year = register_date.split("/")[1] || "1900";
-
+      // * 4. GRAB DETTAGLI ANNUNCIO
         try {
           const { data: detailData } = await axiosInstance.get(link);
           const $detail = cheerio.load(detailData);
           const urn = $detail("script#__NEXT_DATA__")
             .text()
             .match(/(id:ad:\d+:list:\d+)/)[1];
-
+      // * 5. Controllo se l'annuncio è già presente nel database
            try {
                const [results] = await connection
                  .promise()
@@ -250,8 +251,8 @@ export default async function scraperMoto() {
 
   console.log(chalk.green(`Trovati ${annunci.length} annunci totali`));
 
-  // * Salviamo gli annunci nel database
-      if (annunci.length > 0) {
+  // * 6. Salviamo gli annunci nel database
+   if (annunci.length > 0) {
     try {
       for (const annuncio of [...annunci].reverse()) {
         await new Promise((resolve, reject) => {
@@ -301,7 +302,7 @@ export default async function scraperMoto() {
     }
   }
 
-  // * Chiudiamo la connessione al database
+  // * 7. Chiudiamo la connessione al database
   try {
     const conn = await connection;
     await conn.end();
@@ -311,7 +312,7 @@ export default async function scraperMoto() {
     );
   }
 
-  // * Salviamo gli annunci in un file JSON
+  // * 8. Salviamo gli annunci in un file JSON
   try {
     await fs.writeFile(
       "log/annunci-moto_subito.json",

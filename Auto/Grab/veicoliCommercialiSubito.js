@@ -9,45 +9,45 @@ import { ReadableStream } from "web-streams-polyfill";
 global.ReadableStream = ReadableStream;
 dotenv.config();
 
-// Aggiungere una costante per il delay e il numero di pagine
+// ? COSTANTI SCRIPT
 const SCRAPING_DELAY = 1000;
-const MAX_PAGES = 10;
+const MAX_PAGES = 1;
 const DELETE_AFTER_DAYS = 90;
 
 export default async function scraperMoto() {
   console.log(chalk.bgGreen(" 🏁 Starting Scraper per Veicoli Commerciali su Subito.it 🏁 "));
-   const connection = await mysql.createConnection({
-      host: "141.95.54.84",
-      user: "luigi_tuacar", 
-      password: "Tuacar.2023",
-      database: "tuacarDb",
-   });
+  const connection = await mysql.createConnection({
+    host: "141.95.54.84",
+    user: "luigi_tuacar",
+    password: "Tuacar.2023",
+    database: "tuacarDb",
+  });
 
-  // * Elimina i record vecchi (90 giorni)
-   try {
-      const deleteIntervalDate = new Date();
-      deleteIntervalDate.setDate(
+// * 1. Elimina i record vecchi (90 giorni)
+  try {
+    const deleteIntervalDate = new Date();
+    deleteIntervalDate.setDate(
       deleteIntervalDate.getDate() - DELETE_AFTER_DAYS
-      );
-      const formattedDate = deleteIntervalDate
+    );
+    const formattedDate = deleteIntervalDate
       .toISOString()
       .slice(0, 19)
       .replace("T", " ");
 
-      const deleteQuery = `DELETE FROM commerciali_subito WHERE date_remote < ?`;
-      const [results] = await connection
+    const deleteQuery = `DELETE FROM commerciali_subito WHERE date_remote < ?`;
+    const [results] = await connection
       .promise()
       .query(deleteQuery, [formattedDate]);
-      console.log(
+    console.log(
       chalk.green(`🗑️ Eliminati ${results.affectedRows} record vecchi`)
-      );
-   } catch (error) {
-      console.error(
+    );
+  } catch (error) {
+    console.error(
       chalk.red("Errore durante l'eliminazione dei record vecchi:", error)
-      );
-   }
+    );
+  }
 
-  // * Funzione per ottenere il numero di telefono
+// * 2. Funzione per ottenere il numero di telefono
   async function getPhone(urn_fetch) {
     try {
       const urn = `${urn_fetch}`;
@@ -66,7 +66,6 @@ export default async function scraperMoto() {
 
       const phone = data.phone_number || null;
       return phone;
-      
     } catch (error) {
       console.error(
         chalk.yellow(
@@ -87,6 +86,7 @@ export default async function scraperMoto() {
     },
   });
 
+// * 3. GRAB ELEMENTI PER N PAGINE
   for (let page = 1; page <= MAX_PAGES; page++) {
     let url = "";
     if (page === 1) {
@@ -150,36 +150,31 @@ export default async function scraperMoto() {
             )
             .text()
             .trim() || "Usato";
-        const register_date =
-          $(item)
-            .find(
-              "div.index-module_container__uSw-h.index-module_inline__cRSy4.index-module_grid-columns-3__OK1i4 > p:nth-child(2)"
-            )
-            .text()
-            .trim() || "01/1900";
-        const register_year = register_date.split("/")[1] || "1900";
-
+// * 4. GRAB DETTAGLI ANNUNCIO
         try {
           const { data: detailData } = await axiosInstance.get(link);
           const $detail = cheerio.load(detailData);
-          const urn =
-            $detail("script#__NEXT_DATA__")
-              .text()
-              .match(/(id:ad:\d+:list:\d+)/)[1];
-
+          const urn = $detail("script#__NEXT_DATA__")
+            .text()
+            .match(/(id:ad:\d+:list:\d+)/)[1];
+// * 5. CONTROLLO ANNUNCIO SE PRESENTE NEL DATABASE
           try {
-               const [results] = await connection
-                 .promise()
-                 .query("SELECT id FROM moto_subito WHERE urn = ?", [urn]);
-                 
-               if (results.length > 0) {
-                 /* console.log(chalk.yellow(`🔍 URN ${urn} già presente nel database, salto questo annuncio`)); */
-                 continue;
-               }
-             } catch (error) {
-               console.error(chalk.red(`Errore nel controllo URN nel database: ${error.message}`));
-             }
+            const [results] = await connection
+              .promise()
+              .query("SELECT id FROM commerciali_subito WHERE urn = ?", [
+                urn,
+              ]);
 
+            if (results.length > 0) {
+              continue;
+            }
+          } catch (error) {
+            console.error(
+              chalk.red(
+                `Errore nel controllo URN nel database: ${error.message}`
+              )
+            );
+          }
 
           const annuncio = {
             urn: urn,
@@ -192,18 +187,18 @@ export default async function scraperMoto() {
             mileage_scalar: mileage_scalar,
             doors: null,
             register_date: $detail(
-              "ul.feature-list_feature-list__jdU2M li:has(span:contains('Immatricolazione')) span:nth-child(2)"
-            )
-              .text()
-              .trim() || "01/1900",
-            register_year:
-              $detail(
-                "ul.feature-list_feature-list__jdU2M li:has(span:contains('Immatricolazione')) span:nth-child(2)"
-              )
-                .text()
-                .trim()
-                .split("/")
-                .pop() || "1900",
+               "ul.feature-list_feature-list__jdU2M li:has(span:contains('Immatricolazione')) span:nth-child(2)"
+             )
+               .text()
+               .trim() || "01/1900",
+             register_year:
+               $detail(
+                 "ul.feature-list_feature-list__jdU2M li:has(span:contains('Immatricolazione')) span:nth-child(2)"
+               )
+                 .text()
+                 .trim()
+                 .split("/")
+                 .pop() || "1900",
             geo_region:
               $detail(
                 "ol.index-module_container__rA-Ps > li:nth-child(3) > a > span"
@@ -254,13 +249,13 @@ export default async function scraperMoto() {
 
   console.log(chalk.green(`Trovati ${annunci.length} annunci totali`));
 
-  // * Salviamo gli annunci nel database
-    if (annunci.length > 0) {
+// * 6. Salviamo gli annunci nel database
+   if (annunci.length > 0) {
     try {
       for (const annuncio of [...annunci].reverse()) {
         await new Promise((resolve, reject) => {
           connection.query(
-            `INSERT INTO veicoli_commerciali_subito (
+            `INSERT INTO commerciali_subito (
                   urn, subject, body, date_remote, pollution, fuel, vehicle_status, 
                   price, mileage_scalar, doors, register_date, register_year,
                   geo_region, geo_provincia, geo_town, url, advertiser_name, advertiser_phone
@@ -305,7 +300,7 @@ export default async function scraperMoto() {
     }
   }
 
-  // * Chiudiamo la connessione al database
+// * 7. Chiudiamo la connessione al database
   try {
     const conn = await connection;
     await conn.end();
@@ -315,10 +310,10 @@ export default async function scraperMoto() {
     );
   }
 
-  // * Salviamo gli annunci in un file JSON
+// *  8. Salviamo gli annunci in un file JSON
   try {
     await fs.writeFile(
-      "log/annunci-veicoli_commerciali_subito.json",
+      "log/annunci-veicoli-commerciali_subito.json",
       JSON.stringify(annunci, null, 2)
     );
     console.log(chalk.green(" ✅ File JSON creato con successo! "));

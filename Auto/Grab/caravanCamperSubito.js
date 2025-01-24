@@ -23,7 +23,7 @@ export default async function scraperMoto() {
     database: "tuacarDb",
   });
 
-  // * Elimina i record vecchi (90 giorni)
+  // * 1. Elimina i record vecchi (90 giorni)
   try {
     const deleteIntervalDate = new Date();
     deleteIntervalDate.setDate(
@@ -47,7 +47,7 @@ export default async function scraperMoto() {
     );
   }
 
-  // * Funzione per ottenere il numero di telefono
+  // * 2. Funzione per ottenere il numero di telefono
   async function getPhone(urn_fetch) {
     try {
       const urn = `${urn_fetch}`;
@@ -86,7 +86,7 @@ export default async function scraperMoto() {
     },
   });
 
-  // * GRAB ELEMENTI PER N PAGINE
+  // * 3. GRAB ELEMENTI PER N PAGINE
   for (let page = 1; page <= MAX_PAGES; page++) {
     let url = "";
     if (page === 1) {
@@ -150,14 +150,14 @@ export default async function scraperMoto() {
             )
             .text()
             .trim() || "Usato";
-
+        // * 4. GRAB DETTAGLI ANNUNCIO
         try {
           const { data: detailData } = await axiosInstance.get(link);
           const $detail = cheerio.load(detailData);
           const urn = $detail("script#__NEXT_DATA__")
             .text()
             .match(/(id:ad:\d+:list:\d+)/)[1];
-          // * CONTROLLO ANNUNCIO SE PRESENTE NEL DATABASE
+          // * 5. CONTROLLO ANNUNCIO SE PRESENTE NEL DATABASE
           try {
             const [results] = await connection
               .promise()
@@ -249,7 +249,7 @@ export default async function scraperMoto() {
 
   console.log(chalk.green(`Trovati ${annunci.length} annunci totali`));
 
-  // * Salviamo gli annunci nel database
+  // * 6. Salviamo gli annunci nel database
    if (annunci.length > 0) {
     try {
       for (const annuncio of [...annunci].reverse()) {
@@ -300,7 +300,7 @@ export default async function scraperMoto() {
     }
   }
 
-  // * Chiudiamo la connessione al database
+  // * 7. Chiudiamo la connessione al database
   try {
     const conn = await connection;
     await conn.end();
@@ -310,7 +310,7 @@ export default async function scraperMoto() {
     );
   }
 
-  // * Salviamo gli annunci in un file JSON
+  // *  8. Salviamo gli annunci in un file JSON
   try {
     await fs.writeFile(
       "log/annunci-caravan_camper_subito.json",
