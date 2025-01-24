@@ -11,7 +11,7 @@ dotenv.config();
 
 // ? COSTANTI SCRIPT
 const SCRAPING_DELAY = 1000;
-const MAX_PAGES = 10;
+const MAX_PAGES = 3;
 const DELETE_AFTER_DAYS = 90;
 
 export default async function scraperCaravanCamper() {

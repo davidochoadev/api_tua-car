@@ -11,7 +11,7 @@ dotenv.config();
 
 // Aggiungere una costante per il delay e il numero di pagine
 const SCRAPING_DELAY = 1000;
-const MAX_PAGES = 10;
+const MAX_PAGES = 3;
 const DELETE_AFTER_DAYS = 90;
 
 export default async function scraperMoto() {
