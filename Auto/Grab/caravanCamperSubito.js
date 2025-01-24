@@ -14,7 +14,7 @@ const SCRAPING_DELAY = 1000;
 const MAX_PAGES = 10;
 const DELETE_AFTER_DAYS = 90;
 
-export default async function scraperMoto() {
+export default async function scraperCaravanCamper() {
   console.log(chalk.bgGreen(" 🏁 Starting Scraper per Moto su Subito.it 🏁 "));
   const connection = await mysql.createConnection({
     host: "141.95.54.84",
@@ -324,4 +324,4 @@ export default async function scraperMoto() {
   return true;
 }
 
-scraperMoto();
+scraperCaravanCamper();

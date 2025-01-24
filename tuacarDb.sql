@@ -23,10 +23,10 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 --
--- Struttura della tabella `caravan_camper_subito`
+-- Struttura della tabella `commerciali_subito`
 --
 
-CREATE TABLE `caravan_camper_subito` (
+CREATE TABLE `commerciali_subito` (
   `id` int NOT NULL,
   `urn` varchar(255) NOT NULL,
   `subject` text NOT NULL,
@@ -52,18 +52,18 @@ CREATE TABLE `caravan_camper_subito` (
 --
 
 --
--- Indici per le tabelle `caravan_camper_subito`
+-- Indici per le tabelle `commerciali_subito`
 --
-ALTER TABLE `caravan_camper_subito`
+ALTER TABLE `commerciali_subito`
 ADD PRIMARY KEY (`id`);
 --
 -- AUTO_INCREMENT per le tabelle scaricate
 --
 
 --
--- AUTO_INCREMENT per la tabella `caravan_camper_subito`
+-- AUTO_INCREMENT per la tabella `commerciali_subito`
 --
-ALTER TABLE `caravan_camper_subito`
+ALTER TABLE `commerciali_subito`
 MODIFY `id` int NOT NULL AUTO_INCREMENT;
 COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */

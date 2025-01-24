@@ -11,10 +11,10 @@ dotenv.config();
 
 // ? COSTANTI SCRIPT
 const SCRAPING_DELAY = 1000;
-const MAX_PAGES = 1;
+const MAX_PAGES = 10;
 const DELETE_AFTER_DAYS = 90;
-
-export default async function scraperMoto() {
+// * SCRAPER PER VEICOLI COMMERCIALI SU SUBITO.IT 🚛
+export default async function scraperVeicoliCommerciali() {
   console.log(chalk.bgGreen(" 🏁 Starting Scraper per Veicoli Commerciali su Subito.it 🏁 "));
   const connection = await mysql.createConnection({
     host: "141.95.54.84",
@@ -90,12 +90,12 @@ export default async function scraperMoto() {
   for (let page = 1; page <= MAX_PAGES; page++) {
     let url = "";
     if (page === 1) {
-      url = `https://www.subito.it/annunci-italia/vendita/caravan-e-camper/?cvs=1&advt=0%2C2`;
+      url = `https://www.subito.it/annunci-italia/vendita/veicoli-commerciali/?cvs=1&advt=0%2C2&cvt=8`;
     } else {
-      url = `https://www.subito.it/annunci-italia/vendita/caravan-e-camper/?o=${page}&cvs=1&advt=0%2C2`;
+      url = `https://www.subito.it/annunci-italia/vendita/veicoli-commerciali/?o=${page}&cvs=1&advt=0%2C2&cvt=8`;
     }
 
-    console.log(chalk.blue(`Elaborazione pagina ${page}/${MAX_PAGES}...`));
+    console.log(chalk.blue(` 📄 Elaborazione pagina ${page}/${MAX_PAGES}...`));
 
     try {
       const { data } = await axiosInstance.get(url);
@@ -121,7 +121,7 @@ export default async function scraperMoto() {
               "h2.index-module_sbt-text-atom__ifYVU.index-module_token-h6__syels.size-normal.index-module_weight-semibold__p5-q6.ItemTitle-module_item-title__VuKDo.SmallCard-module_item-title__1y5U3"
             )
             .text()
-            .trim() || "Moto su Subito.it";
+            .trim() || "Veicoli Commerciali su Subito.it";
         const price =
           parseInt(
             $(item)
@@ -324,4 +324,4 @@ export default async function scraperMoto() {
   return true;
 }
 
-scraperMoto();
+scraperVeicoliCommerciali();
