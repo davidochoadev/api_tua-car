@@ -13,14 +13,19 @@ async function searchOnDbFunc(annoDa, annoA, kmDa, kmA, comuni, platform) {
   if (!platform) {
     return res.status(400).json({
       error: "⚠️ Missing 'platform' parameter within the query parameters. It's not possible to perform the car search in the database without specifying the platform for the search.",
-      platformOptions: ["facebook", "autoscout", "subito","moto.it"]
+      platformOptions: ["facebook", "autoscout", "subito","moto-it","moto-subito"]
     });
    }
   
    let data;
 
    switch (platform) {
-     case 'moto.it':
+     case 'moto-subito':
+       // Call the function to get data for MotoSubito platform
+       console.log("Calling moto-subito", comuni, annoDa, annoA, kmDa, kmA);
+       data = await leads.getCarsFromMotoSubito(comuni, annoDa, annoA, kmDa, kmA);
+       break;
+     case 'moto-it':
        // Call the function to get data for Facebook platform
        console.log("Calling fb", comuni, annoDa, annoA, kmDa, kmA);
        data = await leads.getCarsFromFacebook(comuni, annoDa, annoA, kmDa, kmA);
@@ -35,8 +40,8 @@ async function searchOnDbFunc(annoDa, annoA, kmDa, kmA, comuni, platform) {
        break;
      default:
        return res.status(400).json({
-         error: `⚠️ The specified platform '${platform}' is not supported. Supported platforms are: facebook, autoscout, subito.`,
-         platformOptions: ["facebook", "autoscout", "subito"]
+         error: `⚠️ The specified platform '${platform}' is not supported. Supported platforms are: facebook, autoscout, subito, moto-it, moto-subito.`,
+         platformOptions: ["facebook", "autoscout", "subito", "moto-it", "moto-subito"]
        });
    }
 
@@ -81,13 +86,14 @@ export const searchOnDb = async (req, res) => {
     'facebook': 'cars_facebook',
     'autoscout': 'cars_autoscout',
     'subito': 'cars_subito',
-    'moto-it': 'moto_motoit'
+    'moto-it': 'moto_motoit',
+    'moto-subito': 'moto_subito',
   };
 
    if (!platform) {
     return res.status(400).json({
       error: "⚠️ Missing 'platform' parameter within the query parameters. It's not possible to perform the car search in the database without specifying the platform for the search.",
-      platformOptions: ["facebook", "autoscout", "subito","moto.it"]
+      platformOptions: ["facebook", "autoscout", "subito","moto-it","moto-subito"]
     });
    } else if (!(platform in platformMapping)) {
     return res.status(400).json({
@@ -129,13 +135,14 @@ export const scheduledSearchOnDb = async (req, res) => {
     'facebook': 'cars_facebook',
     'autoscout': 'cars_autoscout',
     'subito': 'cars_subito',
-    'moto-it': 'moto_motoit'
+    'moto-it': 'moto_motoit',
+    'moto-subito': 'moto_subito'
   };
 
   if (!platform) {
    return res.status(400).json({
      error: "⚠️ Missing 'platform' parameter within the query parameters. It's not possible to perform the car search in the database without specifying the platform for the search.",
-     platformOptions: ["facebook", "autoscout", "subito", "moto-it"]
+     platformOptions: ["facebook", "autoscout", "subito", "moto-it", "moto-subito"]
    });
   } else if (!(platform in platformMapping)) {
     return res.status(400).json({
@@ -246,13 +253,14 @@ export const getLeadsbyLeadsIds = async (req,res) => {
     'facebook': 'cars_facebook',
     'autoscout': 'cars_autoscout',
     'subito': 'cars_subito',
-    'moto-it': 'moto_motoit'
+    'moto-it': 'moto_motoit',
+    'moto-subito': 'moto_subito'
   };
 
   if (!platform) {
     return res.status(400).json({
       error: "⚠️ Missing 'platform' parameter within the query parameters. It's not possible to perform the car search in the database without specifying the platform for the search.",
-      platformOptions: ["facebook", "autoscout", "subito","moto-it"]
+      platformOptions: ["facebook", "autoscout", "subito","moto-it","moto-subito"]
     });
    } else if (!(platform in platformMapping)) {
      return res.status(400).json({
@@ -300,13 +308,13 @@ export const manualSearch = async (req,res) => {
     });
   }
 
-  const allowedObjects = ['platform-01', 'platform-02', 'platform-03', 'platform-04'];
+  const allowedObjects = ['platform-01', 'platform-02', 'platform-03', 'platform-04', 'platform-05'];
   const contentKeys = Object.keys(search_content);
 
   if (contentKeys.length > 3 || !contentKeys.every(platform => allowedObjects.includes(platform))) {
     return res.status(400).json({
       error: "Errore, la struttura di search_content non è valida",
-      allowedObjects: ['platform-01', 'platform-02', 'platform-03', 'platform-04']
+      allowedObjects: ['platform-01', 'platform-02', 'platform-03', 'platform-04', 'platform-05']
     });
   };
 
