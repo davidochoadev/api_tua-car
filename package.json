@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js",
     "start": "node app.js",
-    "moto": "node Auto/Grab/scraperMoto.js"
+    "moto": "node Auto/Grab/scraperMoto.js",
+    "motosubito": "node Auto/Grab/scraperMotoSubito.js"
   },
   "dependencies": {
     "@prisma/client": "^5.2.0",
