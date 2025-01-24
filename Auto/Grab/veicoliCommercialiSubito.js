@@ -11,7 +11,7 @@ dotenv.config();
 
 // ? COSTANTI SCRIPT
 const SCRAPING_DELAY = 1000;
-const MAX_PAGES = 3;
+const MAX_PAGES = 5;
 const DELETE_AFTER_DAYS = 90;
 // * SCRAPER PER VEICOLI COMMERCIALI SU SUBITO.IT 🚛
 export default async function scraperVeicoliCommerciali() {
