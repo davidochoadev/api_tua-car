@@ -165,7 +165,7 @@ export default async function scraperMoto() {
             .text()
             .match(/(id:ad:\d+:list:\d+)/)[1];
 
-          /*           try {
+           try {
                const [results] = await connection
                  .promise()
                  .query("SELECT id FROM moto_subito WHERE urn = ?", [urn]);
@@ -175,7 +175,7 @@ export default async function scraperMoto() {
                }
              } catch (error) {
                console.error(chalk.red(`Errore nel controllo URN nel database: ${error.message}`));
-             } */
+             }
 
           const annuncio = {
             urn: urn,
@@ -251,7 +251,7 @@ export default async function scraperMoto() {
   console.log(chalk.green(`Trovati ${annunci.length} annunci totali`));
 
   // * Salviamo gli annunci nel database
-  /*     if (annunci.length > 0) {
+      if (annunci.length > 0) {
     try {
       for (const annuncio of [...annunci].reverse()) {
         await new Promise((resolve, reject) => {
@@ -299,7 +299,7 @@ export default async function scraperMoto() {
         chalk.red("Errore durante il salvataggio nel database:", error)
       );
     }
-  } */
+  }
 
   // * Chiudiamo la connessione al database
   try {
