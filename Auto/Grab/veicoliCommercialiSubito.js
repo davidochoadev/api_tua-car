@@ -170,7 +170,7 @@ export default async function scraperMoto() {
           try {
                const [results] = await connection
                  .promise()
-                 .query("SELECT id FROM caravan_camper_subito WHERE urn = ?", [urn]);
+                 .query("SELECT id FROM moto_subito WHERE urn = ?", [urn]);
                  
                if (results.length > 0) {
                  /* console.log(chalk.yellow(`🔍 URN ${urn} già presente nel database, salto questo annuncio`)); */
