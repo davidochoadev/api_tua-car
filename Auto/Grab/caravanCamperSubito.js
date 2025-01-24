@@ -186,17 +186,19 @@ export default async function scraperMoto() {
             price: price,
             mileage_scalar: mileage_scalar,
             doors: null,
-            register_date: $detail("ul.feature-list_feature-list__jdU2M li:nth-child(5) span:nth-child(2)")
-              .text()
-              .trim(),
-            register_year:
-              $detail(
-                "ul.feature-list_feature-list__jdU2M li:nth-child(5) span:nth-child(2)"
-              )
-                .text()
-                .trim()
-                .split("/")
-                .pop() || null,
+            register_date: $detail(
+               "ul.feature-list_feature-list__jdU2M li:has(span:contains('Immatricolazione')) span:nth-child(2)"
+             )
+               .text()
+               .trim() || "01/1900",
+             register_year:
+               $detail(
+                 "ul.feature-list_feature-list__jdU2M li:has(span:contains('Immatricolazione')) span:nth-child(2)"
+               )
+                 .text()
+                 .trim()
+                 .split("/")
+                 .pop() || "1900",
             geo_region:
               $detail(
                 "ol.index-module_container__rA-Ps > li:nth-child(3) > a > span"

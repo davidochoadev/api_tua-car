@@ -11,41 +11,41 @@ dotenv.config();
 
 // Aggiungere una costante per il delay e il numero di pagine
 const SCRAPING_DELAY = 1000;
-const MAX_PAGES = 10;
+const MAX_PAGES = 1;
 const DELETE_AFTER_DAYS = 90;
 
 export default async function scraperMoto() {
   console.log(chalk.bgGreen(" 🏁 Starting Scraper per Moto su Subito.it 🏁 "));
-   const connection = await mysql.createConnection({
-      host: "141.95.54.84",
-      user: "luigi_tuacar", 
-      password: "Tuacar.2023",
-      database: "tuacarDb",
-   });
+  const connection = await mysql.createConnection({
+    host: "141.95.54.84",
+    user: "luigi_tuacar",
+    password: "Tuacar.2023",
+    database: "tuacarDb",
+  });
 
   // * Elimina i record vecchi (90 giorni)
-   try {
-      const deleteIntervalDate = new Date();
-      deleteIntervalDate.setDate(
+  try {
+    const deleteIntervalDate = new Date();
+    deleteIntervalDate.setDate(
       deleteIntervalDate.getDate() - DELETE_AFTER_DAYS
-      );
-      const formattedDate = deleteIntervalDate
+    );
+    const formattedDate = deleteIntervalDate
       .toISOString()
       .slice(0, 19)
       .replace("T", " ");
 
-      const deleteQuery = `DELETE FROM moto_subito WHERE date_remote < ?`;
-      const [results] = await connection
+    const deleteQuery = `DELETE FROM moto_subito WHERE date_remote < ?`;
+    const [results] = await connection
       .promise()
       .query(deleteQuery, [formattedDate]);
-      console.log(
+    console.log(
       chalk.green(`🗑️ Eliminati ${results.affectedRows} record vecchi`)
-      );
-   } catch (error) {
-      console.error(
+    );
+  } catch (error) {
+    console.error(
       chalk.red("Errore durante l'eliminazione dei record vecchi:", error)
-      );
-   }
+    );
+  }
 
   // * Funzione per ottenere il numero di telefono
   async function getPhone(urn_fetch) {
@@ -66,7 +66,6 @@ export default async function scraperMoto() {
 
       const phone = data.phone_number || null;
       return phone;
-      
     } catch (error) {
       console.error(
         chalk.yellow(
@@ -162,24 +161,21 @@ export default async function scraperMoto() {
         try {
           const { data: detailData } = await axiosInstance.get(link);
           const $detail = cheerio.load(detailData);
-          const urn =
-            $detail("script#__NEXT_DATA__")
-              .text()
-              .match(/(id:ad:\d+:list:\d+)/)[1];
+          const urn = $detail("script#__NEXT_DATA__")
+            .text()
+            .match(/(id:ad:\d+:list:\d+)/)[1];
 
-          try {
+          /*           try {
                const [results] = await connection
                  .promise()
                  .query("SELECT id FROM moto_subito WHERE urn = ?", [urn]);
                  
                if (results.length > 0) {
-                 /* console.log(chalk.yellow(`🔍 URN ${urn} già presente nel database, salto questo annuncio`)); */
                  continue;
                }
              } catch (error) {
                console.error(chalk.red(`Errore nel controllo URN nel database: ${error.message}`));
-             }
-
+             } */
 
           const annuncio = {
             urn: urn,
@@ -191,17 +187,19 @@ export default async function scraperMoto() {
             price: price,
             mileage_scalar: mileage_scalar,
             doors: null,
-            register_date: $detail("ul.feature-list_feature-list__jdU2M li:nth-child(5) span:nth-child(2)")
+            register_date: $detail(
+              "ul.feature-list_feature-list__jdU2M li:has(span:contains('Immatricolazione')) span:nth-child(2)"
+            )
               .text()
-              .trim(),
+              .trim() || "01/1900",
             register_year:
               $detail(
-                "ul.feature-list_feature-list__jdU2M li:nth-child(5) span:nth-child(2)"
+                "ul.feature-list_feature-list__jdU2M li:has(span:contains('Immatricolazione')) span:nth-child(2)"
               )
                 .text()
                 .trim()
                 .split("/")
-                .pop() || null,
+                .pop() || "1900",
             geo_region:
               $detail(
                 "ol.index-module_container__rA-Ps > li:nth-child(3) > a > span"
@@ -253,7 +251,7 @@ export default async function scraperMoto() {
   console.log(chalk.green(`Trovati ${annunci.length} annunci totali`));
 
   // * Salviamo gli annunci nel database
-    if (annunci.length > 0) {
+  /*     if (annunci.length > 0) {
     try {
       for (const annuncio of [...annunci].reverse()) {
         await new Promise((resolve, reject) => {
@@ -301,7 +299,7 @@ export default async function scraperMoto() {
         chalk.red("Errore durante il salvataggio nel database:", error)
       );
     }
-  }
+  } */
 
   // * Chiudiamo la connessione al database
   try {
