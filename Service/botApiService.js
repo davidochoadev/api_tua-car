@@ -151,4 +151,103 @@ export class botApiService {
       }
     }
   }
+
+  // * UPDATE STATUS RICERCA AUTOMATICA
+  async updateStatusRicercaAutomatica(platform, status) {
+   let connection;
+   try {
+    if (!platform) {
+      throw new Error("Platform non specificata");
+    }
+    if (!status) {
+      throw new Error("Status non specificato");
+    }
+
+    connection = await mysql.createConnection({
+      host: "141.95.54.84",
+      user: "luigi_tuacar",
+      password: "Tuacar.2023",
+      database: "tuacarDb",
+    });
+
+    const [results] = await connection.promise().query(
+      "UPDATE bot_settings SET is_automatic = ? WHERE platform_number = ?",
+      [status, platform]
+    );
+
+    if (results.affectedRows === 0) {
+      throw new Error(`Nessuna piattaforma trovata con il numero: ${platform}`);
+    }
+
+    return {
+      success: true,
+      message: "Status aggiornato con successo",
+      platform: platform,
+      status: status,
+      affectedRows: results.affectedRows,
+    };
+   } catch (error) {
+    console.error("Errore durante l'aggiornamento:", error.message);
+    return {
+        success: false,
+        message: error.message,
+      };
+    } finally {
+      try {
+        const conn = await connection;
+        await conn.end();
+      } catch (error) {
+        console.error("Errore durante la chiusura della connessione:", error);
+      }
+    }
+  }
+
+  // * UPDATE STATUS PAGINE DA ANALIZZARE PER IL BOT
+  async updateStatusPagineDaAnalizzare(platform, pages) {
+    let connection;
+    try {
+      if (!platform) {
+        throw new Error("Platform non specificata");
+      }
+      if (!pages) {
+        throw new Error("Numero di pagine non specificato");
+      }
+      connection = await mysql.createConnection({
+        host: "141.95.54.84",
+        user: "luigi_tuacar",
+        password: "Tuacar.2023",
+        database: "tuacarDb",
+      });
+
+      const [results] = await connection.promise().query(
+        "UPDATE bot_settings SET pages = ? WHERE platform_number = ?",
+        [pages, platform]
+      );
+
+      if (results.affectedRows === 0) {
+        throw new Error(`Nessuna piattaforma trovata con il numero: ${platform}`);
+      }
+
+      return {
+        success: true,
+        message: "Numero di pagine aggiornato con successo",
+        platform: platform,
+        pages: pages,
+        affectedRows: results.affectedRows,
+      };
+    } catch (error) {
+      console.error("Errore durante l'aggiornamento:", error.message);
+      return {
+        success: false,
+        message: error.message,
+      };
+    } finally {
+      try {
+        const conn = await connection;
+        await conn.end();
+      } catch (error) {
+        console.error("Errore durante la chiusura della connessione:", error);
+      }
+    }
+  }
 }

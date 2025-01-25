@@ -1,5 +1,5 @@
 import express from "express";
-import { ricercaManualeBot } from "../../controllers/v2/botController.js";
+import { ricercaManualeBot, attivazioneRicercaAutomaticaBot, updateStatusPagineDaAnalizzareBot } from "../../controllers/v2/botController.js";
 const botApiRouter = express();
 botApiRouter.use(express.json());
 
@@ -8,6 +8,8 @@ botApiRouter.get("/", (req, res) => {
 });
 
 botApiRouter.post("/ricercaManuale", ricercaManualeBot);
+botApiRouter.post("/attivazioneRicercaAutomatica", attivazioneRicercaAutomaticaBot);
+botApiRouter.post("/modificaPagine", updateStatusPagineDaAnalizzareBot);
 
 
 export default botApiRouter;

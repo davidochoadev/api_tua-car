@@ -1,7 +1,7 @@
 import { botApiService } from "../../Service/botApiService.js";
 import chalk from "chalk";
 const bot = new botApiService();
-
+// * RICERCA MANUALE
 export const ricercaManualeBot = async (req, res) => {
     const data = req.body;
     const platform = data.platform;
@@ -69,7 +69,45 @@ export const ricercaManualeBot = async (req, res) => {
     }
 }
 
-// Funzione di utility per gestire i retry
+// * ATTIVAZIONE RICERCA AUTOMATICA
+export const attivazioneRicercaAutomaticaBot = async (req, res) => {
+    const data = req.body;
+    const platform = data.platform;
+    const status = data.status === "true" ? 1 : 0;
+
+    const validazione = await validazioneAttivazioneRicercaAutomatica(platform, status, data.status);
+    if (!validazione.success) {
+        return res.status(400).json({ error: validazione.message });
+    }
+
+    const updateStatus = await bot.updateStatusRicercaAutomatica(platform, status);
+    if (!updateStatus.success) {
+        return res.status(500).json({ error: "Errore durante l'aggiornamento del status" });
+    }
+
+    return res.status(200).json(updateStatus);
+}
+
+// * MODIFICA NUMERO DI PAGINE DA ANALIZZARE
+export const updateStatusPagineDaAnalizzareBot = async (req, res) => {
+    const data = req.body;
+    const platform = data.platform;
+    const pages = parseInt(data.pages, 10);
+
+    const validazione = await validazioneModificaPagineDaAnalizzare(platform, pages);
+    if (!validazione.success) {
+        return res.status(400).json({ error: validazione.message });
+    }
+
+    const updatePagine = await bot.updateStatusPagineDaAnalizzare(platform, pages);
+    if (!updatePagine.success) {
+        return res.status(500).json({ error: "Errore durante l'aggiornamento del numero di pagine" });
+    }
+
+    return res.status(200).json(updatePagine);
+}
+
+// * UTILITY per gestire i retry
 const retryOperation = async (operation, maxRetries = 3, delay = 1000) => {
     let retryCount = 0;
     
@@ -85,3 +123,52 @@ const retryOperation = async (operation, maxRetries = 3, delay = 1000) => {
     
     return { success: false };
 };
+// * UTILITY per validare l'attivazione della ricerca automatica
+const validazioneAttivazioneRicercaAutomatica = async (platform, status, dataStatus) => {
+   const platformOptions = ["platform-04", "platform-05", "platform-06","platform-07","platform-08"];
+
+   if (!platform) {
+       return { success: false, message: "La platform è obbligatoria, le opzioni disponibili sono: " + platformOptions.join(", ") };
+   }
+
+   if (!status) {
+       return { success: false, message: "Il status è obbligatorio, le opzioni disponibili sono: true, false" };
+   }
+
+   if (!platformOptions.includes(platform)) {
+       return { success: false, message: "La platform non è valida, le opzioni disponibili sono: " + platformOptions.join(", ") };
+   }
+
+   if (dataStatus !== "true" && dataStatus !== "false") {
+         return { success: false, message: "Il status non è valido, le opzioni disponibili sono: true, false" };
+   }
+
+   return { success: true, message: "Validazione effettuata con successo" };
+}
+
+// * UTILITY per validare la modifica del numero di pagine da analizzare
+const validazioneModificaPagineDaAnalizzare = async (platform, pages) => {
+    const platformOptions = ["platform-04", "platform-05", "platform-06","platform-07","platform-08"];
+
+    if (!platform) {
+        return { success: false, message: "La platform è obbligatoria, le opzioni disponibili sono: " + platformOptions.join(", ") };
+    }
+
+    if (!pages) {
+        return { success: false, message: "Il numero di pagine è obbligatorio" };
+    }
+
+    if (!platformOptions.includes(platform)) {
+        return { success: false, message: "La platform non è valida, le opzioni disponibili sono: " + platformOptions.join(", ") };
+    }
+
+    if (pages < 1) {
+        return { success: false, message: "Il numero di pagine deve essere maggiore di 0" };
+    }
+
+    if (!Number.isInteger(pages)) {
+        return { success: false, message: "Il numero di pagine deve essere un numero intero" };
+    }
+
+    return { success: true, message: "Validazione effettuata con successo" };
+}
