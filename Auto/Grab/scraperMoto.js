@@ -25,6 +25,31 @@ export default async function scraperMoto() {
     database: "tuacarDb",
   });
 
+  // ! RECUPERO 'is_automatic' e 'nome_piattaforma' dalla tabella 'bot_status'
+  let isAutomatic;
+  let nomePiattaforma;
+  try {
+    const [results] = await connection.promise().query("SELECT is_automatic, nome_piattaforma, pages FROM bot_status WHERE nome_piattaforma = 'moto_motoit'");
+    isAutomatic = results[0].is_automatic;
+    nomePiattaforma = results[0].nome_piattaforma;
+    pages = results[0].pages > MAX_PAGES ? MAX_PAGES : results[0].pages;
+  } catch (error) {
+    console.error(chalk.red("Errore nel recupero dell'ultimo URN:", error));
+  }
+
+  if (isAutomatic === 0) {
+    console.log(chalk.bgRed(` ⛔ Lo scraping è stato disattivato, non eseguiamo lo scraping per la piattaforma ${nomePiattaforma} ⛔ `));
+    try {
+      const conn = await connection;
+      await conn.end();
+    } catch (error) {
+      console.error(
+        chalk.red("Errore durante la chiusura della connessione:", error)
+      );
+    }
+    return;
+  }
+
   let lastUrn;
   try {
     const [results] = await connection
@@ -90,7 +115,7 @@ export default async function scraperMoto() {
     },
   });
 
-  for (let page = 1; page <= MAX_PAGES; page++) {
+  for (let page = 1; page <= pages; page++) {
     let url = "";
     if (page === 1) {
       url = `https://www.moto.it/moto-usate/ricerca?offer=S&brand=&brandacc=&model=&modelname=&version=&cat=&categoryacc=&condition_expl=&region=&province=&zipcode=&price_f=&price_t=&place=&place_rad=&longitude=&latitude=&disp_f=&disp_t=&pow_f=&pow_t=&weig_s=&weig_t=&electric=&emis_s=&strokes_s=&gear_s=&seat_s=&seat_t=&km_s=&km_t=&year_s=&year_t=&circuit=&crashed=&special=&photo=&tradein=&person=P&newtype=&abs=&unpw=&sort=1_1&sortdir=&kw=&adref=&docs=&work=&rest=&pres=&asi=`;
@@ -98,7 +123,7 @@ export default async function scraperMoto() {
       url = `https://www.moto.it/moto-usate/ricerca/${page}?offer=S&brand=&brandacc=&model=&modelname=&version=&cat=&categoryacc=&condition_expl=&region=&province=&zipcode=&price_f=&price_t=&place=&place_rad=&longitude=&latitude=&disp_f=&disp_t=&pow_f=&pow_t=&weig_s=&weig_t=&electric=&emis_s=&strokes_s=&gear_s=&seat_s=&seat_t=&km_s=&km_t=&year_s=&year_t=&circuit=&crashed=&special=&photo=&tradein=&person=P&newtype=&abs=&unpw=&sort=1_1&sortdir=&kw=&adref=&docs=&work=&rest=&pres=&asi=`;
     }
 
-    console.log(chalk.blue(`Elaborazione pagina ${page}/20...`));
+    console.log(chalk.blue(`Elaborazione pagina ${page}/${pages}...`));
 
     try {
       const { data } = await axiosInstance.get(url);

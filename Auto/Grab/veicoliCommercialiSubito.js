@@ -23,6 +23,32 @@ export default async function scraperVeicoliCommerciali() {
     database: "tuacarDb",
   });
 
+  // ! RECUPERO 'is_automatic' e 'nome_piattaforma' dalla tabella 'bot_status'
+  let isAutomatic;
+  let nomePiattaforma;
+  let pages;
+  try {
+    const [results] = await connection.promise().query("SELECT is_automatic, nome_piattaforma, pages FROM bot_status WHERE nome_piattaforma = 'veicoli_commerciali_subito'");
+    isAutomatic = results[0].is_automatic;
+    nomePiattaforma = results[0].nome_piattaforma;
+    pages = results[0].pages > MAX_PAGES ? MAX_PAGES : results[0].pages;
+  } catch (error) {
+    console.error(chalk.red("Errore nel recupero dell'ultimo URN:", error));
+  }
+
+  if (isAutomatic === 0) {
+    console.log(chalk.bgRed(` ⛔ Lo scraping è stato disattivato, non eseguiamo lo scraping per la piattaforma ${nomePiattaforma} ⛔ `));
+    try {
+      const conn = await connection;
+      await conn.end();
+    } catch (error) {
+      console.error(
+        chalk.red("Errore durante la chiusura della connessione:", error)
+      );
+    }
+    return;
+  } 
+
 // * 1. Elimina i record vecchi (90 giorni)
   try {
     const deleteIntervalDate = new Date();
@@ -87,7 +113,7 @@ export default async function scraperVeicoliCommerciali() {
   });
 
 // * 3. GRAB ELEMENTI PER N PAGINE
-  for (let page = 1; page <= MAX_PAGES; page++) {
+  for (let page = 1; page <= pages; page++) {
     let url = "";
     if (page === 1) {
       url = `https://www.subito.it/annunci-italia/vendita/veicoli-commerciali/?cvs=1&advt=0%2C2&cvt=8`;
@@ -95,7 +121,7 @@ export default async function scraperVeicoliCommerciali() {
       url = `https://www.subito.it/annunci-italia/vendita/veicoli-commerciali/?o=${page}&cvs=1&advt=0%2C2&cvt=8`;
     }
 
-    console.log(chalk.blue(` 📄 Elaborazione pagina ${page}/${MAX_PAGES}...`));
+    console.log(chalk.blue(` 📄 Elaborazione pagina ${page}/${pages}...`));
 
     try {
       const { data } = await axiosInstance.get(url);

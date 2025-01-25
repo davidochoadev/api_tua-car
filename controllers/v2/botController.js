@@ -85,6 +85,8 @@ export const attivazioneRicercaAutomaticaBot = async (req, res) => {
         return res.status(500).json({ error: "Errore durante l'aggiornamento del status" });
     }
 
+    console.log(chalk.bgGreen(` 🏁 Status aggiornato con successo, per la piattaforma ${platform} con status ${status === 1 ? "attivo" : "disattivato"} 🏁 `));
+
     return res.status(200).json(updateStatus);
 }
 
@@ -104,6 +106,7 @@ export const updateStatusPagineDaAnalizzareBot = async (req, res) => {
         return res.status(500).json({ error: "Errore durante l'aggiornamento del numero di pagine" });
     }
 
+    console.log(chalk.bgGreen(` 🏁 Numero di pagine aggiornato con successo, per la piattaforma ${platform} con ${pages} pagine 🏁 `));
     return res.status(200).json(updatePagine);
 }
 
@@ -131,8 +134,8 @@ const validazioneAttivazioneRicercaAutomatica = async (platform, status, dataSta
        return { success: false, message: "La platform è obbligatoria, le opzioni disponibili sono: " + platformOptions.join(", ") };
    }
 
-   if (!status) {
-       return { success: false, message: "Il status è obbligatorio, le opzioni disponibili sono: true, false" };
+   if (status !== 1 && status !== 0) {
+       return { success: false, message: "Lo status è obbligatorio, le opzioni disponibili sono: true, false" };
    }
 
    if (!platformOptions.includes(platform)) {

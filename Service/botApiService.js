@@ -159,7 +159,7 @@ export class botApiService {
     if (!platform) {
       throw new Error("Platform non specificata");
     }
-    if (!status) {
+    if (status !== 1 && status !== 0) {
       throw new Error("Status non specificato");
     }
 
