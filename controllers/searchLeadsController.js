@@ -308,13 +308,13 @@ export const manualSearch = async (req,res) => {
     });
   }
 
-  const allowedObjects = ['platform-01', 'platform-02', 'platform-03', 'platform-04', 'platform-05','platform-06'];
+  const allowedObjects = ['platform-01', 'platform-02', 'platform-03', 'platform-04', 'platform-05','platform-06','platform-07','platform-08'];
   const contentKeys = Object.keys(search_content);
 
   if (contentKeys.length > 3 || !contentKeys.every(platform => allowedObjects.includes(platform))) {
     return res.status(400).json({
       error: "Errore, la struttura di search_content non è valida",
-      allowedObjects: ['platform-01', 'platform-02', 'platform-03', 'platform-04', 'platform-05','platform-06']
+      allowedObjects: allowedObjects
     });
   };
 
