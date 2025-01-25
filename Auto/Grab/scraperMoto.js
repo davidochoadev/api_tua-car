@@ -308,6 +308,19 @@ export default async function scraperMoto() {
         });
       }
       console.log(chalk.green(` ✅ Dati salvati nel database con successo! `));
+
+      // * Aggiorniamo last_run in bot_settings
+      const currentTimestamp = new Date()
+        .toISOString()
+        .slice(0, 19)
+        .replace('T', ' ');
+        
+      await connection.promise().query(
+        "UPDATE bot_settings SET last_run = ? WHERE nome_piattaforma = 'moto_motoit'",
+        [currentTimestamp]
+      );
+      console.log(chalk.green(` ⏱️ Aggiornato timestamp ultimo scraping: ${currentTimestamp}`));
+
     } catch (error) {
       console.error(
         chalk.red("Errore durante il salvataggio nel database:", error)
