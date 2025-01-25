@@ -2,6 +2,7 @@ import scraperManualMoto from "../Auto/Manual/scraperManualMoto.js";
 import scraperManualMotoSubito from "../Auto/Manual/scraperManualMotoSubito.js";
 import scraperManualCaravanCamperSubito from "../Auto/Manual/scraperManualCaravanCamperSubito.js";
 import scraperManualVeicoliCommercialiSubito from "../Auto/Manual/scraperManualVeicoliCommercialiSubito.js";
+import scraperManualFurgoniVanAutoscout from "../Auto/Manual/scraperManualFurgoniVanAutoscout.js";
 import mysql from "mysql2";
 
 export class botApiService {
@@ -89,6 +90,30 @@ export class botApiService {
       }
 
       const risultato = await scraperManualVeicoliCommercialiSubito(number_of_pages);
+      return risultato;
+    } catch (error) {
+      console.error("Errore durante la ricerca manuale:", error.message);
+      return {
+        success: false,
+        message: error.message,
+        numero_di_pagine: 0,
+        numero_di_annunci_trovati: 0,
+      };
+    }
+  }
+
+  // * RICERCA MANUALE FURGONI E VAN SU AUTO SCUOT
+  async ricercaManualeFurgoniVanAutoscout(platform, number_of_pages) {
+    try {
+      if (platform !== "platform-08") {
+        throw new Error("Platform non supportata");
+      }
+
+      if (!number_of_pages || number_of_pages < 1) {
+        throw new Error("Numero di pagine non valido");
+      }
+
+      const risultato = await scraperManualFurgoniVanAutoscout(number_of_pages);
       return risultato;
     } catch (error) {
       console.error("Errore durante la ricerca manuale:", error.message);

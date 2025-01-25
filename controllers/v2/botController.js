@@ -62,7 +62,16 @@ export const ricercaManualeBot = async (req, res) => {
             console.log(chalk.bgGreen(" 🏁 Annunci di Subito.it per veicoli commerciali aggiornati con successo 🏁 "));
             return res.status(200).json(resultVeicoliCommerciali);
         case "platform-08":
-            return res.status(501).json({ error: "Platform non ancora implementata" });
+            const resultFurgoniVan = await bot.ricercaManualeFurgoniVanAutoscout(platform, number_of_pages);
+            if (!resultFurgoniVan.success) {
+                return res.status(500).json({ error: "Errore durante la ricerca manuale" });
+            }
+            const updateFurgoniVan = await retryOperation(() => bot.updateLastExecution(platform));
+            if (!updateFurgoniVan.success) {
+                return res.status(500).json({ error: "Errore durante l'aggiornamento del last_run" });
+            }
+            console.log(chalk.bgGreen(" 🏁 Annunci di AutoScout24 per furgoni e van aggiornati con successo 🏁 "));
+            return res.status(200).json(resultFurgoniVan);
             
         default:
             return res.status(400).json({ error: "La platform non è valida, le opzioni disponibili sono: " + platformOptions.join(", ") });
