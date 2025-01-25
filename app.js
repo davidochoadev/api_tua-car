@@ -12,7 +12,7 @@ import messengerApiRouter from "./routes/api/messengerApi.js";
 import locationApiRouter from "./routes/api/locationApi.js";
 import searchLeadsApiRouter from "./routes/api/searchLeadsApi.js";
 import userApirouter from "./routes/api/userApi.js";
-
+import botApiRouter from "./routes/v2/botApi.js";
 
 const app = express();
 app.use(express.json());
@@ -36,6 +36,7 @@ app.use("/location", locationApiRouter);
 app.use("/user", userApirouter);
 
 app.use("/leads", searchLeadsApiRouter);
+app.use("/bot", botApiRouter);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
