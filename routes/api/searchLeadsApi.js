@@ -16,8 +16,10 @@ searchLeadsApiRouter.get("/", (req, res) => {
   return res.send("Search Leads API Route");
 });
 
+//? DA CONTROLLARE
 searchLeadsApiRouter.post("/search", searchOnDb);
 
+//? DA CONTROLLARE
 searchLeadsApiRouter.post("/scheduledSearch", scheduledSearchOnDb);
 
 // * LISTA DELLE RICERCHE EFFETTUATE DA UN UTENTE
@@ -35,6 +37,7 @@ searchLeadsApiRouter.post("/manualSearch", manualSearch);
 // * LISTA DI LEADS PER ID DI RICERCA
 searchLeadsApiRouter.get("/searchBySearchId", searchBySearchId);
 
+//! DEPRECATED
 /* searchLeadsApiRouter.post("/newSearch", createNewSearch);
 searchLeadsApiRouter.get("/list", searchList);
 searchLeadsApiRouter.get("/listLeads", leadsList); */

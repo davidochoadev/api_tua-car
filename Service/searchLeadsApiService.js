@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import mysql from "mysql";
 import fs from "fs";
 
+//? DA CONTROLLARE TUTTE
 export class searchLeadsApiService {
   constructor() {
     this.prisma = new PrismaClient();

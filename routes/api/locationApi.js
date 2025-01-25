@@ -9,6 +9,7 @@ locationApiRouter.get("/", (req, res) => {
   return res.send("Location API Route");
 });
 
+//? DA CONTROLLARE
 locationApiRouter.get("/regioni", regionList);
 locationApiRouter.get("/province", provsByRegion);
 locationApiRouter.get("/comuni", comuneBySiglaProv);

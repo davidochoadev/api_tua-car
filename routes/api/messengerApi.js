@@ -4,7 +4,7 @@ import { sendMessages, getElements } from "../../controllers/messengerController
 
 const messengerApiRouter = express();
 messengerApiRouter.use(express.json());
-
+// ! DEPRECATED 
 messengerApiRouter.get("/", (req, res) => {
   return res.status(200).json("Messenger API Route");
 });

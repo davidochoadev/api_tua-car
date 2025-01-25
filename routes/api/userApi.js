@@ -8,6 +8,7 @@ userApirouter.get("/", (req, res) => {
   return res.send("Search User API Route");
 });
 
+//? DA CONTROLLARE
 userApirouter.get("/informations", userOnDb);
 userApirouter.get("/scheduledTask", userHasScheduledTask);
 userApirouter.get("/getSpoki",userSpokiData);

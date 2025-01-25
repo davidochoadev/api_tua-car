@@ -1,6 +1,7 @@
 import { Router } from "express";
 import express from "express";
 
+// ! DEPRECATED
 const leadsApiRouter = express();
 leadsApiRouter.use(express.json());
 

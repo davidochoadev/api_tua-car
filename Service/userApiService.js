@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { parse } from "dotenv";
 
+// ? DA CONTROLLARE TUTTE 
 export class userApiService {
   constructor() {
     this.prisma = new PrismaClient();

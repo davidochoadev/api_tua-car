@@ -22,20 +22,22 @@ app.get("/", (req, res) => {
     res.send("Server Express delle API per i leads di Tua Car");
 });
 
+// ! DEPRECATED
 app.get("/search", performSearch);
 app.get("/data", performData);
 app.get("/remove", removeData);
 
-/* app.get("/facebook", searchOnFacebook);
-app.get("/facebookData", searchUserDataOnFacebook); */
-
+// ! DEPRECATED
 app.use("/api", leadsApiRouter);
 app.use("/facebook", facebookApiRouter);
 app.use("/messenger", messengerApiRouter);
+
+// ? V.1 DA CONTROLLARE TUTTE / PARZIALMENTE FUNZIONANTI
 app.use("/location", locationApiRouter);
 app.use("/user", userApirouter);
-
 app.use("/leads", searchLeadsApiRouter);
+
+// * V.2 FUNZIONANTI
 app.use("/bot", botApiRouter);
 
 const port = process.env.PORT || 8000;
