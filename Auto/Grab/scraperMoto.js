@@ -28,8 +28,9 @@ export default async function scraperMoto() {
   // ! RECUPERO 'is_automatic' e 'nome_piattaforma' dalla tabella 'bot_status'
   let isAutomatic;
   let nomePiattaforma;
+  let pages;
   try {
-    const [results] = await connection.promise().query("SELECT is_automatic, nome_piattaforma, pages FROM bot_status WHERE nome_piattaforma = 'moto_motoit'");
+    const [results] = await connection.promise().query("SELECT is_automatic, nome_piattaforma, pages FROM bot_settings WHERE nome_piattaforma = 'moto_motoit'");
     isAutomatic = results[0].is_automatic;
     nomePiattaforma = results[0].nome_piattaforma;
     pages = results[0].pages > MAX_PAGES ? MAX_PAGES : results[0].pages;

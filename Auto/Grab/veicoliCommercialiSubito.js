@@ -28,7 +28,7 @@ export default async function scraperVeicoliCommerciali() {
   let nomePiattaforma;
   let pages;
   try {
-    const [results] = await connection.promise().query("SELECT is_automatic, nome_piattaforma, pages FROM bot_status WHERE nome_piattaforma = 'veicoli_commerciali_subito'");
+    const [results] = await connection.promise().query("SELECT is_automatic, nome_piattaforma, pages FROM bot_settings WHERE nome_piattaforma = 'veicoli_commerciali_subito'");
     isAutomatic = results[0].is_automatic;
     nomePiattaforma = results[0].nome_piattaforma;
     pages = results[0].pages > MAX_PAGES ? MAX_PAGES : results[0].pages;
