@@ -5,17 +5,18 @@ import mysql from "mysql2";
 import fs from "fs/promises";
 import dotenv from "dotenv";
 import { ReadableStream } from "web-streams-polyfill";
+import { SCRAPER_CONFIG } from "../config/scraperConfig.js";
 
 global.ReadableStream = ReadableStream;
 dotenv.config();
 
 // ? COSTANTI SCRIPT
-const SCRAPING_DELAY = 1000;
-const MAX_PAGES = 5;
-const DELETE_AFTER_DAYS = 90;
+const SCRAPING_DELAY = SCRAPER_CONFIG.SCRAPING_DELAY;
+const MAX_PAGES = SCRAPER_CONFIG.MAX_PAGES;
+const DELETE_AFTER_DAYS = SCRAPER_CONFIG.DELETE_AFTER_DAYS;
 
 export default async function scraperCaravanCamper() {
-  console.log(chalk.bgGreen(" 🏁 Starting Scraper per Moto su Subito.it 🏁 "));
+  console.log(chalk.bgGreen(" 🏁 Starting Scraper per Caravan e Camper su Subito.it 🏁 "));
   const connection = await mysql.createConnection({
     host: "141.95.54.84",
     user: "luigi_tuacar",

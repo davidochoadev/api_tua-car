@@ -5,14 +5,11 @@ import mysql from "mysql2";
 import fs from "fs/promises";
 import dotenv from "dotenv";
 import { ReadableStream } from "web-streams-polyfill";
+import { SCRAPER_CONFIG } from "../../config/scraperConfig.js";
 
 global.ReadableStream = ReadableStream;
 dotenv.config();
 
-// ? COSTANTI SCRIPT
-const SCRAPING_DELAY = 1000;
-const MAX_PAGES = 5;
-const DELETE_AFTER_DAYS = 90;
 // * SCRAPER PER FURGONI E VAN SU AUTO SCUOT 🚛
 export default async function scraperFurgoniVan() {
   console.log(
@@ -37,7 +34,10 @@ export default async function scraperFurgoniVan() {
       );
     isAutomatic = results[0].is_automatic;
     nomePiattaforma = results[0].nome_piattaforma;
-    pages = results[0].pages > MAX_PAGES ? MAX_PAGES : results[0].pages;
+    pages =
+      results[0].pages > SCRAPER_CONFIG.MAX_PAGES
+        ? SCRAPER_CONFIG.MAX_PAGES
+        : results[0].pages;
   } catch (error) {
     console.error(chalk.red("Errore nel recupero dell'ultimo URN:", error));
   }
@@ -63,7 +63,7 @@ export default async function scraperFurgoniVan() {
   try {
     const deleteIntervalDate = new Date();
     deleteIntervalDate.setDate(
-      deleteIntervalDate.getDate() - DELETE_AFTER_DAYS
+      deleteIntervalDate.getDate() - SCRAPER_CONFIG.DELETE_AFTER_DAYS
     );
     const formattedDate = deleteIntervalDate
       .toISOString()
@@ -130,10 +130,9 @@ export default async function scraperFurgoniVan() {
 
   const annunci = [];
   const axiosInstance = axios.create({
-    timeout: 10000,
+    timeout: SCRAPER_CONFIG.AUTOSCOUT.TIMEOUT,
     headers: {
-      "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+      "User-Agent": SCRAPER_CONFIG.AUTOSCOUT.USER_AGENT,
     },
   });
 
@@ -219,7 +218,8 @@ export default async function scraperFurgoniVan() {
             mileage_scalar: item.vehicle.mileageInKmRaw || 1,
             doors: item.vehicle.numberOfDoors || null,
             register_date: item.vehicle.firstRegistrationDate || "01/1900",
-            register_year: item.vehicle.firstRegistrationDate?.slice(-4) || "1900",
+            register_year:
+              item.vehicle.firstRegistrationDate?.slice(-4) || "1900",
             geo_region: location?.geo_region || null,
             geo_provincia: location?.geo_provincia || null,
             geo_town: item.location.city
@@ -245,7 +245,7 @@ export default async function scraperFurgoniVan() {
 
       // Delay tra le pagine
       await new Promise((resolve) =>
-        setTimeout(resolve, SCRAPING_DELAY * (1 + Math.random()))
+        setTimeout(resolve, SCRAPER_CONFIG.SCRAPING_DELAY * (1 + Math.random()))
       );
     } catch (error) {
       console.error(
@@ -261,7 +261,7 @@ export default async function scraperFurgoniVan() {
   console.log(chalk.green(`Trovati ${annunci.length} annunci totali`));
 
   // ! 6. Salviamo gli annunci nel database
-    if (annunci.length > 0) {
+  if (annunci.length > 0) {
     try {
       for (const annuncio of [...annunci].reverse()) {
         await new Promise((resolve, reject) => {

@@ -5,14 +5,15 @@ import mysql from "mysql2";
 import fs from "fs/promises";
 import dotenv from "dotenv";
 import { ReadableStream } from "web-streams-polyfill";
+import { SCRAPER_CONFIG } from "../config/scraperConfig.js";
 
 global.ReadableStream = ReadableStream;
 dotenv.config();
 
 // ? COSTANTI SCRIPT
-const SCRAPING_DELAY = 1000;
-const MAX_PAGES = 5;
-const DELETE_AFTER_DAYS = 90;
+const SCRAPING_DELAY = SCRAPER_CONFIG.SCRAPING_DELAY;
+const MAX_PAGES = SCRAPER_CONFIG.MAX_PAGES;
+const DELETE_AFTER_DAYS = SCRAPER_CONFIG.DELETE_AFTER_DAYS;
 // * SCRAPER PER VEICOLI COMMERCIALI SU SUBITO.IT 🚛
 export default async function scraperManualVeicoliCommercialiSubito(number_of_pages) {
   if(number_of_pages > MAX_PAGES) {
