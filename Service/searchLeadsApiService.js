@@ -371,7 +371,7 @@ export class searchLeadsApiService {
             payload.schedule_cron_style || "",
             payload.schedule_start,
             payload.schedule_repeat_h,
-            payload.schedule_cc,
+            payload.schedule_cc || "[]",
             JSON.stringify(payload.schedule_content),
             payload.created_at,
             payload.last_run,

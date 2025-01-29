@@ -678,7 +678,7 @@ export const createScheduledSearch = async (req, res) => {
     schedule_active: 1 || 0,
     schedule_start: search_content.schedule_start || "08:00",
     schedule_repeat_h: search_content.schedule_repeat_h || 24,
-    schedule_cc: search_content.schedule_cc || [],
+    schedule_cc: search_content.schedule_cc || "[]",
     schedule_content: search_content.schedule_content,
     created_at: new Date().toISOString().slice(0, 19).replace("T", " "), // Formato: YYYY-MM-DD HH:mm:ss
     last_run: new Date().toISOString().slice(0, 19).replace("T", " "), // Formato: YYYY-MM-DD HH:mm:ss
