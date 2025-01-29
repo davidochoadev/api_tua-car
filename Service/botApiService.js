@@ -306,4 +306,31 @@ export class botApiService {
       };
     }
   }
+
+  // * GET BOT SETTINGS
+  async getBotSettings() {
+    try {
+      const connection = await mysql.createConnection({
+        host: "141.95.54.84",
+        user: "luigi_tuacar",
+        password: "Tuacar.2023",
+        database: "tuacarDb",
+      });
+
+      const [results] = await connection.promise().query(
+        "SELECT * FROM bot_settings"
+      );
+
+      return results; 
+    } catch (error) {
+      console.error("Errore durante il recupero delle impostazioni del bot:", error.message);
+      throw error;
+    } finally {
+      try {
+        await connection.end();
+      } catch (error) {
+        console.error("Errore durante la chiusura della connessione:", error);
+      }
+    }
+  }
 }
