@@ -607,8 +607,17 @@ export const createScheduledSearch = async (req, res) => {
     "geoTowns",
   ];
 
+  const defaultValues = {
+    yearFrom: "1980",
+    yearTo: new Date().getFullYear().toString(),
+    mileageFrom: "0",
+    mileageTo: "500000",
+    geoRegion: "",
+    geoProvince: "",
+    geoTowns: [],
+  };
+
   for (const key in search_content.schedule_content) {
-    // Verifica che la chiave sia una piattaforma valida
     if (!allowedPlatforms.includes(key)) {
       return res.status(400).json({
         error: `Piattaforma non valida: ${key}`,
@@ -616,20 +625,21 @@ export const createScheduledSearch = async (req, res) => {
       });
     }
 
-    const platform = search_content.schedule_content[key];
+    // Applica i valori predefiniti
+    search_content.schedule_content[key] = {
+      ...defaultValues,
+      ...search_content.schedule_content[key],
+    };
 
-    // Verifica che tutti i campi richiesti siano presenti
-    for (const field of requiredFields) {
-      if (!(field in platform)) {
-        return res.status(400).json({
-          error: `Campo mancante '${field}' nella piattaforma ${key}`,
-          requiredFields,
-        });
-      }
+    // Verifica solo che 'platform' sia presente poiché è l'unico campo obbligatorio
+    if (!search_content.schedule_content[key].platform) {
+      return res.status(400).json({
+        error: `Campo obbligatorio 'platform' mancante nella piattaforma ${key}`,
+      });
     }
 
     // Verifica che geoTowns sia un array
-    if (!Array.isArray(platform.geoTowns)) {
+    if (!Array.isArray(search_content.schedule_content[key].geoTowns)) {
       return res.status(400).json({
         error: `geoTowns deve essere un array nella piattaforma ${key}`,
       });
