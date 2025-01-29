@@ -13,9 +13,10 @@ export class searchLeadsApiService {
     const kmAValue = parseInt(kmA, 10);
 
     const now = new Date();
-    const startTime = new Date(now.getTime() - 24 * 3600000); 
+    const startTime = new Date(now.getTime() - 24 * 3600000);
 
-    return this.prisma[platformOptions].findMany({
+    return this.prisma[platformOptions]
+      .findMany({
         where: {
           geo_town: { in: comuni },
           register_year: {
@@ -39,7 +40,16 @@ export class searchLeadsApiService {
       });
   }
 
-  getRecentCars(comuni, annoDa, annoA, kmDa, kmA,userMail,platformOptions, ore) {
+  getRecentCars(
+    comuni,
+    annoDa,
+    annoA,
+    kmDa,
+    kmA,
+    userMail,
+    platformOptions,
+    ore
+  ) {
     const kmDaValue = parseInt(kmDa, 10);
     const kmAValue = parseInt(kmA, 10);
     if (ore < 1 || ore > 24) {
@@ -48,7 +58,8 @@ export class searchLeadsApiService {
 
     const now = new Date();
     const startTime = new Date(now.getTime() - ore * 3600000); // Converti in millisecondi
-    return this.prisma[platformOptions].findMany({
+    return this.prisma[platformOptions]
+      .findMany({
         where: {
           geo_town: { in: comuni },
           register_year: {
@@ -72,16 +83,16 @@ export class searchLeadsApiService {
       });
   }
 
-  getUserId(userMail){
+  getUserId(userMail) {
     return this.prisma.users.findFirst({
       where: {
-        email: userMail
-      }
-    })
-  };
+        email: userMail,
+      },
+    });
+  }
 
-  async getSearchList(userId, pageNum, pageSize){
-    const skip = (pageNum - 1) * pageSize; 
+  async getSearchList(userId, pageNum, pageSize) {
+    const skip = (pageNum - 1) * pageSize;
     const connection = mysql.createConnection({
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
@@ -122,10 +133,13 @@ export class searchLeadsApiService {
       );
     });
 
-    const [searchList, totalCount] = await Promise.all([queryPromise, countPromise]);
+    const [searchList, totalCount] = await Promise.all([
+      queryPromise,
+      countPromise,
+    ]);
 
     const totalPages = Math.ceil(totalCount / pageSize);
-/*     fs.appendFileSync('debug.log', `searchList: ${JSON.stringify(searchList)}\n`);
+    /*     fs.appendFileSync('debug.log', `searchList: ${JSON.stringify(searchList)}\n`);
     fs.appendFileSync('debug.log', `totalCount: ${totalCount}\n`);
     fs.appendFileSync('debug.log', `totalPages: ${totalPages}\n`); */
     return {
@@ -134,7 +148,7 @@ export class searchLeadsApiService {
     };
   }
 
-  async getLastSearchOfTheUser(userId){
+  async getLastSearchOfTheUser(userId) {
     const connection = mysql.createConnection({
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
@@ -161,8 +175,7 @@ export class searchLeadsApiService {
       );
     });
 
-    return { results : await queryPromise };
-
+    return { results: await queryPromise };
   }
 
   async getBySearchId(searchId) {
@@ -181,7 +194,9 @@ export class searchLeadsApiService {
           if (error) {
             reject(error);
           } else if (results.length === 0) {
-            reject(new Error(`Nessun risultato trovato per search_id: ${searchId}`));
+            reject(
+              new Error(`Nessun risultato trovato per search_id: ${searchId}`)
+            );
           } else {
             resolve(results);
           }
@@ -284,27 +299,26 @@ export class searchLeadsApiService {
     };
   }
 
-
-  async getUserInformations(userMail){
+  async getUserInformations(userMail) {
     const user_id = await this.prisma.users.findFirst({
       where: {
-        email: userMail
-      }
+        email: userMail,
+      },
     });
     const userInformations = await this.prisma.users_data.findFirst({
       where: {
-        user_id: user_id.id
-      }
+        user_id: user_id.id,
+      },
     });
     return {
       user_id: user_id.id,
       name: userInformations.name,
       spoki_active: userInformations.spoki_api ? true : false,
-    }
+    };
   }
 
   // * CREA UNA RICERCA PROGRAMMATA
-  async createScheduledSearch(payload){
+  async createScheduledSearch(payload) {
     const connection = mysql.createConnection({
       host: "141.95.54.84",
       user: "luigi_tuacar",
@@ -315,7 +329,18 @@ export class searchLeadsApiService {
     try {
       await connection.execute(
         `INSERT INTO scheduled_tasks (user_id, setSpokiActive, schedule_active, schedule_start, schedule_repeat_h, schedule_cc, schedule_content, created_at, last_run, next_run) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [payload.user_id, payload.setSpokiActive, payload.schedule_active, payload.schedule_start, payload.schedule_repeat_h, payload.schedule_cc, payload.schedule_content, payload.created_at, payload.last_run, payload.next_run]
+        [
+          payload.user_id,
+          payload.setSpokiActive,
+          payload.schedule_active,
+          payload.schedule_start,
+          payload.schedule_repeat_h,
+          payload.schedule_cc,
+          JSON.stringify(payload.schedule_content),
+          payload.created_at,
+          payload.last_run,
+          payload.next_run,
+        ]
       );
       connection.end();
       return {
@@ -323,15 +348,16 @@ export class searchLeadsApiService {
         results: "Ricerca programmata creata con successo",
       };
     } catch (error) {
+      connection.end();
       return {
         success: false,
-        error: error,
+        error: error.message || error,
         payload: payload,
       };
     }
   }
-// USED ON OLDER PRISMA.SCHEMA DEPRECATED FUNCTIONS
-/*   async createSearch(userMail, annoDa, annoA, kmDa, kmA, comuni, platform) {
+  // USED ON OLDER PRISMA.SCHEMA DEPRECATED FUNCTIONS
+  /*   async createSearch(userMail, annoDa, annoA, kmDa, kmA, comuni, platform) {
     try {
       const findUserOnLeads = await this.prisma.users.findUnique({
         where: {
