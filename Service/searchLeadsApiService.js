@@ -302,6 +302,30 @@ export class searchLeadsApiService {
       spoki_active: userInformations.spoki_api ? true : false,
     }
   }
+
+  // * CREA UNA RICERCA PROGRAMMATA
+  async createScheduledSearch(payload){
+    const connection = mysql.createConnection({
+      host: "141.95.54.84",
+      user: "luigi_tuacar",
+      password: "Tuacar.2023",
+      database: "tuacarDb",
+    });
+
+    try {
+      await connection.execute(
+        `INSERT INTO scheduled_task (user_id, search_content, created_at, last_run, next_run) VALUES (?, ?, ?, ?, ?)`,
+        [payload.user_id, payload.search_content, payload.created_at, payload.last_run, payload.next_run]
+      );
+      connection.end();
+      return {
+        success: true,
+        results: "Ricerca programmata creata con successo",
+      };
+    } catch (error) {
+      throw new Error(`Errore durante la creazione della ricerca programmata: ${error}`);
+    }
+  }
 // USED ON OLDER PRISMA.SCHEMA DEPRECATED FUNCTIONS
 /*   async createSearch(userMail, annoDa, annoA, kmDa, kmA, comuni, platform) {
     try {

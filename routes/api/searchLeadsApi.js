@@ -7,6 +7,7 @@ import {
   manualSearch,
   getLastResult,
   searchBySearchId,
+  createScheduledSearch,
 } from "../../controllers/searchLeadsController.js";
 
 const searchLeadsApiRouter = express();
@@ -36,6 +37,9 @@ searchLeadsApiRouter.post("/manualSearch", manualSearch);
 
 // * LISTA DI LEADS PER ID DI RICERCA
 searchLeadsApiRouter.get("/searchBySearchId", searchBySearchId);
+
+// ! CREA UNA RICERCA PROGRAMMATA
+searchLeadsApiRouter.post("/ricercaProgrammata", createScheduledSearch);
 
 //! DEPRECATED
 /* searchLeadsApiRouter.post("/newSearch", createNewSearch);
