@@ -329,10 +329,9 @@ export class searchLeadsApiService {
     try {
       await new Promise((resolve, reject) => {
         connection.query(
-          `INSERT INTO scheduled_tasks (user_id, setSpokiActive, schedule_active, schedule_start, schedule_repeat_h, schedule_cc, schedule_content, created_at, last_run, next_run) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          `INSERT INTO scheduled_tasks (user_id, schedule_active, schedule_start, schedule_repeat_h, schedule_cc, schedule_content, created_at, last_run, next_run) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
           [
             payload.user_id,
-            payload.setSpokiActive,
             payload.schedule_active,
             payload.schedule_start,
             payload.schedule_repeat_h,
