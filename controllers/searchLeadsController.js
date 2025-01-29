@@ -8,6 +8,15 @@ import fetch from "node-fetch";
 
 const leads = new searchLeadsApiService();
 
+const defaultChildValues = {
+  yearFrom: "1900",
+  yearTo: new Date().getFullYear().toString(),
+  mileageFrom: "0",
+  mileageTo: "500000",
+  geoRegion: "",
+  geoProvince: "",
+};
+
 // FUNZIONE PER LA RICERCA DI VETTURE - DATABASE -
 async function searchOnDbFunc(annoDa, annoA, kmDa, kmA, comuni, platform) {
   if (!platform) {
@@ -439,15 +448,6 @@ export const manualSearch = async (req, res) => {
     "geoTowns",
   ];
 
-  const defaultChildValues = {
-    yearFrom: "1980",
-    yearTo: "2023",
-    mileageFrom: "0",
-    mileageTo: "500000",
-    geoRegion: "",
-    geoProvince: "",
-  };
-
   for (const platform of contentKeys) {
     let child = search_content[platform];
 
@@ -457,8 +457,15 @@ export const manualSearch = async (req, res) => {
       });
     }
 
-    // Sovrascrivi i valori di default solo per le chiavi presenti nei "children"
-    child = { ...defaultChildValues, ...child };
+    // Applica i valori predefiniti solo se i campi sono vuoti o mancanti
+    child.yearFrom = child.yearFrom || "1900";
+    child.yearTo = child.yearTo || new Date().getFullYear().toString();
+    child.mileageFrom = child.mileageFrom || "0";
+    child.mileageTo = child.mileageTo || "500000";
+    child.geoRegion = child.geoRegion || "";
+    child.geoProvince = child.geoProvince || "";
+
+    search_content[platform] = child;
 
     if (
       !child.hasOwnProperty("geoTowns") ||
@@ -608,7 +615,7 @@ export const createScheduledSearch = async (req, res) => {
   ];
 
   const defaultValues = {
-    yearFrom: "1980",
+    yearFrom: "1900",
     yearTo: new Date().getFullYear().toString(),
     mileageFrom: "0",
     mileageTo: "500000",
@@ -625,21 +632,28 @@ export const createScheduledSearch = async (req, res) => {
       });
     }
 
-    // Applica i valori predefiniti
-    search_content.schedule_content[key] = {
-      ...defaultValues,
-      ...search_content.schedule_content[key],
-    };
+    let platformContent = search_content.schedule_content[key];
 
-    // Verifica solo che 'platform' sia presente poiché è l'unico campo obbligatorio
-    if (!search_content.schedule_content[key].platform) {
+    // Applica i valori predefiniti solo se i campi sono vuoti o mancanti
+    platformContent.yearFrom = platformContent.yearFrom || "1900";
+    platformContent.yearTo = platformContent.yearTo || new Date().getFullYear().toString();
+    platformContent.mileageFrom = platformContent.mileageFrom || "0";
+    platformContent.mileageTo = platformContent.mileageTo || "500000";
+    platformContent.geoRegion = platformContent.geoRegion || "";
+    platformContent.geoProvince = platformContent.geoProvince || "";
+    platformContent.geoTowns = platformContent.geoTowns || [];
+
+    search_content.schedule_content[key] = platformContent;
+
+    // Verifica che platform sia presente
+    if (!platformContent.platform) {
       return res.status(400).json({
         error: `Campo obbligatorio 'platform' mancante nella piattaforma ${key}`,
       });
     }
 
     // Verifica che geoTowns sia un array
-    if (!Array.isArray(search_content.schedule_content[key].geoTowns)) {
+    if (!Array.isArray(platformContent.geoTowns)) {
       return res.status(400).json({
         error: `geoTowns deve essere un array nella piattaforma ${key}`,
       });
@@ -661,10 +675,10 @@ export const createScheduledSearch = async (req, res) => {
   const payload = {
     user_id: userInformations.user_id,
     setSpokiActive: userInformations.spoki_active ? 1 : 0,
-    schedule_active: 1,
-    schedule_start: search_content.schedule_start,
-    schedule_repeat_h: search_content.schedule_repeat_h,
-    schedule_cc: search_content.schedule_cc,
+    schedule_active: 1 || 0,
+    schedule_start: search_content.schedule_start || "08:00",
+    schedule_repeat_h: search_content.schedule_repeat_h || 24,
+    schedule_cc: search_content.schedule_cc || [],
     schedule_content: search_content.schedule_content,
     created_at: new Date().toISOString().slice(0, 19).replace("T", " "), // Formato: YYYY-MM-DD HH:mm:ss
     last_run: new Date().toISOString().slice(0, 19).replace("T", " "), // Formato: YYYY-MM-DD HH:mm:ss

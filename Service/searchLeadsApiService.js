@@ -300,30 +300,65 @@ export class searchLeadsApiService {
   }
 
   async getUserInformations(userMail) {
-    const user_id = await this.prisma.users.findFirst({
-      where: {
-        email: userMail,
-      },
-    });
-    const userInformations = await this.prisma.users_data.findFirst({
-      where: {
-        user_id: user_id.id,
-      },
-    });
-    return {
-      user_id: user_id.id,
-      name: userInformations.name,
-      spoki_active: userInformations.spoki_api ? true : false,
-    };
-  }
-
-  // * CREA UNA RICERCA PROGRAMMATA
-  async createScheduledSearch(payload) {
     const connection = mysql.createConnection({
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PSW,
       database: process.env.DB_NAME,
+    });
+
+    try {
+      // Query per ottenere user_id
+      const userIdPromise = new Promise((resolve, reject) => {
+        connection.query(
+          "SELECT id FROM users WHERE email = ?",
+          [userMail],
+          (error, results) => {
+            if (error) reject(error);
+            else if (results.length === 0)
+              reject(new Error("Utente non trovato"));
+            else resolve(results[0]);
+          }
+        );
+      });
+
+      const user = await userIdPromise;
+
+      // Query per ottenere informazioni utente
+      const userInfoPromise = new Promise((resolve, reject) => {
+        connection.query(
+          "SELECT name, spoki_api FROM users_data WHERE user_id = ?",
+          [user.id],
+          (error, results) => {
+            if (error) reject(error);
+            else if (results.length === 0)
+              reject(new Error("Dati utente non trovati"));
+            else resolve(results[0]);
+          }
+        );
+      });
+
+      const userInfo = await userInfoPromise;
+      connection.end();
+
+      return {
+        user_id: user.id,
+        name: userInfo.name,
+        spoki_active: userInfo.spoki_api ? true : false,
+      };
+    } catch (error) {
+      connection.end();
+      throw error;
+    }
+  }
+
+  // * CREA UNA RICERCA PROGRAMMATA
+  async createScheduledSearch(payload) {
+    const connection = mysql.createConnection({
+      host: "141.95.54.84",
+      user: "luigi_tuacar",
+      password: "Tuacar.2023",
+      database: "tuacarDb",
     });
 
     try {
