@@ -1,6 +1,25 @@
 import { botApiService } from "../../Service/botApiService.js";
 import chalk from "chalk";
 const bot = new botApiService();
+
+// * DETTAGLI TABELLA BOT bot_settings
+export const dettagliBot = async (req, res) => {
+    const email = req.query.email;
+    const user = await bot.getUserByEmail(email);
+    const user_id = user.user_id;
+
+    if (!user_id) {
+        return res.status(404).json({ error: "Utente non trovato" });
+    }
+
+    if(user_id !== 11 || user_id !== 12) {
+        return res.status(403).json({ error: "Utente non autorizzato" });
+    }
+
+    const scheduledTasks = await bot.getScheduledTasksByUserId(user_id);
+    return res.status(200).json(scheduledTasks);
+}
+
 // * RICERCA MANUALE
 export const ricercaManualeBot = async (req, res) => {
     const data = req.body;

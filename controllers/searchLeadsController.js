@@ -419,7 +419,7 @@ export const manualSearch = async (req, res) => {
   const contentKeys = Object.keys(search_content);
 
   if (
-    contentKeys.length > 3 ||
+    contentKeys.length > 8 ||
     !contentKeys.every((platform) => allowedObjects.includes(platform))
   ) {
     return res.status(400).json({

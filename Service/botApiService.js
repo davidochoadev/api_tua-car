@@ -275,4 +275,35 @@ export class botApiService {
       }
     }
   }
+
+  // * GET USER BY EMAIL
+  async getUserByEmail(email) {
+    let connection;
+    try {
+      connection = await mysql.createConnection({
+        host: "141.95.54.84",
+        user: "luigi_tuacar",
+        password: "Tuacar.2023",
+        database: "tuacarDb",
+    });
+
+    const [results] = await connection.promise().query(
+      "SELECT id FROM users WHERE email = ?",
+      [email]
+      );
+
+      connection.end();
+      return {
+        success: true,
+        message: "Utente trovato con successo",
+        user_id: results[0].id,
+      };
+    } catch (error) {
+      console.error("Errore durante la ricerca dell'utente:", error.message);
+      return {
+        success: false,
+        message: error.message,
+      };
+    }
+  }
 }
