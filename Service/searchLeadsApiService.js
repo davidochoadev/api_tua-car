@@ -320,34 +320,45 @@ export class searchLeadsApiService {
   // * CREA UNA RICERCA PROGRAMMATA
   async createScheduledSearch(payload) {
     const connection = mysql.createConnection({
-      host: "141.95.54.84",
-      user: "luigi_tuacar",
-      password: "Tuacar.2023",
-      database: "tuacarDb",
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PSW,
+      database: process.env.DB_NAME,
     });
 
     try {
-      await connection.query(
-        `INSERT INTO scheduled_tasks (user_id, setSpokiActive, schedule_active, schedule_start, schedule_repeat_h, schedule_cc, schedule_content, created_at, last_run, next_run) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [
-          payload.user_id,
-          payload.setSpokiActive,
-          payload.schedule_active,
-          payload.schedule_start,
-          payload.schedule_repeat_h,
-          payload.schedule_cc,
-          JSON.stringify(payload.schedule_content),
-          payload.created_at,
-          payload.last_run,
-          payload.next_run,
-        ]
-      );
+      await new Promise((resolve, reject) => {
+        connection.query(
+          `INSERT INTO scheduled_tasks (user_id, setSpokiActive, schedule_active, schedule_start, schedule_repeat_h, schedule_cc, schedule_content, created_at, last_run, next_run) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            payload.user_id,
+            payload.setSpokiActive,
+            payload.schedule_active,
+            payload.schedule_start,
+            payload.schedule_repeat_h,
+            payload.schedule_cc,
+            JSON.stringify(payload.schedule_content),
+            payload.created_at,
+            payload.last_run,
+            payload.next_run,
+          ],
+          (error, results) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(results);
+            }
+          }
+        );
+      });
+
       connection.end();
       return {
         success: true,
         results: "Ricerca programmata creata con successo",
       };
     } catch (error) {
+      console.error("Errore durante createScheduledSearch:", error);
       connection.end();
       return {
         success: false,
