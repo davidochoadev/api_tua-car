@@ -327,7 +327,7 @@ export class searchLeadsApiService {
     });
 
     try {
-      await connection.execute(
+      await connection.query(
         `INSERT INTO scheduled_tasks (user_id, setSpokiActive, schedule_active, schedule_start, schedule_repeat_h, schedule_cc, schedule_content, created_at, last_run, next_run) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           payload.user_id,
