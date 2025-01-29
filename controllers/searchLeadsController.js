@@ -670,6 +670,6 @@ export const createScheduledSearch = async (req, res) => {
     });
   } catch (error) {
     console.error("Errore durante la chiamata POST:", error);
-    res.status(500).json({ error: "Errore durante la richiesta POST" });
+    res.status(500).json({ error: "Errore durante la richiesta POST", error });
   }
 };
