@@ -314,8 +314,8 @@ export class searchLeadsApiService {
 
     try {
       await connection.execute(
-        `INSERT INTO scheduled_task (user_id, search_content, created_at, last_run, next_run) VALUES (?, ?, ?, ?, ?)`,
-        [payload.user_id, payload.search_content, payload.created_at, payload.last_run, payload.next_run]
+        `INSERT INTO scheduled_task (user_id, setSpokiActive, schedule_active, schedule_start, schedule_repeat_h, schedule_cc, schedule_content, created_at, last_run, next_run) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [payload.user_id, payload.setSpokiActive, payload.schedule_active, payload.schedule_start, payload.schedule_repeat_h, payload.schedule_cc, payload.schedule_content, payload.created_at, payload.last_run, payload.next_run]
       );
       connection.end();
       return {
@@ -323,7 +323,11 @@ export class searchLeadsApiService {
         results: "Ricerca programmata creata con successo",
       };
     } catch (error) {
-      throw new Error(`Errore durante la creazione della ricerca programmata: ${error}`);
+      return {
+        success: false,
+        error: error,
+        payload: payload,
+      };
     }
   }
 // USED ON OLDER PRISMA.SCHEMA DEPRECATED FUNCTIONS
