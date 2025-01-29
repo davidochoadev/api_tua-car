@@ -604,8 +604,6 @@ export const createScheduledSearch = async (req, res) => {
     "yearTo",
     "mileageFrom",
     "mileageTo",
-    "geoRegion",
-    "geoProvince",
     "geoTowns",
   ];
 
