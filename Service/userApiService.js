@@ -22,6 +22,7 @@ export class userApiService {
         id: true,
         email: true,
         username: true,
+        password: true,
         status: true,
         verified: true,
         resettable: true,
@@ -113,6 +114,7 @@ export class userApiService {
     };
   }
 
+  //* MODIFICA I DATI DELL'UTENTE
   async updateUser(
     user_id,
     user_name,
@@ -161,6 +163,41 @@ export class userApiService {
       };
     } catch (error) {
       throw new Error(`Errore durante l'aggiornamento: ${error.message}`);
+    } finally {
+      if (connection) {
+        await connection.end();
+      }
+    }
+  }
+
+  //* MODIFICA LA PASSWORD DELL'UTENTE
+  async updateUserPassword(user_id, new_password) {
+    let connection;
+    try {
+      connection = await mysql.createConnection({
+        host: "141.95.54.84",
+        user: "luigi_tuacar",
+        password: "Tuacar.2023",
+        database: "tuacarDb",
+      });
+
+      const query = `
+        UPDATE users 
+        SET 
+          password = ?
+        WHERE id = ?
+      `;
+
+      const [result] = await connection
+        .promise()
+        .query(query, [
+          new_password,
+          user_id,
+        ]);
+
+      return result;
+    } catch (error) {
+      throw new Error(`Errore durante l'aggiornamento della password: ${error.message}`);
     } finally {
       if (connection) {
         await connection.end();
