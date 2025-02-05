@@ -1,91 +1,92 @@
 import { PrismaClient } from "@prisma/client";
 import { parse } from "dotenv";
+import mysql from "mysql2";
 
-// ? DA CONTROLLARE TUTTE 
+// ? DA CONTROLLARE TUTTE
 export class userApiService {
   constructor() {
     this.prisma = new PrismaClient();
   }
 
   async getUser(userMail) {
-     // Validazione dei dati in ingresso
-     if (!userMail || typeof userMail !== 'string') {
-       return {error: 'Indirizzo email non valido'};
-     }
- 
-     const userData = await this.prisma.users.findFirst({
-       where: {
-         email: userMail,
-       },
-       select: {
-         id: true,
-         email: true,
-         username: true,
-         status: true,
-         verified: true,
-         resettable: true,
-         roles_mask: true,
-         registered: true,
-         last_login: true,
-       },
-     });
- 
-     if (!userData) {
-       return { error :'Utente non trovato' };
-     }
- 
-     const userInfo = await this.prisma.users_data.findFirst({
-       where: {
-         user_id: userData.id,
-       },
-     });
- 
-     return {
-       user: userData,
-       userInformations: userInfo,
-     };
- }
- 
- async getUserId(userMail) {
-   return this.prisma.users.findFirst({
+    // Validazione dei dati in ingresso
+    if (!userMail || typeof userMail !== "string") {
+      return { error: "Indirizzo email non valido" };
+    }
+
+    const userData = await this.prisma.users.findFirst({
       where: {
-        email: userMail
+        email: userMail,
       },
       select: {
-         id: true,
+        id: true,
+        email: true,
+        username: true,
+        status: true,
+        verified: true,
+        resettable: true,
+        roles_mask: true,
+        registered: true,
+        last_login: true,
       },
     });
- }
 
- async userScheduledTask(userId) {
-   return await this.prisma.scheduled_tasks.findFirst({
+    if (!userData) {
+      return { error: "Utente non trovato" };
+    }
+
+    const userInfo = await this.prisma.users_data.findFirst({
       where: {
-         user_id: userId,
-         schedule_active: 1,
+        user_id: userData.id,
       },
-   })
- }
+    });
 
-  async getUserInformations(userMail){
+    return {
+      user: userData,
+      userInformations: userInfo,
+    };
+  }
+
+  async getUserId(userMail) {
+    return this.prisma.users.findFirst({
+      where: {
+        email: userMail,
+      },
+      select: {
+        id: true,
+      },
+    });
+  }
+
+  async userScheduledTask(userId) {
+    return await this.prisma.scheduled_tasks.findFirst({
+      where: {
+        user_id: userId,
+        schedule_active: 1,
+      },
+    });
+  }
+
+  async getUserInformations(userMail) {
     const user_id = await this.prisma.users.findFirst({
       where: {
-        email: userMail
-      }
+        email: userMail,
+      },
     });
     const userInformations = await this.prisma.users_data.findFirst({
       where: {
-        user_id: user_id.id
-      }
+        user_id: user_id.id,
+      },
     });
     return {
       user_id: user_id.id,
       name: userInformations.name,
       spoki_active: userInformations.spoki_api ? true : false,
-    }
+    };
   }
   async getUserSpoki(userMail) {
-    if (!userMail || typeof userMail !== 'string') {
-      return {error: 'Indirizzo email non valido'};
+    if (!userMail || typeof userMail !== "string") {
+      return { error: "Indirizzo email non valido" };
     }
 
     const userData = await this.prisma.users.findFirst({
@@ -98,7 +99,7 @@ export class userApiService {
     });
 
     if (!userData) {
-      return { error :'Utente non trovato' };
+      return { error: "Utente non trovato" };
     }
 
     const userInfo = await this.prisma.users_data.findFirst({
@@ -111,5 +112,59 @@ export class userApiService {
       userInformations: userInfo,
     };
   }
-}
 
+  async updateUser(
+    user_id,
+    user_name,
+    user_ragione_sociale,
+    user_phone,
+    user_address
+  ) {
+    let connection;
+    try {
+      connection = await mysql.createConnection({
+        host: "141.95.54.84",
+        user: "luigi_tuacar",
+        password: "Tuacar.2023",
+        database: "tuacarDb",
+      });
+
+      const query = `
+        UPDATE users_data 
+        SET 
+          name = ?,
+          company = ?,
+          phone = ?,
+          address = ?
+        WHERE user_id = ?
+      `;
+
+      const [result] = await connection
+        .promise()
+        .query(query, [
+          user_name,
+          user_ragione_sociale,
+          user_phone,
+          user_address,
+          user_id,
+        ]);
+
+      return {
+        dati_cambiati: {
+          user_id,
+          user_name,
+          user_ragione_sociale,
+          user_phone,
+          user_address,
+        },
+        results: result,
+      };
+    } catch (error) {
+      throw new Error(`Errore durante l'aggiornamento: ${error.message}`);
+    } finally {
+      if (connection) {
+        await connection.end();
+      }
+    }
+  }
+}

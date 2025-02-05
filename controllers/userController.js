@@ -3,6 +3,53 @@ import { userApiService } from "../Service/userApiService.js";
 
 const user = new userApiService();
 
+// * OTTIENI LE INFORMAZIONI DELL'UTENTE PER FILLARE IL FORM
+export const userUpdateData = async (req,res) => {
+   const { userMail } = req.query;
+   if(!userMail){
+      res.status(400).json({
+         error: "⚠️ Missing 'userMail' parameter within the query parameters. It's not possible to perform the search in the database without specifying the usermail of the user.",
+      })
+   }
+   try {
+      const data = await user.getUser(userMail);
+      res.status(200).json({
+         user_id: data.user.id,
+         user_name: data.userInformations.name,
+         user_ragione_sociale: data.userInformations.company,
+         user_phone: data.userInformations.phone,
+         user_address: data.userInformations.address,
+      });
+   } catch (err) {
+      res.status(400).json({
+         error: "Utente non trovato o non valido!",
+      })
+   }
+}
+
+export const userUpdate = async (req,res) => {
+   const { user_id, user_name, user_ragione_sociale, user_phone, user_address } = req.body;
+   if(!user_id || !user_name || !user_ragione_sociale || !user_phone || !user_address){
+      res.status(400).json({
+         error: "⚠️ Uno o più parametri mancanti nel body della richiesta. Assicurati di includere tutti i campi richiesti.",
+      })
+   }
+   try {
+      const data = await user.updateUser(user_id, user_name, user_ragione_sociale, user_phone, user_address);
+      res.status(200).json({
+         success: true,
+         message: "Utente aggiornato con successo!",
+         data: data,
+      });
+   } catch (err) {
+      res.status(400).json({
+         success: false,
+         error: "Errore durante l'aggiornamento dell'utente!",
+         error_message: err.message,
+      })
+   }
+}
+
 export const userOnDb = async (req,res) => {
    const { userMail } = req.query;
    if(!userMail){
