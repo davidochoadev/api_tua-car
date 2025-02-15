@@ -402,252 +402,60 @@ export class searchLeadsApiService {
       };
     }
   }
-  // USED ON OLDER PRISMA.SCHEMA DEPRECATED FUNCTIONS
-  /*   async createSearch(userMail, annoDa, annoA, kmDa, kmA, comuni, platform) {
-    try {
-      const findUserOnLeads = await this.prisma.users.findUnique({
-        where: {
-          email: userMail,
-        },
-      });
-      if (findUserOnLeads) {
-        // User Registered on Leads
-        const findUserOnCMR = await this.prisma.UserCRM.findUnique({
-          where: {
-            userMail: userMail,
-          },
-        });
-        if (findUserOnCMR) {
-          // User Registered on Table UserCMR
-          const newSearch = await this.prisma.Search.create({
-            data: {
-              annoDa: annoDa,
-              annoA: annoA,
-              kmDa: kmDa,
-              kmA: kmA,
-              platform: platform,
-              user: {
-                connect: { userMail: userMail }
-              },
-              comuni : JSON.stringify(comuni),
-            }
-          })
-          return newSearch;
-        } else {
-          // User Not Registered on UserCMR
-          return await this.prisma.userCRM.create({
-            data: {
-              userMail: userMail,
-            },
-          });
-        }
-      } else {
-        // User Not Registered on Leads
-        return {
-          err: "User Not Found on leads platform, visit this link to register an account and wait for confirm registration: https://leads.tua-car.it/#/register",
-        };
-      }
-    } catch (error) {
-      console.log(error)
-      return { err: "Error on prisma!" , error};
-    }
-  }
+  //*
+  async searchUrlsInTables(urls, tables) {
+    const connection = mysql.createConnection({
+      host: "141.95.54.84",
+      user: "luigi_tuacar",
+      password: "Tuacar.2023",
+      database: "tuacarDb",
+    });
 
-  async createLeads(leadsFromPlatforms, platform, searchId) {
-    console.log("Creating Leads!", leadsFromPlatforms.length);
-    for ( const lead of leadsFromPlatforms) {
-      const findLead = await this.prisma.lead.findFirst({
-        where: {
-          urn: lead.urn,
-        }
-      });
-      if (!findLead) {
-        await this.prisma.lead.create({
-          data : {
-            urn : lead.urn,
-            subject : lead.subject,
-            body : lead.body,
-            date_remote : lead.date_remote,
-            pollution : lead.pollution,
-            fuel: lead.fuel,
-            vehicle_status: lead.vehicle_status,
-            price: parseInt(lead.price),
-            mileage_scalar: parseInt(lead.mileage_scalar),
-            doors: lead.doors,
-            register_date: lead.register_date,
-            register_year: parseInt(lead.register_year),
-            geo_region: lead.geo_region,
-            geo_provincia: lead.geo_provincia,
-            geo_town: lead.geo_town,
-            url: lead.url,
-            advertiser_name: lead.advertiser_name,
-            advertiser_phone: lead.advertiser_phone,
-            platform : platform,
-            searches: {
-              create : [
-                {
-                  search :{
-                    connect : {
-                      id: searchId,
-                    }
-                  }
-                }
-              ]
-            }
+    try {
+      const placeholders = urls.map(() => "?").join(",");
+
+      const twoDaysAgo = new Date();
+      twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+
+      const unionQuery = tables
+        .map(
+          (table) => `
+        SELECT *, '${table}' as source_table 
+        FROM ${table} 
+        WHERE url IN (${placeholders})
+        AND date_remote >= ?
+      `
+        )
+        .join(" UNION ALL ");
+
+      const query = `
+        ${unionQuery}
+        ORDER BY date_remote DESC
+      `;
+
+      const queryParams = tables.reduce((params, _) => {
+        return [...params, ...urls, twoDaysAgo];
+      }, []);
+
+      const results = await new Promise((resolve, reject) => {
+        connection.query(query, queryParams, (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results);
           }
         });
-      } else {
-        await this.prisma.lead.update({
-          where: {
-            id: findLead.id,
-            urn: findLead.urn,
-          },
-          data: {
-            searches: {
-              create : [
-                {
-                  search :{
-                    connect : {
-                      id: searchId,
-                    }
-                  }
-                }
-              ]
-            },
-          },
-        });
-      }
+      });
+
+      connection.end();
+      return results;
+    } catch (error) {
+      connection.end();
+      console.error(
+        "Errore durante la ricerca degli URL nelle tabelle:",
+        error
+      );
+      throw error;
     }
   }
-
-  async createLeads2(leadsFromPlatforms, platform, searchId) {
-    console.log("Creating Leads!", leadsFromPlatforms.length);
-  
-    const createPromises = [];
-    const updatePromises = [];
-  
-    for (const lead of leadsFromPlatforms) {
-      console.log("First For of");
-      const findLeadPromise = this.prisma.lead.findFirst({
-        where: {
-          urn: lead.urn,
-        },
-      });
-  
-      findLeadPromise.then((findLead) => {
-        if (!findLead) {
-          console.log("createPromise");
-          createPromises.push(
-            this.prisma.lead.create({
-              data: {
-                urn: lead.urn,
-                subject: lead.subject,
-                body: lead.body,
-                date_remote: lead.date_remote,
-                pollution: lead.pollution,
-                fuel: lead.fuel,
-                vehicle_status: lead.vehicle_status,
-                price: parseInt(lead.price),
-                mileage_scalar: parseInt(lead.mileage_scalar),
-                doors: lead.doors,
-                register_date: lead.register_date,
-                register_year: parseInt(lead.register_year),
-                geo_region: lead.geo_region,
-                geo_provincia: lead.geo_provincia,
-                geo_town: lead.geo_town,
-                url: lead.url,
-                advertiser_name: lead.advertiser_name,
-                advertiser_phone: lead.advertiser_phone,
-                platform: platform,
-                searches: {
-                  create: [
-                    {
-                      search: {
-                        connect: {
-                          id: searchId,
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
-            })
-          );
-        } else {
-          console.log("updatePromise");
-          updatePromises.push(
-            this.prisma.lead.update({
-              where: {
-                id: findLead.id,
-              },
-              data: {
-                searches: {
-                  create: [
-                    {
-                      search: {
-                        connect: {
-                          id: searchId,
-                        },
-                      },
-                    },
-                  ],
-                },
-              },
-            })
-          );
-        }
-      });
-    }
-  
-    // Wait for all create and update operations to complete
-    await Promise.all(createPromises);
-    await Promise.all(updatePromises);
-  }
-  
-
-  async getSearchList(userMail, pageNum, pageSize) {
-    const skip = (pageNum - 1) * pageSize; 
-    const totalCount = await this.prisma.search.count({
-      where: userMail,
-    });
-
-    const searchList = await this.prisma.search.findMany({
-      where: userMail,
-      orderBy: {
-        createdAt: "desc",
-      },
-      skip: skip,
-      take: pageSize,
-    });
-
-    const totalPages = Math.ceil(totalCount / pageSize);
-    return {
-      totalPages: totalPages,
-      searchList: searchList,
-    };
-  }
-
-  async getLeadsList( searchId, pageNum, pageSize ) {
-    const skip = (pageNum - 1) * pageSize;
-    const totalCount = await this.prisma.LeadsOnSearch.count({
-      where: {
-        searchId : searchId,
-      }
-    })
-    const searchList = await this.prisma.LeadsOnSearch.findMany({
-      where : {
-        searchId: searchId,
-      },
-      include : {
-        lead : true,
-      },
-      skip: skip,
-      take: pageSize,
-    });
-    const totalPages = Math.ceil(totalCount / pageSize);
-    return {
-      totalPages: totalPages,
-      leadsList: searchList,
-    };
-  } */
 }

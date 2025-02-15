@@ -5,6 +5,7 @@ import "dotenv/config";
 import { searchLeadsApiService } from "../Service/searchLeadsApiService.js";
 import chalk from "chalk";
 import fetch from "node-fetch";
+import csvToJson from "csvtojson";
 
 const leads = new searchLeadsApiService();
 
@@ -521,7 +522,7 @@ export const manualSearch = async (req, res) => {
   }
 };
 
-// * RECUPERA L'ULTIMO RISULTATO DI RICERCA DI UN UTENTE SPECIFICO
+// ! DEPRECATED - RECUPERA L'ULTIMO RISULTATO DI RICERCA DI UN UTENTE SPECIFICO
 export const getLastResult = async (req, res) => {
   const { email } = req.query;
 
@@ -546,6 +547,73 @@ export const getLastResult = async (req, res) => {
   const response = await leads.getLeads(reslist);
 
   return res.status(200).json(response);
+};
+
+// * RECUPERA L'ULTIMO RISULTATO DI RICERCA DI UN UTENTE SPECIFICO
+export const getLastRes = async (req, res) => {
+  const { email } = req.query;
+
+  if (!email) {
+    return res.status(400).json({
+      error: "⚠️ Parametro 'email' mancante nei parametri dell'header...",
+    });
+  }
+
+  try {
+    // Prima ottieni l'userId
+    const userId = await leads.getUserId(email);
+
+    if (!userId) {
+      return res.status(400).json({
+        error: "La mail dell'utente non esiste nel database...",
+      });
+    }
+
+    // Poi ottieni il risultato
+    const result = await leads.getLastSearchOfTheUser(userId.id);
+
+    const { search_filename, search_path } = result.results[0];
+    const url = `https://leads.tua-car.it/export?filePath=${search_path}&fileName=${search_filename}`;
+
+    // Ottimizza l'estrazione degli URL dal CSV
+    const response = await fetch(url);
+    const data = await response.text();
+    const jsonData = await csvToJson().fromString(data);
+
+    // Usa Set per rimuovere eventuali URL duplicati
+    const urlSet = new Set(
+      jsonData.map((item) => Object.values(item)[0].split(";")[8])
+    );
+    const urlList = Array.from(urlSet);
+
+    // Tabelle da cercare
+    const tables = [
+      "cars_autoscout",
+      "cars_subito",
+      "commerciali_subito",
+      "furgoni_van_autoscout",
+      "caravan_camper_subito",
+      "moto_motoit",
+      "moto_subito",
+    ];
+
+    // Esegui la ricerca in batch per ridurre il carico sul DB
+    const batchSize = 100;
+    const results = [];
+
+    for (let i = 0; i < urlList.length; i += batchSize) {
+      const urlBatch = urlList.slice(i, i + batchSize);
+      const batchResults = await leads.searchUrlsInTables(urlBatch, tables);
+      results.push(...batchResults);
+    }
+
+    return res.status(200).json(results);
+  } catch (error) {
+    console.error("Errore durante la ricerca:", error);
+    return res.status(500).json({
+      error: "Si è verificato un errore durante l'elaborazione della richiesta",
+    });
+  }
 };
 
 // * CREA UNA RICERCA PROGRAMMATA
@@ -636,7 +704,8 @@ export const createScheduledSearch = async (req, res) => {
 
     // Applica i valori predefiniti solo se i campi sono vuoti o mancanti
     platformContent.yearFrom = platformContent.yearFrom || "1900";
-    platformContent.yearTo = platformContent.yearTo || new Date().getFullYear().toString();
+    platformContent.yearTo =
+      platformContent.yearTo || new Date().getFullYear().toString();
     platformContent.mileageFrom = platformContent.mileageFrom || "0";
     platformContent.mileageTo = platformContent.mileageTo || "500000";
     platformContent.geoRegion = platformContent.geoRegion || "";

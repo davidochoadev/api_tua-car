@@ -8,6 +8,7 @@ import {
   getLastResult,
   searchBySearchId,
   createScheduledSearch,
+  getLastRes,
 } from "../../controllers/searchLeadsController.js";
 
 const searchLeadsApiRouter = express();
@@ -29,8 +30,11 @@ searchLeadsApiRouter.get("/list", searchList);
 // * RICERCA LEADS PER ID
 searchLeadsApiRouter.post("/byLeadsIds", getLeadsbyLeadsIds);
 
-// * RECUPERA L'ULTIMO RISULTATO DI RICERCA DI UN UTENTE SPECIFICO
+// ! DEPRECATED - RECUPERA L'ULTIMO RISULTATO DI RICERCA DI UN UTENTE SPECIFICO
 searchLeadsApiRouter.get("/lastResult", getLastResult);
+
+// * RECUPERA L'ULTIMO RISULTATO DI RICERCA DI UN UTENTE SPECIFICO
+searchLeadsApiRouter.get("/lastRes", getLastRes);
 
 // * CREA UNA RICERCA MANUALE
 searchLeadsApiRouter.post("/manualSearch", manualSearch);
