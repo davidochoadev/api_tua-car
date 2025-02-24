@@ -414,47 +414,34 @@ export class searchLeadsApiService {
     try {
       const placeholders = urls.map(() => "?").join(",");
 
-      const twoDaysAgo = new Date();
-      twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-
       const unionQuery = tables
         .map(
           (table) => `
         SELECT *, '${table}' as source_table 
         FROM ${table} 
         WHERE url IN (${placeholders})
-        AND date_remote >= ?
       `
         )
         .join(" UNION ALL ");
 
-      const query = `
-        ${unionQuery}
-        ORDER BY date_remote DESC
-      `;
-
-      const queryParams = tables.reduce((params, _) => {
-        return [...params, ...urls, twoDaysAgo];
-      }, []);
+      const queryParams = [];
+      tables.forEach(() => {
+        queryParams.push(...urls);
+      });
 
       const results = await new Promise((resolve, reject) => {
-        connection.query(query, queryParams, (error, results) => {
+        connection.query(unionQuery, queryParams, (error, results) => {
           if (error) {
             reject(error);
-          } else {
-            resolve(results);
+            return;
           }
+          resolve(results || []);
         });
       });
 
-      connection.end();
       return results;
     } catch (error) {
-      connection.end();
-      console.error(
-        "Errore durante la ricerca degli URL nelle tabelle:",
-        error
-      );
+      console.error("Errore durante la ricerca:", error);
       throw error;
     }
   }

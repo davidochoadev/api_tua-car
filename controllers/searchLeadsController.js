@@ -573,8 +573,34 @@ export const getLastRes = async (req, res) => {
     const result = await leads.getLastSearchOfTheUser(userId.id);
 
     const { search_filename, search_path } = result.results[0];
-    const url = `https://leads.tua-car.it/export?filePath=${search_path}&fileName=${search_filename}`;
+    const searchOptions = JSON.parse(result.results[0].search_options);
+    const platforms = Object.values(searchOptions).map(
+      (option) => option.platform
+    );
 
+    const db_platform = {
+      "platform-01": "cars_autoscout",
+      "platform-02": "cars_subito",
+      "platform-03": "cars_facebook",
+      "platform-04": "moto_motoit",
+      "platform-05": "moto_subito",
+      "platform-06": "caravan_camper_subito",
+      "platform-07": "commerciali_subito",
+      "platform-08": "furgoni_van_autoscout",
+    };
+
+    // Filtra le tabelle in base alle piattaforme della ricerca
+    const tables = platforms
+      .map((platform) => db_platform[platform])
+      .filter((table) => table !== undefined);
+
+    if (tables.length === 0) {
+      return res.status(400).json({
+        error: "Nessuna piattaforma valida trovata nella ricerca",
+      });
+    }
+
+    const url = `https://leads.tua-car.it/export?filePath=${search_path}&fileName=${search_filename}`;
     // Ottimizza l'estrazione degli URL dal CSV
     const response = await fetch(url);
     const data = await response.text();
@@ -585,17 +611,6 @@ export const getLastRes = async (req, res) => {
       jsonData.map((item) => Object.values(item)[0].split(";")[8])
     );
     const urlList = Array.from(urlSet);
-
-    // Tabelle da cercare
-    const tables = [
-      "cars_autoscout",
-      "cars_subito",
-      "commerciali_subito",
-      "furgoni_van_autoscout",
-      "caravan_camper_subito",
-      "moto_motoit",
-      "moto_subito",
-    ];
 
     // Esegui la ricerca in batch per ridurre il carico sul DB
     const batchSize = 100;
