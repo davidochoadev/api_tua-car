@@ -184,22 +184,28 @@ export const userHasScheduledTask = async (req, res) => {
   const { userMail } = req.query;
 
   if (!userMail) {
-    res.status(400).json({
-      error: "⚠️ Missing 'userMail' parameter",
+    return res.status(400).json({
+      error: "⚠️ Parametro 'userMail' mancante",
     });
   }
 
   try {
-    const { id } = await user.getUserId(userMail);
+    const userId = await user.getUserId(userMail);
+    const result = await user.userScheduledTask(userId.id);
 
-    const result = await user.userScheduledTask(id);
+    if (!result) {
+      return res.status(404).json({
+        error: "L'utente non ha una task programmata",
+      });
+    }
 
     res.status(200).json({
       result,
     });
   } catch (err) {
     res.status(400).json({
-      error: "Utente non trovato o non valido!",
+      error: "Errore durante la verifica della task programmata",
+      error_message: err.message,
     });
   }
 };
