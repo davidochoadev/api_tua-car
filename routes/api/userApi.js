@@ -23,6 +23,7 @@ userApirouter.get("/informations", userOnDb);
 userApirouter.get("/scheduledTask", userHasScheduledTask);
 //* DISABILITA LA TASK PROGRAMMATA
 userApirouter.post("/disableScheduledTask", disableScheduledTask);
+//* AGGIORNA IL VALORE isNewAgency
 userApirouter.post("/updateIsNewAgency", updateIsNewAgency);
 userApirouter.get("/getSpoki", userSpokiData);
 
