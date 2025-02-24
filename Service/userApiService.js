@@ -59,6 +59,47 @@ export class userApiService {
     });
   }
 
+  // * MODIFICA IL VALORE isNewAgency
+  async updateIsNewAgency(user_id, isNewAgency) {
+    let connection;
+    try {
+      connection = await mysql.createConnection({
+        host: "141.95.54.84",
+        user: "luigi_tuacar",
+        password: "Tuacar.2023",
+        database: "tuacarDb",
+      });
+
+      const query = `
+        UPDATE users_data
+        SET isNewAgency = ?
+        WHERE user_id = ?
+      `;
+
+      const [result] = await connection
+        .promise()
+        .query(query, [isNewAgency, user_id]);
+
+      return {
+        success: true,
+        message:
+          "Valore isNewAgency aggiornato con successo, adesso è: " +
+          isNewAgency,
+        user_id: user_id,
+        isNewAgency: isNewAgency,
+        result: result,
+      };
+    } catch (error) {
+      throw new Error(
+        `Errore durante l'aggiornamento del valore isNewAgency: ${error.message}`
+      );
+    } finally {
+      if (connection) {
+        await connection.end();
+      }
+    }
+  }
+
   // * VERIFICA SE L'UTENTE HA UNA TASK PROGRAMMATA
   async userScheduledTask(userId) {
     return await this.prisma.scheduled_tasks.findFirst({
@@ -76,13 +117,15 @@ export class userApiService {
       return await this.prisma.scheduled_tasks.update({
         where: {
           task_id: parseInt(taskId),
-      },
+        },
         data: {
           schedule_active: 0,
         },
       });
     } catch (error) {
-      throw new Error(`Errore durante il disabilitare la task: ${error.message}`);
+      throw new Error(
+        `Errore durante il disabilitare la task: ${error.message}`
+      );
     }
   }
 
@@ -208,14 +251,13 @@ export class userApiService {
 
       const [result] = await connection
         .promise()
-        .query(query, [
-          new_password,
-          user_id,
-        ]);
+        .query(query, [new_password, user_id]);
 
       return result;
     } catch (error) {
-      throw new Error(`Errore durante l'aggiornamento della password: ${error.message}`);
+      throw new Error(
+        `Errore durante l'aggiornamento della password: ${error.message}`
+      );
     } finally {
       if (connection) {
         await connection.end();

@@ -7,6 +7,7 @@ import {
   userUpdate,
   userUpdatePassword,
   disableScheduledTask,
+  updateIsNewAgency,
 } from "../../controllers/userController.js";
 
 const userApirouter = express();
@@ -22,6 +23,7 @@ userApirouter.get("/informations", userOnDb);
 userApirouter.get("/scheduledTask", userHasScheduledTask);
 //* DISABILITA LA TASK PROGRAMMATA
 userApirouter.post("/disableScheduledTask", disableScheduledTask);
+userApirouter.post("/updateIsNewAgency", updateIsNewAgency);
 userApirouter.get("/getSpoki", userSpokiData);
 
 //* OTTIENI LE INFORMAZIONI DELL'UTENTE PER FILLARE IL FORM

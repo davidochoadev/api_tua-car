@@ -4,6 +4,28 @@ import bcrypt from "bcryptjs";
 
 const user = new userApiService();
 
+//* MODIFICA IL VALORE isNewAgency
+export const updateIsNewAgency = async (req, res) => {
+  const { user_id, isNewAgency } = req.body;
+  console.log(user_id, isNewAgency);
+  if (user_id === undefined || isNewAgency === undefined) {
+    res.status(400).json({
+      error: "⚠️ Missing 'user_id' or 'isNewAgency' parameter",
+    });
+  }
+  try {
+    const result = await user.updateIsNewAgency(user_id, isNewAgency);
+    res.status(200).json({
+      result,
+    });
+  } catch (err) {
+    res.status(400).json({
+      error: "Errore durante la modifica del valore isNewAgency",
+      error_message: err.message,
+    });
+  }
+};
+
 //* EFFETTUA LA MODIFICA DELLA PASSWORD
 export const userUpdatePassword = async (req, res) => {
   try {
