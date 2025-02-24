@@ -179,6 +179,7 @@ export const userOnDb = async (req, res) => {
   }
 };
 
+// * VERIFICA SE L'UTENTE HA UNA TASK PROGRAMMATA
 export const userHasScheduledTask = async (req, res) => {
   const { userMail } = req.query;
 
@@ -199,6 +200,31 @@ export const userHasScheduledTask = async (req, res) => {
   } catch (err) {
     res.status(400).json({
       error: "Utente non trovato o non valido!",
+    });
+  }
+};
+// * DISABILITA LA TASK PROGRAMMATA
+export const disableScheduledTask = async (req, res) => {
+  const { task_id } = req.query;
+  if (!task_id) {
+    res.status(400).json({
+      error: "⚠️ Missing 'task_id' parameter",
+    });
+  }
+
+  try {
+    const result = await user.disableScheduledTask(task_id);
+    console.log("result is: ", result);
+    res.status(200).json({
+      success: true,
+      message: "Task disabilitata con successo!",
+      result,
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: "Errore durante il disabilitare la task programmata!",
+      error_message: err.message,
     });
   }
 };

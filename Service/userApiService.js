@@ -59,6 +59,7 @@ export class userApiService {
     });
   }
 
+  // * VERIFICA SE L'UTENTE HA UNA TASK PROGRAMMATA
   async userScheduledTask(userId) {
     return await this.prisma.scheduled_tasks.findFirst({
       where: {
@@ -66,6 +67,23 @@ export class userApiService {
         schedule_active: 1,
       },
     });
+  }
+
+  // * DISABILITA LA TASK PROGRAMMATA
+  async disableScheduledTask(taskId) {
+    console.log("taskId is: ", taskId);
+    try {
+      return await this.prisma.scheduled_tasks.update({
+        where: {
+          task_id: parseInt(taskId),
+      },
+        data: {
+          schedule_active: 0,
+        },
+      });
+    } catch (error) {
+      throw new Error(`Errore durante il disabilitare la task: ${error.message}`);
+    }
   }
 
   async getUserInformations(userMail) {
