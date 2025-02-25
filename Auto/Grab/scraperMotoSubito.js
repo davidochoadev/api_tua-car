@@ -6,14 +6,18 @@ import fs from "fs/promises";
 import dotenv from "dotenv";
 import { ReadableStream } from "web-streams-polyfill";
 import { SCRAPER_CONFIG } from "../config/scraperConfig.js";
+import https from "https";
 
 global.ReadableStream = ReadableStream;
 dotenv.config();
 
 // Aggiungere una costante per il delay e il numero di pagine
-const SCRAPING_DELAY = SCRAPER_CONFIG.SCRAPING_DELAY;
 const MAX_PAGES = SCRAPER_CONFIG.MAX_PAGES;
 const DELETE_AFTER_DAYS = SCRAPER_CONFIG.DELETE_AFTER_DAYS;
+const PROXY_USERNAME = "davidochoa_rIysn";
+const PROXY_PASSWORD = "Tua_Car_2025";
+const PROXY_SERVER = "dc.oxylabs.io";
+const PROXY_PORT = 8000;
 
 export default async function scraperMoto() {
   console.log(chalk.bgGreen(" 🏁 Starting Scraper per Moto su Subito.it 🏁 "));
@@ -29,7 +33,11 @@ export default async function scraperMoto() {
   let nomePiattaforma;
   let pages;
   try {
-    const [results] = await connection.promise().query("SELECT is_automatic, nome_piattaforma, pages FROM bot_settings WHERE nome_piattaforma = 'moto_subito'");
+    const [results] = await connection
+      .promise()
+      .query(
+        "SELECT is_automatic, nome_piattaforma, pages FROM bot_settings WHERE nome_piattaforma = 'moto_subito'"
+      );
     isAutomatic = results[0].is_automatic;
     nomePiattaforma = results[0].nome_piattaforma;
     pages = results[0].pages > MAX_PAGES ? MAX_PAGES : results[0].pages;
@@ -38,7 +46,11 @@ export default async function scraperMoto() {
   }
 
   if (isAutomatic === 0) {
-    console.log(chalk.bgRed(` ⛔ Lo scraping è stato disattivato, non eseguiamo lo scraping per la piattaforma ${nomePiattaforma} ⛔ `));
+    console.log(
+      chalk.bgRed(
+        ` ⛔ Lo scraping è stato disattivato, non eseguiamo lo scraping per la piattaforma ${nomePiattaforma} ⛔ `
+      )
+    );
     try {
       const conn = await connection;
       await conn.end();
@@ -106,12 +118,46 @@ export default async function scraperMoto() {
 
   const annunci = [];
   const axiosInstance = axios.create({
+    httpsAgent: new https.Agent({
+      rejectUnauthorized: false,
+    }),
     timeout: 10000,
+    proxy: {
+      protocol: "https",
+      host: PROXY_SERVER,
+      port: PROXY_PORT,
+      auth: {
+        username: `${PROXY_USERNAME}`,
+        password: PROXY_PASSWORD,
+      },
+    },
     headers: {
       "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+      Accept:
+        "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+      "Accept-Language": "it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+      "sec-ch-ua":
+        '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": '"Windows"',
+      "Sec-Fetch-Dest": "document",
+      "Sec-Fetch-Mode": "navigate",
+      "Sec-Fetch-Site": "none",
+      "Sec-Fetch-User": "?1",
     },
   });
+
+  // Aumenta il delay tra le richieste
+  const SCRAPING_DELAY = 1000 + Math.floor(Math.random() * 3001);
+
+  // Aggiungi una funzione per randomizzare il delay
+  function getRandomDelay(baseDelay) {
+    return baseDelay + Math.random() * baseDelay;
+  }
 
   // * 3. GRAB ELEMENTI PER N PAGINE
   for (let page = 1; page <= pages; page++) {
@@ -185,25 +231,29 @@ export default async function scraperMoto() {
             .text()
             .trim() || "01/1900";
         const register_year = register_date.split("/")[1] || "1900";
-      // * 4. GRAB DETTAGLI ANNUNCIO
+        // * 4. GRAB DETTAGLI ANNUNCIO
         try {
           const { data: detailData } = await axiosInstance.get(link);
           const $detail = cheerio.load(detailData);
           const urn = $detail("script#__NEXT_DATA__")
             .text()
             .match(/(id:ad:\d+:list:\d+)/)[1];
-      // * 5. Controllo se l'annuncio è già presente nel database
-           try {
-               const [results] = await connection
-                 .promise()
-                 .query("SELECT id FROM moto_subito WHERE urn = ?", [urn]);
-                 
-               if (results.length > 0) {
-                 continue;
-               }
-             } catch (error) {
-               console.error(chalk.red(`Errore nel controllo URN nel database: ${error.message}`));
-             }
+          // * 5. Controllo se l'annuncio è già presente nel database
+          try {
+            const [results] = await connection
+              .promise()
+              .query("SELECT id FROM moto_subito WHERE urn = ?", [urn]);
+
+            if (results.length > 0) {
+              continue;
+            }
+          } catch (error) {
+            console.error(
+              chalk.red(
+                `Errore nel controllo URN nel database: ${error.message}`
+              )
+            );
+          }
 
           const annuncio = {
             urn: urn,
@@ -215,11 +265,12 @@ export default async function scraperMoto() {
             price: price,
             mileage_scalar: mileage_scalar,
             doors: null,
-            register_date: $detail(
-              "ul.feature-list_feature-list__jdU2M li:has(span:contains('Immatricolazione')) span:nth-child(2)"
-            )
-              .text()
-              .trim() || "01/1900",
+            register_date:
+              $detail(
+                "ul.feature-list_feature-list__jdU2M li:has(span:contains('Immatricolazione')) span:nth-child(2)"
+              )
+                .text()
+                .trim() || "01/1900",
             register_year:
               $detail(
                 "ul.feature-list_feature-list__jdU2M li:has(span:contains('Immatricolazione')) span:nth-child(2)"
@@ -261,9 +312,9 @@ export default async function scraperMoto() {
 
       annunci.push(...annunciPage);
 
-      // Delay tra le pagine
+      // Modifica il delay tra le pagine
       await new Promise((resolve) =>
-        setTimeout(resolve, SCRAPING_DELAY * (1 + Math.random()))
+        setTimeout(resolve, getRandomDelay(SCRAPING_DELAY))
       );
     } catch (error) {
       console.error(
@@ -279,7 +330,7 @@ export default async function scraperMoto() {
   console.log(chalk.green(`Trovati ${annunci.length} annunci totali`));
 
   // * 6. Salviamo gli annunci nel database
-   if (annunci.length > 0) {
+  if (annunci.length > 0) {
     try {
       for (const annuncio of [...annunci].reverse()) {
         await new Promise((resolve, reject) => {
@@ -323,19 +374,23 @@ export default async function scraperMoto() {
       }
       console.log(chalk.green(` ✅ Dati salvati nel database con successo! `));
 
-
       // * Aggiorniamo last_run in bot_settings
       const currentTimestamp = new Date()
         .toISOString()
         .slice(0, 19)
-        .replace('T', ' ');
-        
-      await connection.promise().query(
-        "UPDATE bot_settings SET last_run = ? WHERE nome_piattaforma = 'moto_subito'",
-        [currentTimestamp]
-      );
-      console.log(chalk.green(` ⏱️ Aggiornato timestamp ultimo scraping: ${currentTimestamp}`));
+        .replace("T", " ");
 
+      await connection
+        .promise()
+        .query(
+          "UPDATE bot_settings SET last_run = ? WHERE nome_piattaforma = 'moto_subito'",
+          [currentTimestamp]
+        );
+      console.log(
+        chalk.green(
+          ` ⏱️ Aggiornato timestamp ultimo scraping: ${currentTimestamp}`
+        )
+      );
     } catch (error) {
       console.error(
         chalk.red("Errore durante il salvataggio nel database:", error)
